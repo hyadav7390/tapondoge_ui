@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { getTokenStats, getTokenHolders, getTokenDeployment, getDogePrice } from '@/utils/service';
 import { useLoader } from '@/contexts/LoaderContext';
 import { formatAmericanStyle, formatCurrency } from '@/utils/formatters';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faList, faTag, faChartLine, faDollarSign, faUsers } from '@fortawesome/free-solid-svg-icons';
 
 export default function TokenStats({ tokenName }) {
   const [stats, setStats] = useState({
@@ -72,57 +74,71 @@ export default function TokenStats({ tokenName }) {
     return num ? num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : "0";
   };
 
+  const statCards = [
+    {
+      icon: faList,
+      title: "Listed Items",
+      value: formatNumber(stats.total),
+      color: "bg-blue-500"
+    },
+    {
+      icon: faTag,
+      title: "Floor Price",
+      value: `${parseFloat(stats.floor).toFixed(2)} DOGE`,
+      color: "bg-green-500"
+    },
+    {
+      icon: faChartLine,
+      title: "24h Volume",
+      value: `${formatAmericanStyle(stats.dayVolume)} DOGE`,
+      color: "bg-purple-500"
+    },
+    {
+      icon: faDollarSign,
+      title: "Total Volume",
+      value: `${formatAmericanStyle(stats.totalVolume)} DOGE`,
+      color: "bg-orange-500"
+    },
+    {
+      icon: faDollarSign,
+      title: "Market Cap",
+      value: formatCurrency(marketCap),
+      color: "bg-indigo-500"
+    },
+    {
+      icon: faUsers,
+      title: "Holders",
+      value: formatAmericanStyle(holders, 0),
+      color: "bg-pink-500"
+    }
+  ];
+
   return (
-    <div className="cards-container">
-      <div className="row my-4">
-        <div className="col-md-2">
-          <div className="card text-center">
-            <div className="card-body">
-              <h5 className="card-title">Listed Items</h5>
-              <p className="card-text">{formatNumber(stats.total)}</p>
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="text-center">
+        <h2 className="text-2xl font-bold text-gray-900">{tokenName} Statistics</h2>
+        <p className="text-gray-600 mt-1">Real-time token performance metrics</p>
+      </div>
+
+      {/* Stats Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {statCards.map((stat, index) => (
+          <div key={index} className="bg-white rounded-xl shadow-lg border border-gray-200 p-6 hover:shadow-xl transition-shadow duration-200">
+            <div className="flex items-center justify-between mb-4">
+              <div className={`p-3 rounded-lg ${stat.color} bg-opacity-10`}>
+                <FontAwesomeIcon 
+                  icon={stat.icon} 
+                  className={`w-6 h-6 ${stat.color.replace('bg-', 'text-')}`} 
+                />
+              </div>
+              <div className="text-right">
+                <h3 className="text-lg font-bold text-gray-900">{stat.value}</h3>
+                <p className="text-sm text-gray-600">{stat.title}</p>
+              </div>
             </div>
           </div>
-        </div>
-        <div className="col-md-2">
-          <div className="card text-center">
-            <div className="card-body">
-              <h5 className="card-title">Floor Price</h5>
-              <p className="card-text">{parseFloat(stats.floor).toFixed(2)}<img src="/dogecoin.png" alt="DOGE" style={{ width: '25px', height: '25px', verticalAlign: 'middle', marginLeft: '5px' }} /></p>
-            </div>
-          </div>
-        </div>
-        <div className="col-md-2">
-          <div className="card text-center">
-            <div className="card-body">
-              <h5 className="card-title">24h Volume</h5>
-              <p className="card-text">{formatAmericanStyle(stats.dayVolume)}<img src="/dogecoin.png" alt="DOGE" style={{ width: '25px', height: '25px', verticalAlign: 'middle', marginLeft: '5px' }} /></p>
-            </div>
-          </div>
-        </div>
-        <div className="col-md-2">
-          <div className="card text-center">
-            <div className="card-body">
-              <h5 className="card-title">Total Volume</h5>
-              <p className="card-text">{formatAmericanStyle(stats.totalVolume)}<img src="/dogecoin.png" alt="DOGE" style={{ width: '25px', height: '25px', verticalAlign: 'middle', marginLeft: '5px' }} /></p>
-            </div>
-          </div>
-        </div>
-        <div className="col-md-2">
-          <div className="card text-center">
-            <div className="card-body">
-              <h5 className="card-title">Market Cap</h5>
-              <p className="card-text">{formatCurrency(marketCap)}</p>
-            </div>
-          </div>
-        </div>
-        <div className="col-md-2">
-          <div className="card text-center">
-            <div className="card-body">
-              <h5 className="card-title">Holders</h5>
-              <p className="card-text">{formatAmericanStyle(holders, 0)}</p>
-            </div>
-          </div>
-        </div>
+        ))}
       </div>
     </div>
   );

@@ -10,71 +10,44 @@ export default function Inscribe() {
         setActiveTab(tabId);
     };
 
+    const tabs = [
+        { id: 'mint', name: 'Mint', component: Mint },
+        { id: 'deploy', name: 'Deploy', component: Deploy },
+        { id: 'transfer', name: 'Transfer', component: Transfer }
+    ];
+
+    const ActiveComponent = tabs.find(tab => tab.id === activeTab)?.component;
+
     return (
-        <div className="container p-4" style={{ maxWidth: '70%' }}>
-            <div className="card shadow rounded" style={{ boxShadow: '0 0 10px rgba(0,0,0,0.1)' }}>
-                <div className="card-header">
-                    <ul className="nav nav-tabs mb-2 justify-content-center" 
-                        id="inscribeTabs" 
-                        role="tablist"
-                        style={{ border: 'none' }}>
-                        <li className="nav-item" role="presentation">
+        <div className="max-w-4xl mx-auto">
+            <div className="bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden">
+                {/* Header */}
+                <div className="border-b border-gray-200 p-6">
+                    <h2 className="text-2xl font-bold text-gray-900 text-center mb-6">Inscribe</h2>
+                    
+                    {/* Navigation Tabs */}
+                    <div className="flex justify-center space-x-2">
+                        {tabs.map((tab) => (
                             <button
-                                className={`nav-link rounded-pill ${activeTab === 'mint' ? 'active' : ''}`}
-                                onClick={() => handleTabClick('mint')}
-                                type="button"
-                                style={{ border: 'none' }}
+                                key={tab.id}
+                                onClick={() => handleTabClick(tab.id)}
+                                className={`px-6 py-3 rounded-xl font-medium transition-all duration-200 ${
+                                    activeTab === tab.id
+                                        ? 'bg-primary-600 text-white shadow-lg'
+                                        : 'text-gray-600 hover:text-primary-600 hover:bg-primary-50'
+                                }`}
                             >
-                                Mint
+                                {tab.name}
                             </button>
-                        </li>
-                        <li className="nav-item" role="presentation">
-                            <button
-                                className={`nav-link rounded-pill ${activeTab === 'deploy' ? 'active' : ''}`}
-                                onClick={() => handleTabClick('deploy')}
-                                type="button"
-                                style={{ border: 'none' }}
-                            >
-                                Deploy
-                            </button>
-                        </li>
-                        <li className="nav-item" role="presentation">
-                            <button
-                                className={`nav-link rounded-pill ${activeTab === 'transfer' ? 'active' : ''}`}
-                                onClick={() => handleTabClick('transfer')}
-                                type="button"
-                                style={{ border: 'none' }}
-                            >
-                                Transfer
-                            </button>
-                        </li>
-                    </ul>
-                </div>
-                <div className="card-body p-5">
-                    <div className="tab-content" id="inscribeTabsContent">
-                        <div
-                            className={`tab-pane fade ${activeTab === 'mint' ? 'show active' : ''}`}
-                            role="tabpanel"
-                        >
-                            <Mint></Mint>
-                        </div>
-
-                        <div
-                            className={`tab-pane fade ${activeTab === 'deploy' ? 'show active' : ''}`}
-                            role="tabpanel"
-                        >
-                            <Deploy></Deploy>
-                        </div>
-
-                        <div
-                            className={`tab-pane fade ${activeTab === 'transfer' ? 'show active' : ''}`}
-                            role="tabpanel"
-                        >
-                            <Transfer></Transfer>
-                        </div>
+                        ))}
                     </div>
+                </div>
+
+                {/* Content */}
+                <div className="p-6">
+                    {ActiveComponent && <ActiveComponent />}
                 </div>
             </div>
         </div>
-    )
+    );
 }

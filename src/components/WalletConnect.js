@@ -3,6 +3,23 @@ import { useWallet } from '@/contexts/WalletContext';
 import { createCredentialsFromMnemonic, createCredentialsFromPrivateKey, generateRandomCredentialsWithMnemonic, refreshWalletState } from '@/utils/wallet';
 import { formatAddress } from '@/utils/formatters';
 import TokenDetails from './TokenDetails';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { 
+  faWallet, 
+  faCopy, 
+  faSync, 
+  faEllipsisV, 
+  faPaperPlane, 
+  faKey, 
+  faShieldAlt, 
+  faSignOutAlt,
+  faExclamationTriangle,
+  faCheckCircle,
+  faPlus,
+  faUser,
+  faLock,
+  faCoins
+} from '@fortawesome/free-solid-svg-icons';
 
 export default function WalletConnect({ onConnected }) {
     const { isConnected, credentials, address, wallet, error: walletError, connectWallet, disconnectWallet, balance, sendTransaction } = useWallet();
@@ -34,7 +51,6 @@ export default function WalletConnect({ onConnected }) {
     useEffect(() => {
         console.log('WalletConnect - credentials:', credentials);
         console.log('WalletConnect - wallet:', wallet);
-
     }, [isConnected, credentials]);
 
     // Get private key
@@ -310,185 +326,263 @@ export default function WalletConnect({ onConnected }) {
 
     const renderWalletDetails = () => {
         return (
-            <div className="wallet-container">
-                <div className="wallet-header">
-                    <div className="address-section">
-                        <div className="address" title={address}>
-                            {formatAddress(address)}
+            <div className="space-y-6">
+                {/* Wallet Header */}
+                <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-6">
+                    <div className="flex items-center justify-between mb-4">
+                        <div className="flex items-center space-x-3">
+                            <div className="p-2 bg-primary-100 rounded-lg">
+                                <FontAwesomeIcon icon={faWallet} className="w-5 h-5 text-primary-600" />
+                            </div>
+                            <div>
+                                <h3 className="text-lg font-bold text-gray-900">Wallet</h3>
+                                <p className="text-sm text-gray-600">{formatAddress(address)}</p>
+                            </div>
                         </div>
-                        <button
-                            className="icon-button"
-                            onClick={() => copyToClipboard(address, 'Address')}
-                            title="Copy address"
-                        >
-                            <i className="far fa-copy"></i>
-                        </button>
+                        
+                        <div className="flex items-center space-x-2">
+                            <button
+                                onClick={() => copyToClipboard(address, 'Address')}
+                                className="p-2 text-gray-600 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors duration-200"
+                                title="Copy address"
+                            >
+                                <FontAwesomeIcon icon={faCopy} className="w-4 h-4" />
+                            </button>
+                            
+                            <button
+                                onClick={handleSync}
+                                disabled={isSyncing}
+                                className={`p-2 rounded-lg transition-colors duration-200 ${
+                                    isSyncing 
+                                        ? 'text-gray-400 cursor-not-allowed' 
+                                        : 'text-gray-600 hover:text-primary-600 hover:bg-primary-50'
+                                }`}
+                                title="Sync wallet"
+                            >
+                                <FontAwesomeIcon 
+                                    icon={faSync} 
+                                    className={`w-4 h-4 ${isSyncing ? 'animate-spin' : ''}`} 
+                                />
+                            </button>
+                            
+                            <div className="relative">
+                                <button
+                                    onClick={() => setShowOptions(!showOptions)}
+                                    className="p-2 text-gray-600 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors duration-200"
+                                    title="More options"
+                                >
+                                    <FontAwesomeIcon icon={faEllipsisV} className="w-4 h-4" />
+                                </button>
+                                
+                                {showOptions && (
+                                    <div className="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-2xl border border-gray-200 overflow-hidden z-50" style={{ right: '-6rem' }} ref={optionsRef}>
+                                        <div className="py-1">
+                                            <button 
+                                                onClick={() => setShowSendModal(true)}
+                                                className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center"
+                                            >
+                                                <FontAwesomeIcon icon={faPaperPlane} className="w-4 h-4 mr-2" />
+                                                Send DOGE
+                                            </button>
+                                            <button 
+                                                onClick={() => setShowRecoveryPhrase(!showRecoveryPhrase)}
+                                                className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center"
+                                            >
+                                                <FontAwesomeIcon icon={faKey} className="w-4 h-4 mr-2" />
+                                                {!showRecoveryPhrase ? "Show Recovery Phrase" : "Hide Recovery Phrase"}
+                                            </button>
+                                            <button 
+                                                onClick={() => setShowPrivateKey(!showPrivateKey)}
+                                                className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center"
+                                            >
+                                                <FontAwesomeIcon icon={faLock} className="w-4 h-4 mr-2" />
+                                                {!showPrivateKey ? "Show Private Key" : "Hide Private Key"}
+                                            </button>
+                                            <button 
+                                                onClick={handleDisconnect}
+                                                className="w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-red-50 flex items-center"
+                                            >
+                                                <FontAwesomeIcon icon={faSignOutAlt} className="w-4 h-4 mr-2" />
+                                                Disconnect Wallet
+                                            </button>
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
                     </div>
 
-                    <div className="action-buttons">
-                        <button
-                            className={`icon-button ${isSyncing ? 'spinning' : ''}`}
-                            onClick={handleSync}
-                            disabled={isSyncing}
-                            title="Sync wallet"
-                        >
-                            <i className="fas fa-sync-alt"></i>
-                        </button>
-                        <button
-                            className="icon-button"
-                            onClick={() => setShowOptions(!showOptions)}
-                            title="More options"
-                        >
-                            <i className="fas fa-ellipsis-v"></i>
-                        </button>
+                    {/* Wallet Balance */}
+                    <div className="bg-gray-50 rounded-lg p-4">
+                        <div className="flex items-center justify-between">
+                            <span className="text-sm font-medium text-gray-700">Balance</span>
+                            <span className="text-lg font-bold text-gray-900">
+                                {(!walletBalance && walletBalance !== 0) ? 'Loading...' : `${walletBalance} DOGE`}
+                            </span>
+                        </div>
                     </div>
                 </div>
 
-                {showOptions && (
-                    <div className="options-menu" ref={optionsRef}>
-                        <button onClick={() => setShowSendModal(true)}>
-                            <i className="fas fa-paper-plane"></i>
-                            Send DOGE
-                        </button>
-                        <button onClick={() => setShowRecoveryPhrase(!showRecoveryPhrase)}>
-                            <i className="fas fa-key"></i>
-                            {!showRecoveryPhrase ? "Show Recovery Phrase" : "Hide Recovery Phrase"}
-                        </button>
-                        <button onClick={() => setShowPrivateKey(!showPrivateKey)}>
-                            <i className="fas fa-lock"></i>
-                            {!showPrivateKey ? "Show Private Key" : "Hide Private Key"}
-                        </button>
-                        <button onClick={handleDisconnect} className="disconnect-button">
-                            <i className="fas fa-sign-out-alt"></i>
-                            Disconnect Wallet
-                        </button>
-                    </div>
-                )}
-
                 {/* Private Key Display */}
                 {showPrivateKey && (
-                    <div className="secret-section">
-                        <h4>Private Key</h4>
-                        <div className="secret-container">
-                            <div className="secret-value">
-                                {getPrivateKey() || "Private key not available"}
+                    <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-6">
+                        <h4 className="text-lg font-bold text-gray-900 mb-4 flex items-center">
+                            <FontAwesomeIcon icon={faLock} className="w-5 h-5 mr-2 text-primary-600" />
+                            Private Key
+                        </h4>
+                        <div className="bg-gray-50 rounded-lg p-4 mb-4">
+                            <div className="flex items-center justify-between">
+                                <code className="text-sm text-gray-900 font-mono break-all">
+                                    {getPrivateKey() || "Private key not available"}
+                                </code>
+                                <button
+                                    onClick={() => copyToClipboard(getPrivateKey() || "", 'Private Key')}
+                                    className="ml-2 p-2 text-gray-600 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors duration-200"
+                                    title="Copy private key"
+                                >
+                                    <FontAwesomeIcon icon={faCopy} className="w-4 h-4" />
+                                </button>
                             </div>
-                            <button
-                                className="icon-button"
-                                onClick={() => copyToClipboard(getPrivateKey() || "", 'Private Key')}
-                                title="Copy private key"
-                            >
-                                <i className="far fa-copy"></i>
-                            </button>
                         </div>
-                        <p className="warning-text">
-                            Never share your private key with anyone!
-                        </p>
+                        <div className="p-3 bg-danger-50 border border-danger-200 rounded-lg">
+                            <div className="flex items-center">
+                                <FontAwesomeIcon icon={faExclamationTriangle} className="w-4 h-4 text-danger-600 mr-2" />
+                                <p className="text-sm text-danger-800 font-medium">Never share your private key with anyone!</p>
+                            </div>
+                        </div>
                     </div>
                 )}
 
                 {/* Recovery Phrase Display */}
                 {showRecoveryPhrase && (
-                    <div className="secret-section">
-                        <h4>Recovery Phrase</h4>
-                        <div className="secret-container">
-                            <div className="secret-value">
-                                {getMnemonic() || "Recovery phrase not available"}
+                    <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-6">
+                        <h4 className="text-lg font-bold text-gray-900 mb-4 flex items-center">
+                            <FontAwesomeIcon icon={faKey} className="w-5 h-5 mr-2 text-primary-600" />
+                            Recovery Phrase
+                        </h4>
+                        <div className="bg-gray-50 rounded-lg p-4 mb-4">
+                            <div className="flex items-center justify-between">
+                                <code className="text-sm text-gray-900 font-mono break-all">
+                                    {getMnemonic() || "Recovery phrase not available"}
+                                </code>
+                                <button
+                                    onClick={() => copyToClipboard(getMnemonic() || "", 'Recovery Phrase')}
+                                    className="ml-2 p-2 text-gray-600 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors duration-200"
+                                    title="Copy recovery phrase"
+                                >
+                                    <FontAwesomeIcon icon={faCopy} className="w-4 h-4" />
+                                </button>
                             </div>
-                            <button
-                                className="icon-button"
-                                onClick={() => copyToClipboard(getMnemonic() || "", 'Recovery Phrase')}
-                                title="Copy recovery phrase"
-                            >
-                                <i className="far fa-copy"></i>
-                            </button>
                         </div>
-                        <p className="warning-text">
-                            Write this down and keep it safe. Never share your recovery phrase with anyone!
-                        </p>
+                        <div className="p-3 bg-warning-50 border border-warning-200 rounded-lg">
+                            <div className="flex items-center">
+                                <FontAwesomeIcon icon={faExclamationTriangle} className="w-4 h-4 text-warning-600 mr-2" />
+                                <p className="text-sm text-warning-800 font-medium">Write this down and keep it safe. Never share your recovery phrase with anyone!</p>
+                            </div>
+                        </div>
                     </div>
                 )}
 
-                {/* Wallet Balance */}
-                <div className="balance-section">
-                    {/* <h3 className="balance-title">Balance</h3> */}
-                    {(!walletBalance && walletBalance !== 0) ? (
-                        <div className="loading-indicator">Loading...</div>
-                    ) : (
-                        <div className="balance-amount">{`${walletBalance} DOGE`}</div>
-                    )}
-                </div>
-
                 {/* Tokens List */}
-                <div className="tokens-section">
-                    <h3 className="tokens-title">Tokens</h3>
+                <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-6">
+                    <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center">
+                        <FontAwesomeIcon icon={faCoins} className="w-5 h-5 mr-2 text-primary-600" />
+                        Tokens
+                    </h3>
+                    
                     {!tokensBalance ? (
-                        <div className="loading-indicator">Loading...</div>
+                        <div className="text-center py-8">
+                            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600 mx-auto mb-2"></div>
+                            <p className="text-gray-600">Loading...</p>
+                        </div>
                     ) : tokensBalance && tokensBalance.length > 0 ? (
-                        <div className="tokens-list">
+                        <div className="space-y-3">
                             {tokensBalance.map((token, index) => (
                                 <div 
                                     key={index} 
-                                    className="token-item"
+                                    className="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-200 cursor-pointer"
                                     onClick={() => handleTokenClick(token)}
                                 >
-                                    <div className="token-name">{token.ticker}</div>
-                                    <div className="token-balance">{(parseFloat(token.overallBalance) || 0)/1e18}</div>
+                                    <div className="flex items-center space-x-3">
+                                        <div className="w-8 h-8 bg-primary-100 rounded-lg flex items-center justify-center">
+                                            <FontAwesomeIcon icon={faCoins} className="w-4 h-4 text-primary-600" />
+                                        </div>
+                                        <div>
+                                            <p className="font-medium text-gray-900">{token.ticker}</p>
+                                            <p className="text-sm text-gray-600">Token</p>
+                                        </div>
+                                    </div>
+                                    <div className="text-right">
+                                        <p className="font-bold text-gray-900">{(parseFloat(token.overallBalance) || 0)/1e18}</p>
+                                        <p className="text-sm text-gray-600">Balance</p>
+                                    </div>
                                 </div>
                             ))}
                         </div>
                     ) : (
-                        <div className="no-tokens">No tokens found</div>
+                        <div className="text-center py-8">
+                            <FontAwesomeIcon icon={faCoins} className="w-12 h-12 text-gray-300 mx-auto mb-4" />
+                            <p className="text-gray-500 font-medium">No tokens found</p>
+                            <p className="text-gray-400 text-sm">Your wallet doesn&apos;t contain any tokens</p>
+                        </div>
                     )}
                 </div>
 
                 {/* Send DOGE Modal */}
                 {showSendModal && (
-                    <div className="modal-overlay">
-                        <div className="modal">
-                            <div className="modal-header">
-                                <h3>Send DOGE</h3>
+                    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                        <div className="bg-white rounded-2xl shadow-2xl p-6 w-full max-w-md mx-4">
+                            <div className="flex items-center justify-between mb-6">
+                                <h3 className="text-xl font-bold text-gray-900">Send DOGE</h3>
                                 <button
-                                    className="close-button"
                                     onClick={() => setShowSendModal(false)}
+                                    className="p-2 text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-lg transition-colors duration-200"
                                 >
-                                    <i className="fas fa-times"></i>
+                                    <FontAwesomeIcon icon={faSignOutAlt} className="w-4 h-4" />
                                 </button>
                             </div>
 
-                            <form onSubmit={handleSendDoge}>
-                                <div className="modal-body">
-                                    <div className="input-group">
-                                        <label>Amount (DOGE)</label>
-                                        <input
-                                            type="number"
-                                            value={sendAmount}
-                                            onChange={(e) => setSendAmount(e.target.value)}
-                                            placeholder="Enter amount"
-                                            min="0.1"
-                                            step="0.1"
-                                            required
-                                        />
-                                    </div>
-
-                                    <div className="input-group">
-                                        <label>Recipient Address</label>
-                                        <input
-                                            type="text"
-                                            value={sendAddress}
-                                            onChange={(e) => setSendAddress(e.target.value)}
-                                            placeholder="Enter DOGE address"
-                                            required
-                                        />
-                                    </div>
+                            <form onSubmit={handleSendDoge} className="space-y-4">
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-2">Amount (DOGE)</label>
+                                    <input
+                                        type="number"
+                                        value={sendAmount}
+                                        onChange={(e) => setSendAmount(e.target.value)}
+                                        placeholder="Enter amount"
+                                        min="0.1"
+                                        step="0.1"
+                                        required
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors duration-200"
+                                    />
                                 </div>
 
-                                <div className="modal-footer">
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-700 mb-2">Recipient Address</label>
+                                    <input
+                                        type="text"
+                                        value={sendAddress}
+                                        onChange={(e) => setSendAddress(e.target.value)}
+                                        placeholder="Enter DOGE address"
+                                        required
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors duration-200"
+                                    />
+                                </div>
+
+                                <div className="flex space-x-3 pt-4">
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowSendModal(false)}
+                                        className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors duration-200"
+                                    >
+                                        Cancel
+                                    </button>
                                     <button
                                         type="submit"
-                                        className="send-button"
                                         disabled={isLoading}
+                                        className="flex-1 inline-flex items-center justify-center px-4 py-2 bg-primary-600 text-white font-medium rounded-lg hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                                     >
+                                        <FontAwesomeIcon icon={faPaperPlane} className="w-4 h-4 mr-2" />
                                         {isLoading ? 'Sending...' : 'Send DOGE'}
                                     </button>
                                 </div>
@@ -499,8 +593,30 @@ export default function WalletConnect({ onConnected }) {
 
                 {/* Copy Status Message */}
                 {copyStatus && (
-                    <div className="copy-status">
-                        {copyStatus}
+                    <div className="fixed bottom-4 right-4 bg-green-600 text-white px-4 py-2 rounded-lg shadow-lg">
+                        <div className="flex items-center">
+                            <FontAwesomeIcon icon={faCheckCircle} className="w-4 h-4 mr-2" />
+                            {copyStatus}
+                        </div>
+                    </div>
+                )}
+
+                {/* Error/Success Messages */}
+                {error && (
+                    <div className="p-4 bg-danger-50 border border-danger-200 rounded-lg">
+                        <div className="flex items-center">
+                            <FontAwesomeIcon icon={faExclamationTriangle} className="w-5 h-5 text-danger-600 mr-2" />
+                            <p className="text-sm text-danger-600">{error}</p>
+                        </div>
+                    </div>
+                )}
+
+                {success && (
+                    <div className="p-4 bg-success-50 border border-success-200 rounded-lg">
+                        <div className="flex items-center">
+                            <FontAwesomeIcon icon={faCheckCircle} className="w-5 h-5 text-success-600 mr-2" />
+                            <p className="text-sm text-success-600">{success}</p>
+                        </div>
                     </div>
                 )}
             </div>
@@ -516,61 +632,103 @@ export default function WalletConnect({ onConnected }) {
     }
 
     return (
-        <div className="card">
-            <div className="card-body">
-                <h5 className="card-title">Connect Wallet</h5>
+        <div className="max-w-2xl mx-auto space-y-6">
+            {/* Header */}
+            <div className="text-center">
+                <h2 className="text-2xl font-bold text-gray-900">Connect Wallet</h2>
+                <p className="text-gray-600 mt-1">Connect your wallet to start trading</p>
+            </div>
 
-                {error && <div className="alert alert-danger">{error}</div>}
-                {success && <div className="alert alert-success">{success}</div>}
+            {/* Connect Wallet Card */}
+            <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-6">
+                {/* Error/Success Messages */}
+                {error && (
+                    <div className="mb-6 p-4 bg-danger-50 border border-danger-200 rounded-lg">
+                        <div className="flex items-center">
+                            <FontAwesomeIcon icon={faExclamationTriangle} className="w-5 h-5 text-danger-600 mr-2" />
+                            <p className="text-sm text-danger-600">{error}</p>
+                        </div>
+                    </div>
+                )}
 
-                <ul className="nav nav-tabs mb-2">
-                    <li className="nav-item">
-                        <button
-                            className={`nav-link ${activeTab === 'create' ? 'active' : ''}`}
-                            onClick={() => setActiveTab('create')}
-                        >
-                            Create New
-                        </button>
-                    </li>
-                    <li className="nav-item">
-                        <button
-                            className={`nav-link ${activeTab === 'mnemonic' ? 'active' : ''}`}
-                            onClick={() => setActiveTab('mnemonic')}
-                        >
-                            Mnemonic
-                        </button>
-                    </li>
-                    <li className="nav-item">
-                        <button
-                            className={`nav-link ${activeTab === 'privateKey' ? 'active' : ''}`}
-                            onClick={() => setActiveTab('privateKey')}
-                        >
-                            Private Key
-                        </button>
-                    </li>
-                </ul>
+                {success && (
+                    <div className="mb-6 p-4 bg-success-50 border border-success-200 rounded-lg">
+                        <div className="flex items-center">
+                            <FontAwesomeIcon icon={faCheckCircle} className="w-5 h-5 text-success-600 mr-2" />
+                            <p className="text-sm text-success-600">{success}</p>
+                        </div>
+                    </div>
+                )}
 
-                <div className="tab-content p-2">
+                {/* Tab Navigation */}
+                <div className="flex space-x-1 mb-6 bg-gray-100 rounded-lg p-1">
+                    <button
+                        className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-colors duration-200 ${
+                            activeTab === 'create'
+                                ? 'bg-white text-primary-600 shadow-sm'
+                                : 'text-gray-600 hover:text-gray-900'
+                        }`}
+                        onClick={() => setActiveTab('create')}
+                    >
+                        <FontAwesomeIcon icon={faPlus} className="w-4 h-4 mr-2" />
+                        Create New
+                    </button>
+                    <button
+                        className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-colors duration-200 ${
+                            activeTab === 'mnemonic'
+                                ? 'bg-white text-primary-600 shadow-sm'
+                                : 'text-gray-600 hover:text-gray-900'
+                        }`}
+                        onClick={() => setActiveTab('mnemonic')}
+                    >
+                        <FontAwesomeIcon icon={faKey} className="w-4 h-4 mr-2" />
+                        Mnemonic
+                    </button>
+                    <button
+                        className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-colors duration-200 ${
+                            activeTab === 'privateKey'
+                                ? 'bg-white text-primary-600 shadow-sm'
+                                : 'text-gray-600 hover:text-gray-900'
+                        }`}
+                        onClick={() => setActiveTab('privateKey')}
+                    >
+                        <FontAwesomeIcon icon={faLock} className="w-4 h-4 mr-2" />
+                        Private Key
+                    </button>
+                </div>
+
+                {/* Tab Content */}
+                <div className="space-y-6">
                     {activeTab === 'create' && (
-                        <div>
-                            {!showMnemonic && (
-                                <span>
-                                    <p>Create a new wallet with a randomly generated mnemonic phrase.</p>
-                                    <button className="btn btn-primary" onClick={handleCreateWallet}>
-                                        Create Wallet
+                        <div className="space-y-4">
+                            {!showMnemonic ? (
+                                <div className="text-center">
+                                    <p className="text-gray-600 mb-4">Create a new wallet with a randomly generated mnemonic phrase.</p>
+                                    <button 
+                                        className="inline-flex items-center px-6 py-3 bg-primary-600 text-white font-medium rounded-lg hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors duration-200"
+                                        onClick={handleCreateWallet}
+                                        disabled={isLoading}
+                                    >
+                                        <FontAwesomeIcon icon={faPlus} className="w-4 h-4 mr-2" />
+                                        {isLoading ? 'Creating...' : 'Create Wallet'}
                                     </button>
-                                </span>
-                            )}
-
-                            {showMnemonic && (
-                                <div className="alert alert-warning">
-                                    <p><strong>Your Mnemonic Phrase:</strong></p>
-                                    <p className="mnemonic-display">{generatedMnemonic}</p>
-                                    <p className="text-danger">
-                                        <small>Write this down and keep it safe! You will need it to recover your wallet.</small>
+                                </div>
+                            ) : (
+                                <div className="p-4 bg-warning-50 border border-warning-200 rounded-lg">
+                                    <h4 className="font-bold text-warning-800 mb-2">Your Mnemonic Phrase:</h4>
+                                    <div className="bg-white p-4 rounded-lg border border-warning-300 mb-4">
+                                        <p className="text-sm font-mono text-gray-900">{generatedMnemonic}</p>
+                                    </div>
+                                    <p className="text-sm text-warning-700 mb-4">
+                                        Write this down and keep it safe! You will need it to recover your wallet.
                                     </p>
-                                    <button className="btn btn-primary" onClick={handleConfirmMnemonic}>
-                                        Connect Wallet
+                                    <button 
+                                        className="inline-flex items-center px-6 py-3 bg-primary-600 text-white font-medium rounded-lg hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors duration-200"
+                                        onClick={handleConfirmMnemonic}
+                                        disabled={isLoading}
+                                    >
+                                        <FontAwesomeIcon icon={faWallet} className="w-4 h-4 mr-2" />
+                                        {isLoading ? 'Connecting...' : 'Connect Wallet'}
                                     </button>
                                 </div>
                             )}
@@ -578,38 +736,44 @@ export default function WalletConnect({ onConnected }) {
                     )}
 
                     {activeTab === 'mnemonic' && (
-                        <div>
-                            <div className="mb-3">
-                                <label htmlFor="mnemonic" className="form-label">Mnemonic Phrase</label>
+                        <div className="space-y-4">
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">Mnemonic Phrase</label>
                                 <textarea
-                                    id="mnemonic"
-                                    className="form-control"
+                                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors duration-200"
                                     rows="3"
                                     value={mnemonic}
                                     onChange={(e) => setMnemonic(e.target.value)}
                                     placeholder="Enter your 12-word mnemonic phrase"
                                 ></textarea>
                             </div>
-                            <button className="btn btn-primary" onClick={handleConnectWithMnemonic}>
+                            <button 
+                                className="w-full inline-flex items-center justify-center px-6 py-3 bg-primary-600 text-white font-medium rounded-lg hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors duration-200"
+                                onClick={handleConnectWithMnemonic}
+                            >
+                                <FontAwesomeIcon icon={faWallet} className="w-4 h-4 mr-2" />
                                 Connect Wallet
                             </button>
                         </div>
                     )}
 
                     {activeTab === 'privateKey' && (
-                        <div>
-                            <div className="mb-3">
-                                <label htmlFor="privateKey" className="form-label">Private Key</label>
+                        <div className="space-y-4">
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">Private Key</label>
                                 <input
                                     type="text"
-                                    id="privateKey"
-                                    className="form-control"
+                                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors duration-200"
                                     value={privateKey}
                                     onChange={(e) => setPrivateKey(e.target.value)}
                                     placeholder="Enter your private key"
                                 />
                             </div>
-                            <button className="btn btn-primary" onClick={handleConnectWithPrivateKey}>
+                            <button 
+                                className="w-full inline-flex items-center justify-center px-6 py-3 bg-primary-600 text-white font-medium rounded-lg hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors duration-200"
+                                onClick={handleConnectWithPrivateKey}
+                            >
+                                <FontAwesomeIcon icon={faWallet} className="w-4 h-4 mr-2" />
                                 Connect Wallet
                             </button>
                         </div>

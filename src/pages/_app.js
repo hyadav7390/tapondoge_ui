@@ -1,20 +1,13 @@
 import '@/styles/globals.css'
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { useEffect } from 'react';
+import '@fortawesome/fontawesome-svg-core/styles.css';
+import { config } from '@fortawesome/fontawesome-svg-core';
 import { LoaderProvider } from '@/contexts/LoaderContext';
-import {applyTheme} from '@/styles/theme';
 import { WalletProvider } from '@/contexts/WalletContext';
 
-export default function App({ Component, pageProps }) {
-  // Apply theme on mount
-  useEffect(() => {
-    // Load Bootstrap JS
-    // import('bootstrap/dist/js/bootstrap.bundle.min.js');
-    
-    // Apply our custom theme
-    applyTheme('dark');
-  }, []);
+// Prevent fontawesome from adding its CSS since we did it manually above:
+config.autoAddCss = false;
 
+export default function App({ Component, pageProps }) {
   return (
     <LoaderProvider>
       <WalletProvider>

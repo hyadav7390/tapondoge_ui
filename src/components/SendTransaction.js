@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useWallet } from '@/contexts/WalletContext';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPaperPlane, faWallet, faExclamationTriangle, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 
 export default function SendTransaction() {
   const { isConnected, sendWalletTransaction } = useWallet();
@@ -46,29 +48,62 @@ export default function SendTransaction() {
 
   if (!isConnected) {
     return (
-      <div className="card">
-        <div className="card-body">
-          <h5 className="card-title">Send DOGE</h5>
-          <p className="card-text">Please connect your wallet to send transactions.</p>
+      <div className="max-w-2xl mx-auto space-y-6">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold text-gray-900">Send DOGE</h2>
+          <p className="text-gray-600 mt-1">Transfer DOGE to another wallet</p>
+        </div>
+        
+        <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-12">
+          <div className="text-center">
+            <FontAwesomeIcon icon={faWallet} className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+            <h3 className="text-lg font-medium text-gray-900 mb-2">Wallet Not Connected</h3>
+            <p className="text-gray-500">Please connect your wallet to send transactions.</p>
+          </div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="card">
-      <div className="card-body">
-        <h5 className="card-title">Send DOGE</h5>
+    <div className="max-w-2xl mx-auto space-y-6">
+      {/* Header */}
+      <div className="text-center">
+        <h2 className="text-2xl font-bold text-gray-900">Send DOGE</h2>
+        <p className="text-gray-600 mt-1">Transfer DOGE to another wallet address</p>
+      </div>
+
+      {/* Form Card */}
+      <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-6">
+        {/* Error Display */}
+        {error && (
+          <div className="mb-6 p-4 bg-danger-50 border border-danger-200 rounded-lg">
+            <div className="flex items-center">
+              <FontAwesomeIcon icon={faExclamationTriangle} className="w-5 h-5 text-danger-600 mr-2" />
+              <p className="text-sm text-danger-600">{error}</p>
+            </div>
+          </div>
+        )}
+
+        {/* Success Display */}
+        {success && (
+          <div className="mb-6 p-4 bg-success-50 border border-success-200 rounded-lg">
+            <div className="flex items-center">
+              <FontAwesomeIcon icon={faCheckCircle} className="w-5 h-5 text-success-600 mr-2" />
+              <p className="text-sm text-success-600">{success}</p>
+            </div>
+          </div>
+        )}
         
-        {error && <div className="alert alert-danger">{error}</div>}
-        {success && <div className="alert alert-success">{success}</div>}
-        
-        <form onSubmit={handleSend}>
-          <div className="mb-3">
-            <label htmlFor="amount" className="form-label">Amount (DOGE)</label>
+        <form onSubmit={handleSend} className="space-y-6">
+          {/* Amount Input */}
+          <div>
+            <label htmlFor="amount" className="block text-sm font-medium text-gray-700 mb-2">
+              Amount (DOGE)
+            </label>
             <input
               type="number"
-              className="form-control"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors duration-200"
               id="amount"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
@@ -80,11 +115,14 @@ export default function SendTransaction() {
             />
           </div>
           
-          <div className="mb-3">
-            <label htmlFor="address" className="form-label">Recipient Address</label>
+          {/* Address Input */}
+          <div>
+            <label htmlFor="address" className="block text-sm font-medium text-gray-700 mb-2">
+              Recipient Address
+            </label>
             <input
               type="text"
-              className="form-control"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors duration-200"
               id="address"
               value={address}
               onChange={(e) => setAddress(e.target.value)}
@@ -94,13 +132,17 @@ export default function SendTransaction() {
             />
           </div>
           
-          <button 
-            type="submit" 
-            className="btn btn-primary"
-            disabled={isLoading}
-          >
-            {isLoading ? 'Sending...' : 'Send DOGE'}
-          </button>
+          {/* Submit Button */}
+          <div className="text-center">
+            <button 
+              type="submit" 
+              className="inline-flex items-center px-6 py-3 bg-primary-600 text-white font-medium rounded-lg hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+              disabled={isLoading}
+            >
+              <FontAwesomeIcon icon={faPaperPlane} className="w-4 h-4 mr-2" />
+              {isLoading ? 'Sending...' : 'Send DOGE'}
+            </button>
+          </div>
         </form>
       </div>
     </div>

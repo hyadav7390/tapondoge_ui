@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import Layout from "@/components/Layout";
 import Head from "next/head";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft, faCoins } from '@fortawesome/free-solid-svg-icons';
 import TokenStats from '@/components/TokenStats';
 import TokenListings from '@/components/TokenListings';
 import ActivityLog from '@/components/ActivityLog';
@@ -37,28 +37,51 @@ export default function Listings() {
         <link rel="icon" href="/tapondoge.ico" />
       </Head>
       <Layout>
-        <div className="container my-4" style={{ backgroundColor: 'var(--color-cardHeader)', padding: '10px', borderRadius: '5px', border: '1px solid var(--color-border)' }}>
-          <a
-            onClick={() => window.history.back()}
-            style={{ cursor: 'pointer', fontSize: 'small', textDecoration: 'underline', color: 'var(--color-link)' }}
-          >
-            <FontAwesomeIcon
-              icon={faArrowLeft}
-              style={{ fontSize: '10px', margin: '0 5px 1px 0' }}
-            />
-            Back to all tokens
-          </a>
-          <h1 style={{ textAlign: 'center' }}>{tokenName}</h1>
+        <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+          <div className="container mx-auto px-4 py-8">
+            {/* Header Section */}
+            <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-6 mb-8">
+              <div className="flex items-center justify-between mb-4">
+                <button
+                  onClick={() => window.history.back()}
+                  className="inline-flex items-center text-sm text-primary-600 hover:text-primary-800 transition-colors duration-200"
+                >
+                  <FontAwesomeIcon icon={faArrowLeft} className="w-3 h-3 mr-2" />
+                  Back to all tokens
+                </button>
+              </div>
+              
+              <div className="text-center">
+                <div className="flex items-center justify-center mb-2">
+                  <FontAwesomeIcon icon={faCoins} className="w-8 h-8 text-primary-600 mr-3" />
+                  <h1 className="text-3xl font-bold text-gray-900">{tokenName}</h1>
+                </div>
+                <p className="text-gray-600">Token information, listings, and activity</p>
+              </div>
+            </div>
 
-          {/* Token Stats Component */}
-          {tokenName && <TokenStats tokenName={tokenName} />}
+            {/* Token Stats Component */}
+            {tokenName && (
+              <div className="mb-8">
+                <TokenStats tokenName={tokenName} />
+              </div>
+            )}
+
+            {/* Token Listings Component */}
+            {tokenName && (
+              <div className="mb-8">
+                <TokenListings tokenName={tokenName} />
+              </div>
+            )}
+
+            {/* Activity Log Component */}
+            {tokenName && (
+              <div className="mb-8">
+                <ActivityLog tokenName={tokenName} />
+              </div>
+            )}
+          </div>
         </div>
-
-        {/* Token Listings Component */}
-        {tokenName && <TokenListings tokenName={tokenName} />}
-
-        {/* Activity Log Component */}
-        {tokenName && <ActivityLog tokenName={tokenName} />}
       </Layout>
     </>
   );

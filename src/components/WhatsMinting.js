@@ -1,6 +1,8 @@
 import { useEffect, useState, useCallback, useRef } from 'react';
 import { getDeployments, getMintTokensLeft } from '@/utils/service';
 import { useLoader } from '@/contexts/LoaderContext';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFire, faCoins, faPlay } from '@fortawesome/free-solid-svg-icons';
 
 export default function WhatsMinting() {
     const [tokensWithMints, setTokensWithMints] = useState([]);
@@ -98,116 +100,115 @@ export default function WhatsMinting() {
                 }
             } finally {
                 if (mountedRef.current) {
-                    console.log("Finishing data load");
+                    hideLoader();
                 }
                 loadingRef.current = false;
-                hideLoader();
             }
         };
 
         loadData();
 
-        // Cleanup function to run when component unmounts
+        // Cleanup function
         return () => {
-            console.log("WhatsMining component unmounting");
             mountedRef.current = false;
-            hideLoader();
         };
-    }, [showLoader, hideLoader, calculateMintProgress]);
+    }, []); // Removed dependencies that were causing infinite calls
 
-    // Handle mint button click
-    const handleMint = useCallback((tick, lim) => {
-        console.log(`Mint ${tick} with limit ${lim}`);
-        // Implement mint functionality or navigate to mint page
-    }, []);
+    const handleMintClick = (token) => {
+        console.log(`Mint clicked for ${token.tick}`);
+        // Add mint functionality here
+    };
 
     return (
-        <>
-            <div className="container">
-                <h3 className="mb-4">Recently Deployed Tokens</h3>
-                <div className="row g-4">
-                    {tokensWithMints.length > 0 ? (
-                        tokensWithMints.map((token, index) => (
-                            <div key={index} className="col-md-4">
-                                <div className="card h-100">
-                                    <div className="card-body">
-                                        <h5 className="card-title text-center mb-4">{token.tick}</h5>
+        <div className="space-y-6">
+            {/* Header */}
+            <div className="text-center">
+                <h2 className="text-2xl font-bold text-gray-900">What&apos;s Minting</h2>
+                <p className="text-gray-600 mt-1">Discover tokens currently available for minting</p>
+            </div>
 
-                                        <div className="mb-3 p-2 rounded" style={{ backgroundColor: 'var(--color-cardHeader)', border: '1px solid var(--color-border)' }}>
-                                            <div className="d-flex justify-content-between">
-                                                <span>Max Supply:</span>
-                                                <span title={token.max ? (parseInt(token.max)).toLocaleString() : '0'}
-                                                    data-bs-toggle="tooltip"
-                                                    data-bs-placement="top" className="fw-bold text-truncate" style={{ maxWidth: '60%', textAlign: 'right' }}>
-                                                    {token.max ? parseInt(token.max).toLocaleString() : '0'}
-                                                </span>
-                                            </div>
-                                        </div>
-
-                                        <div className="mb-3 p-2 rounded" style={{ backgroundColor: 'var(--color-cardHeader)', border: '1px solid var(--color-border)' }}>
-                                            <div className="d-flex justify-content-between">
-                                                <span>Limit Per Mint:</span>
-                                                <span title={token.lim ? (parseInt(token.lim)).toLocaleString() : '0'}
-                                                    data-bs-toggle="tooltip"
-                                                    data-bs-placement="top" className="fw-bold text-truncate" style={{ maxWidth: '60%', textAlign: 'right' }}>
-                                                    {token.lim ? parseInt(token.lim).toLocaleString() : '0'}
-                                                </span>
-                                            </div>
-                                        </div>
-
-                                        <div className="mb-3 p-2 rounded" style={{ backgroundColor: 'var(--color-cardHeader)', border: '1px solid var(--color-border)' }}>
-                                            <label className="form-label d-flex justify-content-between mb-1">
-                                                <span>Progress:</span>
-                                                <span className="text-truncate" style={{ maxWidth: '60%', textAlign: 'right' }}>
-                                                    {token.progress}%
-                                                </span>
-                                            </label>
-                                            <div className="progress">
-                                                <div
-                                                    className="progress-bar"
-                                                    role="progressbar"
-                                                    style={{ width: `${token.progress}%` }}
-                                                    aria-valuenow={token.progress}
-                                                    aria-valuemin="0"
-                                                    aria-valuemax="100"
-                                                ></div>
-                                            </div>
-                                        </div>
-
-                                        <div className="mb-3 p-2 rounded" style={{ backgroundColor: 'var(--color-cardHeader)', border: '1px solid var(--color-border)' }}>
-                                            <div className="d-flex justify-content-between">
-                                                <span>Available:</span>
-                                                <span className="fw-bold text-truncate" style={{ maxWidth: '60%', textAlign: 'right' }}>
-                                                    {token.mintsLeft ? Math.round(token.mintsLeft).toLocaleString() : 'N/A'}
-                                                </span>
-                                            </div>
-                                        </div>
-
-                                        {token.showMintButton && (
-                                            <div className="text-center mt-4">
-                                                <button
-                                                    className="btn btn-primary"
-                                                    onClick={() => handleMint(token.tick, token.lim)}
-                                                    disabled={token.progress >= 100}
-                                                    style={{ zIndex: 9999 }}
-                                                >
-                                                    Mint Now
-                                                </button>
-                                            </div>
-                                        )}
+            {/* Tokens Grid */}
+            {tokensWithMints.length > 0 ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {tokensWithMints.map((token, index) => (
+                        <div key={index} className="bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden hover:shadow-xl transition-shadow duration-200">
+                            {/* Token Header */}
+                            <div className="p-6 border-b border-gray-200">
+                                <div className="flex items-center justify-between mb-4">
+                                    <div className="flex items-center space-x-3">
+                                        <FontAwesomeIcon 
+                                            icon={faFire} 
+                                            className={`w-6 h-6 ${token.showMintButton ? 'text-warning-500' : 'text-gray-400'}`} 
+                                        />
+                                        <h3 className="text-xl font-bold text-gray-900">{token.tick}</h3>
+                                    </div>
+                                    {token.showMintButton && (
+                                        <span className="px-2 py-1 bg-success-100 text-success-800 text-xs font-medium rounded-full">
+                                            Live
+                                        </span>
+                                    )}
+                                </div>
+                                
+                                {/* Progress Bar */}
+                                <div className="mb-4">
+                                    <div className="flex justify-between text-sm text-gray-600 mb-2">
+                                        <span>Mint Progress</span>
+                                        <span>{token.progress}%</span>
+                                    </div>
+                                    <div className="w-full bg-gray-200 rounded-full h-2">
+                                        <div 
+                                            className={`h-2 rounded-full transition-all duration-300 ${
+                                                token.progress < 50 ? 'bg-success-500' : 
+                                                token.progress < 80 ? 'bg-warning-500' : 'bg-danger-500'
+                                            }`}
+                                            style={{ width: `${token.progress}%` }}
+                                        ></div>
                                     </div>
                                 </div>
                             </div>
-                        ))
-                    ) : (
-                        <div className="col-12 text-center">
-                            <div className="alert alert-info">
-                                Loading the tokens available for minting at the moment...
+
+                            {/* Token Details */}
+                            <div className="p-6">
+                                <div className="space-y-3">
+                                    <div className="flex justify-between">
+                                        <span className="text-gray-600">Max Supply:</span>
+                                        <span className="font-medium text-gray-900">
+                                            {(token.max / 1e18).toLocaleString()}
+                                        </span>
+                                    </div>
+                                    <div className="flex justify-between">
+                                        <span className="text-gray-600">Mints Left:</span>
+                                        <span className="font-medium text-gray-900">
+                                            {token.mintsLeft.toLocaleString()}
+                                        </span>
+                                    </div>
+                                    <div className="flex justify-between">
+                                        <span className="text-gray-600">Block:</span>
+                                        <span className="font-medium text-gray-900">{token.blck}</span>
+                                    </div>
+                                </div>
+
+                                {/* Mint Button */}
+                                {token.showMintButton && (
+                                    <button
+                                        onClick={() => handleMintClick(token)}
+                                        className="w-full mt-4 inline-flex items-center justify-center px-4 py-2 bg-primary-600 text-white font-medium rounded-lg hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors duration-200"
+                                    >
+                                        <FontAwesomeIcon icon={faPlay} className="w-4 h-4 mr-2" />
+                                        Mint Now
+                                    </button>
+                                )}
                             </div>
                         </div>
-                    )}
+                    ))}
                 </div>
-            </div>
-        </>
+            ) : (
+                <div className="text-center py-12">
+                    <FontAwesomeIcon icon={faCoins} className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+                    <h3 className="text-lg font-medium text-gray-900 mb-2">No tokens minting</h3>
+                    <p className="text-gray-600">Check back later for new minting opportunities</p>
+                </div>
+            )}
+        </div>
     );
 }

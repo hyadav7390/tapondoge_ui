@@ -41,95 +41,85 @@ export default function Header() {
     };
 
     return (
-        <header className="shadow-sm">
-            <nav className="navbar navbar-expand-lg navbar-light bg-light">
-                <div className="container">
-                    <a className="navbar-brand d-flex align-items-center font-weight-bold" href="/">
+        <header className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-40">
+            <nav className="container mx-auto px-4">
+                <div className="flex items-center justify-between h-16">
+                    {/* Logo */}
+                    <div className="flex items-center space-x-3">
                         <img
                             src="/tapondoge.jpg"
                             alt="TAPONDOGE Logo"
-                            style={{
-                                height: '40px',
-                                width: 'auto',
-                                marginRight: '10px'
-                            }}
+                            className="h-10 w-auto rounded-lg"
                         />
-                        <span className="fw-bold">TAPONDOGE</span>
-                    </a>
-                    <button
-                        className="navbar-toggler"
-                        type="button"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#navbarNav"
-                    >
-                        <span className="navbar-toggler-icon"></span>
-                    </button>
-                    <div className="collapse navbar-collapse" id="navbarNav">
-                        <ul className="navbar-nav ms-auto">
-                            <li className="nav-item">
-                                <a className="nav-link" href="https://discord.com/invite/CHbTua4UZj" target="_blank" rel="noopener noreferrer">
-                                    <img
-                                        src="/discord.png"
-                                        alt="Discord"
-                                        style={{ width: '30px', height: '30px' }}
-                                    />
-                                </a>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link" href="https://x.com/tapondogehq" target="_blank" rel="noopener noreferrer">
-                                    <img
-                                        src="/x.png"
-                                        alt="Twitter"
-                                        style={{ width: '25px', height: '25px', backgroundColor: '#ffffff' }}
-                                    />
+                        <span className="text-xl font-bold text-gray-900">TAPONDOGE</span>
+                    </div>
 
-                                </a>
-                            </li>
-                            <li className="nav-item dropdown">
-                                <div className="mt-1" style={{ position: 'relative' }}>
-                                    <button 
-                                        ref={buttonRef}
-                                        className={`btn ${isConnected ? 'btn-success' : 'btn-primary'}`}
-                                        onClick={toggleWalletModal}
-                                    >
-                                        {isConnected ? (
-                                            <span>
-                                                <i className="fas fa-wallet me-2"></i>
-                                                {address ? formatAddress(address) : 'Loading...'}
-                                            </span>
-                                        ) : (
-                                            <span>
-                                                <i className="fas fa-wallet me-2"></i>
-                                                Connect Wallet
-                                            </span>
-                                        )}
-                                    </button>
-                                    
-                                    {/* Wallet Modal - positioned as dropdown */}
-                                    {isWalletModalOpen && (
-                                        <div 
-                                            className="wallet-dropdown" 
-                                            ref={modalRef}
-                                        >
-                                            {/* <div className="wallet-dropdown-header">
-                                                <h5>Wallet</h5>
-                                                <button 
-                                                    type="button" 
-                                                    className="btn-close" 
-                                                    onClick={() => setIsWalletModalOpen(false)}
-                                                ></button>
-                                            </div> */}
-                                            <div className="wallet-dropdown-body">
-                                                <WalletConnect onConnected={() => setIsWalletModalOpen(false)} />
-                                            </div>
-                                        </div>
-                                    )}
+                    {/* Navigation Links */}
+                    <div className="hidden md:flex items-center space-x-8">
+                        <a 
+                            href="https://discord.com/invite/CHbTua4UZj" 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="flex items-center space-x-2 text-gray-600 hover:text-primary-600 transition-colors duration-200"
+                        >
+                            <img
+                                src="/discord.png"
+                                alt="Discord"
+                                className="w-6 h-6"
+                            />
+                            <span className="text-sm font-medium">Discord</span>
+                        </a>
+                        <a 
+                            href="https://x.com/tapondogehq" 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="flex items-center space-x-2 text-gray-600 hover:text-primary-600 transition-colors duration-200"
+                        >
+                            <img
+                                src="/x.png"
+                                alt="Twitter"
+                                className="w-5 h-5"
+                            />
+                            <span className="text-sm font-medium">Twitter</span>
+                        </a>
+                    </div>
+
+                    {/* Wallet Connect Button */}
+                    <div className="relative">
+                        <button 
+                            ref={buttonRef}
+                            onClick={toggleWalletModal}
+                            className={`flex items-center space-x-2 px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
+                                isConnected 
+                                    ? 'bg-success-100 text-success-700 hover:bg-success-200' 
+                                    : 'bg-primary-600 text-white hover:bg-primary-700 shadow-lg hover:shadow-xl'
+                            }`}
+                        >
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                            </svg>
+                            <span>
+                                {isConnected 
+                                    ? (address ? formatAddress(address) : 'Loading...')
+                                    : 'Connect Wallet'
+                                }
+                            </span>
+                        </button>
+                        
+                        {/* Wallet Modal Dropdown */}
+                        {isWalletModalOpen && (
+                            <div 
+                                className="absolute right-0 mt-2 w-80 bg-white rounded-xl shadow-2xl border border-gray-200 overflow-hidden z-50"
+                                ref={modalRef}
+                            >
+                                <div className="p-4">
+                                    <WalletConnect onConnected={() => setIsWalletModalOpen(false)} />
                                 </div>
-                            </li>
-                        </ul>
+                            </div>
+                        )}
                     </div>
                 </div>
             </nav>
         </header>
-    )
+    );
 }
