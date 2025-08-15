@@ -1,6 +1,45 @@
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Default theme variables (light theme) */
+  --color-primary: #236476;
+  --color-secondary: #6c757d;
+  --color-accent: #0099ff;
+  
+  --color-success: #198754;
+  --color-warning: #ffc107;
+  --color-danger: #dc3545;
+  --color-info: #0dcaf0;
+  
+  --color-background: #f8f9fa;
+  --color-cardBg: #ffffff;
+  --color-cardHeader: #f8f9fa;
+  --color-border: #dee2e6;
+  --color-shadow: rgba(0,0,0,0.1);
+  
+  --color-textPrimary: #212529;
+  --color-textSecondary: #6c757d;
+  --color-textLight: #ffffff;
+  --color-link: #236476;
+  
+  --color-progressBar: #236476;
+  --color-progressBg: #e9ecef;
+  
+  --color-inputBg: #ffffff;
+  --color-inputBorder: #ced4da;
+  --color-inputFocus: #86b7fe;
+  --color-inputText: #212529;
+  
+  --color-tableHeader: #f8f9fa;
+  --color-tableStripe: #f2f2f2;
+  --color-tableBorder: #dee2e6;
+  
+  --color-navbarBg: #ffffff;
+  --color-navbarText: #212529;
+  
+  --color-modalBg: #ffffff;
+  --color-modalOverlay: rgba(0, 0, 0, 0.5);
+  
+  /* Transition for smooth theme switching */
+  --transition-speed: 0.3s;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -17,9 +56,10 @@ body {
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-background);
+  color: var(--color-textPrimary);
+  transition: background-color var(--transition-speed), color var(--transition-speed);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -31,12 +71,1778 @@ body {
 }
 
 a {
-  color: inherit;
+  color: var(--color-link);
   text-decoration: none;
 }
 
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
+  }
+}
+
+/* src/components/Loader.css */
+.loader-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+/* Make sure the spinner is visible with stronger styling */
+.spinner-border,
+.loader-overlay .spinner-border {
+  display: inline-block;
+  width: 4rem !important;
+  height: 4rem !important;
+  vertical-align: text-bottom;
+  border: 0.4rem solid #236476 !important;
+  border-right-color: transparent !important;
+  border-radius: 50%;
+  animation: spinner-border 0.75s linear infinite;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Add specific styling for light theme */
+.spinner-border {
+  border-color: #236476 !important;
+  border-right-color: transparent !important;
+}
+
+/* Add specific styling for dark theme */
+.theme-dark .spinner-border {
+  border-color: #236476 !important;
+  border-right-color: transparent !important;
+}
+
+/* Make sure animation is properly defined */
+@keyframes spinner-border {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Legacy spinner support for older components */
+.spinner {
+  display: inline-block;
+  width: 4rem !important;
+  height: 4rem !important;
+  border: 0.4rem solid #236476 !important;
+  border-right-color: transparent !important;
+  border-radius: 50%;
+  animation: spinner-border 0.75s linear infinite;
+}
+
+/* Add direct styling to the spinner div for additional visibility assurance */
+.loader-overlay > div {
+  width: 4rem !important;
+  height: 4rem !important;
+  border: 0.4rem solid #236476 !important;
+  border-right-color: transparent !important;
+  border-radius: 50%;
+  animation: spinner-border 0.75s linear infinite;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Theme-based component styles */
+.card {
+  background-color: var(--color-cardBg);
+  border: 1px solid var(--color-border);
+  border-radius: 0.375rem;
+  box-shadow: 0 0.125rem 0.25rem var(--color-shadow);
+  transition: box-shadow 0.3s ease;
+}
+
+.card:hover {
+  box-shadow: 0 0.5rem 1rem var(--color-shadow);
+}
+
+.card-header {
+  background-color: var(--color-cardHeader);
+  border-bottom: 1px solid var(--color-border);
+  padding: 0.75rem 1.25rem;
+}
+
+.card-body {
+  padding: 1.25rem;
+}
+
+.card-title {
+  color: var(--color-textPrimary);
+  font-weight: 500;
+}
+
+.card-text {
+  color: var(--color-textSecondary);
+}
+
+.btn {
+  border-radius: 0.25rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-primary {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-textLight);
+}
+
+.btn-primary:hover, .btn-primary:focus {
+  background-color: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+.btn-secondary {
+  background-color: var(--color-secondary);
+  border-color: var(--color-secondary);
+  color: var(--color-textLight);
+}
+
+.btn-success {
+  background-color: var(--color-success);
+  border-color: var(--color-success);
+  color: var(--color-textLight);
+}
+
+.btn-danger {
+  background-color: var(--color-danger);
+  border-color: var(--color-danger);
+  color: var(--color-textLight);
+}
+
+.btn-info {
+  background-color: var(--color-info);
+  border-color: var(--color-info);
+  color: var(--color-textPrimary);
+}
+
+.btn-warning {
+  background-color: var(--color-warning);
+  border-color: var(--color-warning);
+  color: var(--color-textPrimary);
+}
+
+.alert {
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+  padding: 0.75rem 1.25rem;
+  position: relative;
+}
+
+.alert-success {
+  background-color: var(--color-success);
+  border-color: var(--color-success);
+  color: var(--color-textLight);
+}
+
+.alert-info {
+  background-color: var(--color-info);
+  border-color: var(--color-info);
+  color: var(--color-textPrimary);
+}
+
+.alert-warning {
+  background-color: var(--color-warning);
+  border-color: var(--color-warning);
+  color: var(--color-textPrimary);
+}
+
+.alert-danger {
+  background-color: var(--color-danger);
+  border-color: var(--color-danger);
+  color: var(--color-textLight);
+}
+
+.progress {
+  background-color: var(--color-progressBg);
+  border-radius: 0.25rem;
+  height: 1rem;
+}
+
+.progress-bar {
+  background-color: var(--color-progressBar);
+}
+
+.text-muted {
+  color: var(--color-textSecondary) !important;
+}
+
+.nav {
+  display: flex;
+  flex-wrap: wrap;
+  padding-left: 0;
+  margin-bottom: 0;
+  list-style: none;
+}
+
+.nav-link {
+  color: var(--color-textPrimary);
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  transition: color 0.15s ease-in-out;
+}
+
+.nav-link:hover, .nav-link:focus {
+  color: var(--color-primary);
+}
+
+.nav-pills .nav-link {
+  background: none;
+  border: 0;
+  border-radius: 0.25rem;
+}
+
+.nav-pills .nav-link.active {
+  background-color: var(--color-primary);
+  color: var(--color-textLight);
+}
+
+.tab-content > .tab-pane {
+  display: none;
+}
+
+.tab-content > .active {
+  display: block;
+}
+
+/* Modal styling */
+.modal-content {
+  background-color: var(--color-modalBg);
+  border: 1px solid var(--color-border);
+  border-radius: 0.375rem;
+}
+
+.modal-header {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.modal-footer {
+  border-top: 1px solid var(--color-border);
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--color-textPrimary);
+  font-weight: 500;
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+}
+
+a:hover {
+  color: var(--color-accent);
+  text-decoration: underline;
+}
+
+/* Custom component styling for WhatsMining */
+.token-card {
+  transition: transform 0.2s;
+}
+
+.token-card:hover {
+  transform: translateY(-5px);
+}
+
+/* Custom styles for index.js tabs */
+#pills-tab {
+  border-bottom: 1px solid var(--color-border);
+  margin-bottom: 1.5rem;
+}
+
+#pills-tab .nav-link {
+  margin-bottom: -1px;
+  background: none;
+  border: 1px solid transparent;
+  border-top-left-radius: 0.25rem;
+  border-top-right-radius: 0.25rem;
+}
+
+#pills-tab .nav-link.active {
+  color: var(--color-primary);
+  background-color: var(--color-cardBg);
+  border-color: var(--color-border) var(--color-border) var(--color-cardBg);
+}
+
+#pills-tab .nav-link:hover:not(.active) {
+  border-color: var(--color-border) var(--color-border) var(--color-border);
+  background-color: rgba(13, 110, 253, 0.1);
+}
+
+/* Utility classes */
+.text-primary {
+  color: var(--color-primary) !important;
+}
+
+.text-secondary {
+  color: var(--color-secondary) !important;
+}
+
+.text-success {
+  color: var(--color-success) !important;
+}
+
+.text-danger {
+  color: var(--color-danger) !important;
+}
+
+.text-warning {
+  color: var(--color-warning) !important;
+}
+
+.text-info {
+  color: var(--color-info) !important;
+}
+
+.text-light {
+  color: var(--color-textLight) !important;
+}
+
+.text-dark {
+  color: var(--color-textPrimary) !important;
+}
+
+.bg-primary {
+  background-color: var(--color-primary) !important;
+}
+
+.bg-secondary {
+  background-color: var(--color-secondary) !important;
+}
+
+.bg-success {
+  background-color: var(--color-success) !important;
+}
+
+.bg-danger {
+  background-color: var(--color-danger) !important;
+}
+
+.bg-warning {
+  background-color: var(--color-warning) !important;
+}
+
+.bg-info {
+  background-color: var(--color-info) !important;
+}
+
+.bg-light {
+  background-color: var(--color-background) !important;
+}
+
+.bg-dark {
+  background-color: var(--color-textPrimary) !important;
+}
+
+.border {
+  border: 1px solid var(--color-border) !important;
+}
+
+.border-primary {
+  border-color: var(--color-primary) !important;
+}
+
+/* Dark theme overrides when using dark theme */
+.theme-dark {
+  --bs-body-bg: var(--color-background);
+  --bs-body-color: var(--color-textPrimary);
+  --color-primary: #236476 !important;
+  --color-link: #236476 !important;
+  --color-accent: #2D7D90 !important; /* Lighter teal for accents */
+  --color-hover: #1C5361 !important; /* Darker teal for hover states */
+  --color-active: #164450 !important; /* Even darker teal for active/pressed states */
+  --color-progressBar: #236476 !important;
+}
+
+/* General element styling */
+body {
+  background-color: var(--color-background);
+  color: var(--color-textPrimary);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* Button styling */
+.btn {
+  border-radius: 0.25rem;
+  transition: all 0.2s ease-in-out;
+}
+
+/* Form element styling */
+.form-control {
+  background-color: var(--color-inputBg);
+  border: 1px solid var(--color-inputBorder);
+  color: var(--color-inputText);
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.form-control:focus {
+  border-color: var(--color-inputFocus);
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+  outline: none;
+}
+
+.form-label {
+  color: var(--color-textPrimary);
+  font-weight: 500;
+}
+
+.form-text {
+  color: var(--color-textSecondary);
+}
+
+/* Table styling */
+.table {
+  color: var(--color-textPrimary);
+  width: 100%;
+  margin-bottom: 1rem;
+  vertical-align: top;
+  border-color: var(--color-tableBorder);
+}
+
+.table > thead {
+  background-color: var(--color-tableHeader);
+  vertical-align: bottom;
+}
+
+.table-striped > tbody > tr:nth-of-type(odd) {
+  background-color: var(--color-tableStripe);
+}
+
+.table-hover > tbody > tr:hover {
+  background-color: rgba(0, 0, 0, 0.075);
+}
+
+/* Badge styling */
+.badge {
+  border-radius: 0.25rem;
+  font-weight: 500;
+  padding: 0.35em 0.65em;
+}
+
+.badge-primary {
+  background-color: var(--color-primary);
+  color: var(--color-textLight);
+}
+
+.badge-secondary {
+  background-color: var(--color-secondary);
+  color: var(--color-textLight);
+}
+
+.badge-success {
+  background-color: var(--color-success);
+  color: var(--color-textLight);
+}
+
+/* Loader styling */
+.spinner-border {
+  width: 3rem;
+  height: 3rem;
+  color: var(--color-primary);
+}
+
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  border: 1px solid #000000;
+  height: 2.5rem !important;
+  width: 16px;
+  border-radius: 3px;
+  background: #ffffff;
+  cursor: pointer;
+  margin-top: -14px; /* You need to specify a margin in Chrome, but in Firefox and IE it is automatic */
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d; /* Add cool effects to your sliders! */
+}
+
+/* Add these rules to ensure text colors are properly themed */
+
+/* Dark theme text color overrides */
+.theme-dark {
+  color: var(--color-textPrimary);
+}
+
+/* More specific selectors for text elements */
+.theme-dark h1, 
+.theme-dark h2, 
+.theme-dark h3, 
+.theme-dark h4, 
+.theme-dark h5, 
+.theme-dark h6,
+.theme-dark .h1, 
+.theme-dark .h2, 
+.theme-dark .h3, 
+.theme-dark .h4, 
+.theme-dark .h5, 
+.theme-dark .h6 {
+  color: var(--color-textPrimary);
+}
+
+.theme-dark p,
+.theme-dark span,
+.theme-dark div,
+.theme-dark li,
+.theme-dark label {
+  color: var(--color-textPrimary);
+}
+
+/* Form controls */
+.theme-dark .form-control {
+  background-color: var(--color-inputBg);
+  color: var(--color-inputText);
+  border-color: var(--color-inputBorder);
+}
+
+.theme-dark .form-select {
+  background-color: var(--color-inputBg);
+  color: var(--color-inputText);
+  border-color: var(--color-inputBorder);
+}
+
+.theme-dark .input-group-text {
+  background-color: var(--color-cardHeader);
+  color: var(--color-textPrimary);
+  border-color: var(--color-inputBorder);
+}
+
+/* Bootstrap cards */
+.theme-dark .card {
+  background-color: var(--color-cardBg);
+}
+
+.theme-dark .card-header,
+.theme-dark .card-footer {
+  background-color: var(--color-cardHeader);
+  border-color: var(--color-border);
+}
+
+.theme-dark .card-title,
+.theme-dark .card-subtitle {
+  color: var(--color-textPrimary);
+}
+
+.theme-dark .card-text {
+  color: var(--color-textPrimary);
+}
+
+/* Table overrides */
+.theme-dark .table {
+  color: var(--color-textPrimary);
+}
+
+.theme-dark .table thead th {
+  color: var(--color-textPrimary);
+  background-color: var(--color-tableHeader);
+}
+
+.theme-dark .table-striped tbody tr:nth-of-type(odd) {
+  background-color: var(--color-tableStripe);
+}
+
+/* Modal overrides */
+.theme-dark .modal-content {
+  background-color: var(--color-cardBg);
+  color: var(--color-textPrimary);
+}
+
+.theme-dark .modal-header,
+.theme-dark .modal-footer {
+  border-color: var(--color-border);
+}
+
+.theme-dark .modal-title {
+  color: var(--color-textPrimary);
+}
+
+/* Dropdown overrides */
+.theme-dark .dropdown-menu {
+  background-color: var(--color-cardBg);
+  border-color: var(--color-border);
+}
+
+.theme-dark .dropdown-item {
+  color: var(--color-textPrimary);
+}
+
+.theme-dark .dropdown-item:hover,
+.theme-dark .dropdown-item:focus {
+  background-color: var(--color-primary);
+  color: var(--color-textLight);
+}
+
+/* List group overrides */
+.theme-dark .list-group-item {
+  background-color: var(--color-cardBg);
+  color: var(--color-textPrimary);
+  border-color: var(--color-border);
+}
+
+.theme-dark .list-group-item-action:hover,
+.theme-dark .list-group-item-action:focus {
+  background-color: var(--color-cardHeader);
+}
+
+/* Navigation overrides */
+.theme-dark .navbar {
+  background-color: var(--color-cardBg);
+}
+
+.theme-dark .navbar-brand {
+  color: var(--color-textPrimary);
+}
+
+.theme-dark .navbar-nav .nav-link {
+  color: var(--color-textPrimary);
+}
+
+.theme-dark .navbar-nav .nav-link:hover,
+.theme-dark .navbar-nav .nav-link:focus {
+  color: var(--color-primary);
+}
+
+/* Button text colors */
+.theme-dark .btn-outline-primary,
+.theme-dark .btn-outline-secondary,
+.theme-dark .btn-outline-success,
+.theme-dark .btn-outline-danger,
+.theme-dark .btn-outline-warning,
+.theme-dark .btn-outline-info {
+  color: var(--color-textPrimary);
+}
+
+/* Pagination overrides */
+.theme-dark .pagination .page-link {
+  background-color: var(--color-cardBg);
+  color: var(--color-textPrimary);
+  border-color: var(--color-border);
+}
+
+.theme-dark .pagination .page-item.active .page-link {
+  background-color: var(--color-primary);
+  color: var(--color-textLight);
+  border-color: var(--color-primary);
+}
+
+/* Badge text overrides */
+.theme-dark .badge-secondary,
+.theme-dark .badge-light {
+  color: var(--color-textPrimary);
+}
+
+/* Fixed elements on the page */
+.theme-dark .fixed-top,
+.theme-dark .fixed-bottom,
+.theme-dark .sticky-top {
+  background-color: var(--color-cardBg);
+}
+
+/* WhatsMining component specific overrides */
+.theme-dark .token-card {
+  background-color: var(--color-cardBg);
+}
+
+.theme-dark .token-card .card-title {
+  color: var(--color-textPrimary);
+}
+
+.theme-dark .token-card .text-muted,
+.theme-dark .token-card small {
+  color: var(--color-textSecondary) !important;
+}
+
+/* Forcing text colors for specific cases */
+.theme-dark .text-body {
+  color: var(--color-textPrimary) !important;
+}
+
+.theme-dark .text-dark {
+  color: var(--color-textPrimary) !important;
+}
+
+/* Override bootstrap's default behavior for text-light/dark in dark mode */
+.theme-dark .text-light {
+  color: var(--color-textLight) !important;
+}
+
+/* Alert text colors */
+.theme-dark .alert {
+  color: var(--color-textPrimary);
+}
+
+.theme-dark .alert-heading {
+  color: inherit;
+}
+
+/* Inline code and pre blocks */
+.theme-dark code {
+  color: var(--color-accent);
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.theme-dark pre {
+  color: var(--color-textPrimary);
+  background-color: var(--color-cardHeader);
+}
+
+/* Fix any hardcoded colors in custom components */
+.theme-dark .fw-bold,
+.theme-dark .fw-semibold,
+.theme-dark .fw-medium,
+.theme-dark .fw-normal {
+  color: var(--color-textPrimary);
+}
+
+/* CSS for specific custom elements you might have in your app */
+.theme-dark .d-flex span,
+.theme-dark .justify-content-between span,
+.theme-dark .progress-info span {
+  color: var(--color-textPrimary);
+}
+
+/* Ensure all font awesome or other icon fonts have correct coloring */
+.theme-dark i[class*="fa-"],
+.theme-dark span[class*="fa-"] {
+  color: var(--color-textPrimary);
+}
+
+/* Enhanced table styling for dark theme */
+.theme-dark table,
+.theme-dark .table {
+  color: var(--color-textPrimary) !important;
+  border-color: var(--color-border) !important;
+}
+
+/* Table headers in dark theme */
+.theme-dark thead,
+.theme-dark .table thead,
+.theme-dark th,
+.theme-dark .table th,
+.theme-dark .table thead th {
+  color: var(--color-textLight) !important;
+  background-color: var(--color-primary) !important;
+  border-color: var(--color-border) !important;
+}
+
+/* Table body in dark theme */
+.theme-dark tbody,
+.theme-dark .table tbody,
+.theme-dark td,
+.theme-dark .table td {
+  color: var(--color-textPrimary) !important;
+  background-color: var(--color-cardBg) !important;
+  border-color: var(--color-border) !important;
+}
+
+/* Striped tables */
+.theme-dark .table-striped > tbody > tr:nth-of-type(odd) {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+}
+
+.theme-dark .table-striped > tbody > tr:nth-of-type(odd) > * {
+  background-color: var(--color-cardHeader) !important;
+}
+
+/* Hoverable tables */
+.theme-dark .table-hover > tbody > tr:hover {
+  background-color: rgba(13, 110, 253, 0.075) !important;
+}
+
+.theme-dark .table-hover > tbody > tr:hover > * {
+  background-color: rgba(13, 110, 253, 0.1) !important;
+  color: var(--color-textPrimary) !important;
+}
+
+/* Table borders */
+.theme-dark .table-bordered,
+.theme-dark .table-bordered th,
+.theme-dark .table-bordered td {
+  border-color: var(--color-border) !important;
+}
+
+/* Specific fixes for tables in AllTokens.js */
+.theme-dark #allTokensTable td,
+.theme-dark #allTokensTable th,
+.theme-dark .all-tokens-table td,
+.theme-dark .all-tokens-table th {
+  color: var(--color-textPrimary) !important;
+}
+
+.theme-dark #allTokensTable a,
+.theme-dark .all-tokens-table a {
+  color: var(--color-link) !important;
+}
+
+/* Specific fixes for tables in DMT.js */
+.theme-dark #dmtTable td,
+.theme-dark #dmtTable th,
+.theme-dark .dmt-table td,
+.theme-dark .dmt-table th {
+  color: var(--color-textPrimary) !important;
+}
+
+.theme-dark #dmtTable .text-primary,
+.theme-dark .dmt-table .text-primary {
+  color: var(--color-primary) !important;
+}
+
+/* Fix any DataTables specific styling */
+.theme-dark .dataTables_wrapper .dataTables_length,
+.theme-dark .dataTables_wrapper .dataTables_filter,
+.theme-dark .dataTables_wrapper .dataTables_info,
+.theme-dark .dataTables_wrapper .dataTables_processing,
+.theme-dark .dataTables_wrapper .dataTables_paginate {
+  color: var(--color-textPrimary) !important;
+}
+
+.theme-dark .dataTables_wrapper .dataTables_paginate .paginate_button {
+  color: var(--color-textPrimary) !important;
+}
+
+.theme-dark .dataTables_wrapper .dataTables_paginate .paginate_button.current,
+.theme-dark .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+  color: var(--color-textLight) !important;
+  background: var(--color-primary) !important;
+  border-color: var(--color-primary) !important;
+}
+
+/* Fix for any text-truncate or ellipsis in tables */
+.theme-dark .text-truncate,
+.theme-dark td.text-truncate,
+.theme-dark .ellipsis {
+  color: var(--color-textPrimary) !important;
+}
+
+/* Additional fix for any custom badges or labels inside tables */
+.theme-dark table .badge,
+.theme-dark .table .badge {
+  color: var(--color-textLight) !important;
+}
+
+/* Fix for any icons in tables */
+.theme-dark table i,
+.theme-dark .table i,
+.theme-dark table svg,
+.theme-dark .table svg {
+  color: inherit !important;
+}
+
+/* Inscribe.js specific nav links styling for dark theme */
+.theme-dark .inscribe-nav,
+.theme-dark .inscribe-tabs,
+.theme-dark #inscribeNav,
+.theme-dark #inscribeTabs {
+  /* background-color: var(--color-cardBg) !important; */
+  border-color: var(--color-border) !important;
+}
+
+/* Inactive nav links */
+.theme-dark .inscribe-nav .nav-link,
+.theme-dark .inscribe-tabs .nav-link,
+.theme-dark #inscribeNav .nav-link,
+.theme-dark #inscribeTabs .nav-link {
+  color: var(--color-textPrimary) !important;
+  background-color: transparent !important;
+  border-color: transparent !important;
+}
+
+/* Hover state for nav links */
+.theme-dark .inscribe-nav .nav-link:hover,
+.theme-dark .inscribe-tabs .nav-link:hover,
+.theme-dark #inscribeNav .nav-link:hover,
+.theme-dark #inscribeTabs .nav-link:hover {
+  color: var(--color-primary) !important;
+  border-color: var(--color-border) !important;
+  background-color: rgba(13, 110, 253, 0.1) !important;
+}
+
+/* Active nav links */
+.theme-dark .inscribe-nav .nav-link.active,
+.theme-dark .inscribe-tabs .nav-link.active,
+.theme-dark #inscribeNav .nav-link.active,
+.theme-dark #inscribeTabs .nav-link.active,
+.theme-dark .inscribe-nav .nav-item.show .nav-link,
+.theme-dark .inscribe-tabs .nav-item.show .nav-link,
+.theme-dark #inscribeNav .nav-item.show .nav-link,
+.theme-dark #inscribeTabs .nav-item.show .nav-link {
+  color: var(--color-textLight) !important;
+  background-color: var(--color-primary) !important;
+  border-color: var(--color-primary) !important;
+}
+
+/* Tab content area */
+.theme-dark .inscribe-content,
+.theme-dark .tab-content,
+.theme-dark #inscribeContent,
+.theme-dark #inscribeTabContent {
+  background-color: var(--color-cardBg) !important;
+  color: var(--color-textPrimary) !important;
+  border-color: var(--color-border) !important;
+}
+
+/* Inscribe card content */
+.theme-dark .inscribe-card,
+.theme-dark .inscribe-card .card-header,
+.theme-dark .inscribe-card .card-body,
+.theme-dark .inscribe-card .card-footer {
+  background-color: var(--color-cardBg) !important;
+  color: var(--color-textPrimary) !important;
+  border-color: var(--color-border) !important;
+}
+
+/* Inscribe form elements */
+.theme-dark .inscribe-form .form-control,
+.theme-dark .inscribe-form .form-select,
+.theme-dark .inscribe-form .input-group-text {
+  background-color: var(--color-inputBg) !important;
+  color: var(--color-inputText) !important;
+  border-color: var(--color-inputBorder) !important;
+}
+
+.theme-dark .inscribe-form .form-label,
+.theme-dark .inscribe-form .form-text {
+  color: var(--color-textPrimary) !important;
+}
+
+/* Inscribe buttons */
+.theme-dark .inscribe-btn,
+.theme-dark .inscribe-form .btn {
+  color: var(--color-textLight) !important;
+}
+
+.theme-dark .inscribe-btn.btn-outline-primary,
+.theme-dark .inscribe-form .btn-outline-primary {
+  color: var(--color-primary) !important;
+  border-color: var(--color-primary) !important;
+}
+
+.theme-dark .inscribe-btn.btn-outline-primary:hover,
+.theme-dark .inscribe-form .btn-outline-primary:hover {
+  color: var(--color-textLight) !important;
+  background-color: var(--color-primary) !important;
+}
+
+/* Inscribe icons */
+.theme-dark .inscribe-icon,
+.theme-dark .inscribe-form i,
+.theme-dark .inscribe-card i {
+  color: var(--color-textPrimary) !important;
+}
+
+/* Nav pills specific to Inscribe component - more targeted for better specificity */
+.theme-dark #pills-tab-inscribe .nav-link,
+.theme-dark .inscribe-container .nav-pills .nav-link {
+  background-color: transparent !important;
+  color: var(--color-textPrimary) !important;
+}
+
+.theme-dark #pills-tab-inscribe .nav-link.active,
+.theme-dark .inscribe-container .nav-pills .nav-link.active {
+  background-color: var(--color-primary) !important;
+  color: var(--color-textLight) !important;
+}
+
+/* Handle any specific div containers or custom classes in Inscribe */
+.theme-dark .inscription-result,
+.theme-dark .inscription-status,
+.theme-dark .inscribe-steps,
+.theme-dark .inscribe-progress {
+  background-color: var(--color-cardBg) !important;
+  color: var(--color-textPrimary) !important;
+  border-color: var(--color-border) !important;
+}
+
+/* Buttons styling */
+.theme-dark .btn-primary {
+  background-color: #236476 !important;
+  border-color: #236476 !important;
+  color: var(--color-textPrimary) !important;
+}
+
+.theme-dark .btn-primary:hover,
+.theme-dark .btn-primary:focus {
+  background-color: #FFD662 !important;
+  border-color: #FFD662 !important;
+}
+
+.theme-dark .btn-outline-primary {
+  color: #236476 !important;
+  border-color: #236476 !important;
+}
+
+.theme-dark .btn-outline-primary:hover,
+.theme-dark .btn-outline-primary:focus {
+  background-color: #236476 !important;
+  color: var(--color-textPrimary) !important;
+}
+
+/* All other buttons that should use the gold color */
+.theme-dark .btn-info,
+.theme-dark .btn-success {
+  background-color: #236476 !important;
+  border-color: #236476 !important;
+  color: var(--color-textPrimary) !important;
+}
+
+/* Links */
+.theme-dark a {
+  color: #236476 !important;
+}
+
+.theme-dark a:hover,
+.theme-dark a:focus {
+  color: #FFD662 !important;
+}
+
+/* Nav pills and tabs */
+.theme-dark .nav-pills .nav-link.active,
+.theme-dark .nav-tabs .nav-link.active,
+.theme-dark .nav-pills .show > .nav-link {
+  background-color: #236476 !important;
+  color: var(--color-textPrimary) !important;
+  border-color: #236476 !important;
+}
+
+.theme-dark .nav-link:hover {
+  color: #236476 !important;
+}
+
+/* Progress bars */
+.theme-dark .progress-bar {
+  background-color: #236476 !important;
+}
+
+/* Apply to specific component navigation elements */
+.theme-dark #pills-tab .nav-link.active,
+.theme-dark #inscribeNav .nav-link.active,
+.theme-dark #inscribeTabs .nav-link.active,
+.theme-dark .nav-pills .nav-link.active,
+.theme-dark .inscribe-nav .nav-link.active,
+.theme-dark .inscribe-tabs .nav-link.active {
+  background-color: #236476 !important;
+  color: var(--color-textPrimary) !important;
+}
+
+/* Table headers */
+.theme-dark thead,
+.theme-dark .table thead,
+.theme-dark th,
+.theme-dark .table th,
+.theme-dark .table thead th {
+  background-color: #236476 !important;
+  color: var(--color-textPrimary) !important;
+}
+
+/* Focus states on inputs */
+.theme-dark .form-control:focus,
+.theme-dark .form-select:focus {
+  border-color: #236476 !important;
+  box-shadow: 0 0 0 0.25rem rgba(218, 170, 35, 0.25) !important;
+}
+
+/* Badge elements */
+.theme-dark .badge-primary,
+.theme-dark .bg-primary {
+  background-color: #236476 !important;
+  color: var(--color-textPrimary) !important;
+}
+
+/* Alert elements */
+.theme-dark .alert-primary {
+  background-color: rgba(218, 170, 35, 0.2) !important;
+  border-color: rgba(218, 170, 35, 0.3) !important;
+  color: #236476 !important;
+}
+
+/* Text highlights */
+.theme-dark .text-primary {
+  color: #236476 !important;
+}
+
+/* Card headers that use primary color */
+.theme-dark .card-header-primary {
+  background-color: #236476 !important;
+  color: var(--color-textPrimary) !important;
+}
+
+/* Spinner/loader */
+.theme-dark .spinner-border {
+  color: #236476 !important;
+}
+
+.theme-dark .spinner {
+  color: var(--color-textLight) !important;
+}
+
+/* Dropdown menus */
+.theme-dark .dropdown-item.active,
+.theme-dark .dropdown-item:active {
+  background-color: #236476 !important;
+  color: var(--color-textPrimary) !important;
+}
+
+/* Pagination */
+.theme-dark .page-item.active .page-link {
+  background-color: #236476 !important;
+  border-color: #236476 !important;
+  color: var(--color-textPrimary) !important;
+}
+
+.theme-dark .page-link {
+  color: #236476 !important;
+}
+
+.theme-dark .page-link:hover {
+  color: var(--color-textPrimary) !important;
+  background-color: #236476 !important;
+  border-color: #236476 !important;
+}
+
+/* List groups */
+.theme-dark .list-group-item.active {
+  background-color: #236476 !important;
+  border-color: #236476 !important;
+  color: var(--color-textPrimary) !important;
+}
+
+/* Form check elements (checkboxes, radios) */
+.theme-dark .form-check-input:checked {
+  background-color: #236476 !important;
+  border-color: #236476 !important;
+}
+
+/* Button groups */
+.theme-dark .btn-group .btn-primary {
+  background-color: #236476 !important;
+  border-color: #236476 !important;
+}
+
+/* Any component-specific button styles */
+.theme-dark .mint-button,
+.theme-dark .inscribe-btn,
+.theme-dark .action-button {
+  background-color: #236476 !important;
+  border-color: #236476 !important;
+  color: var(--color-textPrimary) !important;
+}
+
+/* Toasts/notifications if present */
+.theme-dark .toast-header {
+  background-color: rgba(218, 170, 35, 0.2) !important;
+  color: #236476 !important;
+}
+
+/* Update hover colors for better visual hierarchy in dark theme */
+
+/* Button hover states */
+.theme-dark .btn-primary:hover,
+.theme-dark .btn-primary:focus,
+.theme-dark .btn-primary:active {
+  background-color: var(--color-hover) !important;
+  border-color: var(--color-hover) !important;
+}
+
+.theme-dark .btn-outline-primary:hover,
+.theme-dark .btn-outline-primary:focus,
+.theme-dark .btn-outline-primary:active {
+  background-color: var(--color-hover) !important;
+  border-color: var(--color-hover) !important;
+  color: var(--color-textLight) !important;
+}
+
+/* Other buttons hover states */
+.theme-dark .btn-info:hover,
+.theme-dark .btn-info:focus,
+.theme-dark .btn-success:hover,
+.theme-dark .btn-success:focus,
+.theme-dark .btn:hover,
+.theme-dark .btn:focus {
+  background-color: var(--color-hover) !important;
+  border-color: var(--color-hover) !important;
+}
+
+/* Link hover states */
+.theme-dark a:hover,
+.theme-dark a:focus {
+  color: var(--color-hover) !important;
+  text-decoration: none;
+}
+
+/* Nav element hover states */
+.theme-dark .nav-link:hover,
+.theme-dark .nav-link:focus {
+  color: var(--color-hover) !important;
+}
+
+/* Dropdown item hover */
+.theme-dark .dropdown-item:hover,
+.theme-dark .dropdown-item:focus {
+  background-color: rgba(183, 140, 27, 0.2) !important;
+  color: var(--color-hover) !important;
+}
+
+/* List group item hover */
+.theme-dark .list-group-item-action:hover,
+.theme-dark .list-group-item-action:focus {
+  background-color: rgba(183, 140, 27, 0.1) !important;
+  color: var(--color-hover) !important;
+}
+
+/* Pagination hover */
+.theme-dark .page-link:hover,
+.theme-dark .page-link:focus {
+  background-color: var(--color-hover) !important;
+  border-color: var(--color-hover) !important;
+}
+
+/* Component-specific button hover states */
+.theme-dark .mint-button:hover,
+.theme-dark .mint-button:focus,
+.theme-dark .inscribe-btn:hover,
+.theme-dark .inscribe-btn:focus,
+.theme-dark .action-button:hover,
+.theme-dark .action-button:focus {
+  background-color: var(--color-hover) !important;
+  border-color: var(--color-hover) !important;
+}
+
+/* Add transition for smooth hover effects */
+.theme-dark button,
+.theme-dark .btn,
+.theme-dark a,
+.theme-dark .nav-link {
+  transition: all 0.2s ease-in-out !important;
+}
+
+/* Active/focus states for buttons - even darker shade for "pressed" effect */
+.theme-dark .btn-primary:active,
+.theme-dark .btn-primary.active,
+.theme-dark .btn-primary:active:focus {
+  background-color: var(--color-active) !important;
+  border-color: var(--color-active) !important;
+}
+
+/* Focus rings with gold color */
+.theme-dark .btn:focus,
+.theme-dark a:focus,
+.theme-dark .form-control:focus {
+  box-shadow: 0 0 0 0.25rem rgba(218, 170, 35, 0.25) !important;
+}
+
+/* Dark theme styling for alerts */
+.theme-dark .alert-info {
+  background-color: rgba(35, 100, 118, 0.2) !important;
+  color: var(--color-textPrimary) !important;
+  border-color: rgba(35, 100, 118, 0.4) !important;
+}
+
+.theme-dark .alert-success {
+  background-color: rgba(25, 135, 84, 0.2) !important;
+  color: var(--color-textPrimary) !important;
+  border-color: rgba(25, 135, 84, 0.4) !important;
+}
+
+.theme-dark .alert-warning {
+  background-color: rgba(255, 193, 7, 0.2) !important;
+  color: var(--color-textPrimary) !important;
+  border-color: rgba(255, 193, 7, 0.4) !important;
+}
+
+.theme-dark .alert-danger {
+  background-color: rgba(220, 53, 69, 0.2) !important;
+  color: var(--color-textPrimary) !important;
+  border-color: rgba(220, 53, 69, 0.4) !important;
+}
+
+/* Add a subtle icon color to maintain the alert type visibility */
+.theme-dark .alert-info::before {
+  color: #236476 !important;
+}
+
+.theme-dark .alert-success::before {
+  color: #198754 !important;
+}
+
+.theme-dark .alert-warning::before {
+  color: #ffc107 !important;
+}
+
+.theme-dark .alert-danger::before {
+  color: #dc3545 !important;
+}
+
+/* Dark theme styling for the Last Synced Block element */
+.theme-dark .text-muted {
+  color: #a0a0a0 !important; /* Lighter gray for better visibility in dark mode */
+}
+
+.theme-dark .text-muted .fw-bold {
+  color: #ffffff !important; /* White text for the block number to stand out */
+  font-weight: 600 !important; /* Slightly bolder for better visibility */
+}
+
+/* Add a subtle highlight for the block info container */
+.theme-dark .bg-light {
+  background-color: rgba(35, 100, 118, 0.1) !important; /* Subtle teal background */
+  border: 1px solid rgba(35, 100, 118, 0.2) !important; /* Subtle teal border */
+}
+
+/* Style the blinking indicator in dark mode */
+.theme-dark .bg-success {
+  background-color: #236476 !important; /* Use the teal color for the indicator */
+  box-shadow: 0 0 5px rgba(35, 100, 118, 0.7); /* Add a subtle glow effect */
+}
+
+/* Wallet Modal Styles */
+.wallet-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1050;
+}
+
+.wallet-modal {
+  background-color: var(--color-background);
+  border-radius: 8px;
+  width: 100%;
+  max-width: 450px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  position: relative;
+  z-index: 1051;
+}
+
+.wallet-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.wallet-modal-body {
+  padding: 1rem;
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+/* Make sure the WalletConnect component looks good in the modal */
+.wallet-modal .card {
+  border: none;
+  box-shadow: none;
+  margin: 0;
+}
+
+.wallet-modal .card-body {
+  padding: 0;
+}
+
+/* Wallet Dropdown Styles */
+.wallet-container {
+  position: relative;
+  display: inline-block;
+}
+
+.wallet-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  width: 350px;
+  background-color: var(--color-background, #ffffff);
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  z-index: 1050;
+  margin-top: 10px;
+  overflow: hidden;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+/* Add a small triangle/arrow pointing to the button */
+.wallet-dropdown::before {
+  content: '';
+  position: absolute;
+  top: -10px;
+  right: 20px;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 10px solid var(--color-background, #ffffff);
+  z-index: 1051;
+}
+
+.wallet-dropdown-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid var(--color-border, #e5e5e5);
+}
+
+.wallet-dropdown-body {
+  padding: 1rem;
+}
+
+/* Make sure the WalletConnect component looks good in the dropdown */
+.wallet-dropdown .card {
+  border: none;
+  box-shadow: none;
+  margin: 0;
+}
+
+.wallet-dropdown .card-body {
+  padding: 0;
+}
+
+/* Wallet Details Styling */
+.wallet-container {
+  background: #1a1a1a;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  padding: 1.5rem;
+  max-width: 500px;
+  margin: 0 auto;
+  position: relative;
+  color: #f0f0f0;
+}
+
+.wallet-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.address-section {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.address {
+  font-family: monospace;
+  font-size: 1rem;
+  background: #333;
+  padding: 0.5rem 0.75rem;
+  border-radius: 4px;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.icon-button {
+  background: #333;
+  border: none;
+  color: #f0f0f0;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.icon-button:hover {
+  background: #444;
+  color: #f7931a;
+}
+
+.spinning {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.options-menu {
+  position: absolute;
+  top: 4rem;
+  right: 1.5rem;
+  background: #222;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  z-index: 100;
+  min-width: 200px;
+  overflow: hidden;
+}
+
+.options-menu button {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: none;
+  border: none;
+  color: #f0f0f0;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.options-menu button:hover {
+  background: #333;
+}
+
+.options-menu button i {
+  width: 20px;
+  text-align: center;
+}
+
+.disconnect-button {
+  color: #ff6b6b !important;
+  border-top: 1px solid #333;
+}
+
+.secret-section {
+  background: #222;
+  padding: 1rem;
+  border-radius: 6px;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.secret-section h4 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  color: #f0f0f0;
+}
+
+.secret-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.secret-value {
+  flex: 1;
+  font-family: monospace;
+  word-break: break-all;
+  background: #333;
+  padding: 0.75rem;
+  border-radius: 4px;
+}
+
+.warning-text {
+  color: #ff6b6b;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0;
+}
+
+.balance-section {
+  background: #222;
+  padding: 1rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+}
+
+.balance-title {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  color: #f0f0f0;
+  font-size: 1.25rem;
+}
+
+.balance-amount {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #f7931a;
+}
+
+.tokens-section {
+  background: #222;
+  padding: 1rem;
+  border-radius: 6px;
+}
+
+.tokens-title {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: #f0f0f0;
+  font-size: 1.25rem;
+}
+
+.tokens-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.token-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem;
+  background: #333;
+  border-radius: 4px;
+}
+
+.token-name {
+  font-weight: 500;
+}
+
+.token-balance {
+  font-family: monospace;
+}
+
+.no-tokens {
+  color: #999;
+  text-align: center;
+  padding: 1rem;
+}
+
+.loading-indicator {
+  color: #999;
+  text-align: center;
+  padding: 0.5rem;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: #1a1a1a;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid #333;
+}
+
+.modal-header h3 {
+  margin: 0;
+  color: #f0f0f0;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  color: #999;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.close-button:hover {
+  color: #f7931a;
+}
+
+.modal-body {
+  padding: 1.5rem;
+}
+
+.input-group {
+  margin-bottom: 1rem;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #ccc;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 6px;
+  border: 1px solid #444;
+  background: #222;
+  color: #f0f0f0;
+}
+
+.input-group input:focus {
+  outline: none;
+  border-color: #f7931a;
+}
+
+.modal-footer {
+  padding: 1rem 1.5rem;
+  border-top: 1px solid #333;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.send-button {
+  background: #f7931a;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.send-button:hover {
+  background: #e67e00;
+}
+
+.send-button:disabled {
+  background: #666;
+  cursor: not-allowed;
+}
+
+.copy-status {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #f0f0f0;
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  z-index: 1000;
+  animation: fadeIn 0.3s, fadeOut 0.3s 2.7s;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(10px);
   }
 }
