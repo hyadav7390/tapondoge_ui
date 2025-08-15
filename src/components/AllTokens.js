@@ -1,135 +1,87 @@
-import { useEffect, useState, useCallback, memo, useRef } from 'react';
-import { getCurrentBlock, getDayTokens, getDeploymentsLength, getStatsResponse, getDeployments, getDogePrice } from './../utils/service.js';
-import { Constants } from '@/utils/constants.js';
-import { useLoader } from '@/contexts/LoaderContext.js';
-import { useRouter } from 'next/router.js';
-import { formatAmericanStyle, formatCurrency } from '@/utils/formatters';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { useRouter } from 'next/router';
+import { useLoader } from '@/contexts/LoaderContext';
+import { toast } from 'react-hot-toast';
+import { formatNumber, formatCurrency, formatAddress } from '@/utils/formatters';
+import { 
+    getDeployments, 
+    getDeploymentsLength, 
+    getDayTokens, 
+    getStatsResponse, 
+    getDogePrice,
+    getCurrentBlock
+} from '@/utils/service';
 
-const AllTokens = memo(() => {
-
-    const [searchTerm, setSearchTerm] = useState('');
-    const [currentPage, setCurrentPage] = useState(1);
-    const rowsPerPage = 20;
-    const [currentBlock, setCurrentBlock] = useState(null);
-    const [error, setError] = useState(null);
-    const [tokens, setTokens] = useState([]);
-    const [totalTokens, setTotalTokens] = useState(0);
-    const [totalPages, setTotalPages] = useState(0);
-    const [isDataLoaded, setIsDataLoaded] = useState(false);
-    const [rawTokenData, setRawTokenData] = useState([]);
-    const [dogecoinPrice, setDogecoinPrice] = useState(0);
-
-    // Flag to prevent duplicate API calls
-    const isLoadingRef = useRef(false);
-
+export default function AllTokens() {
     const router = useRouter();
     const { showLoader, hideLoader } = useLoader();
+    const isLoadingRef = useRef(false);
+    const [isDataLoaded, setIsDataLoaded] = useState(false);
+    
+    // State for tokens and pagination
+    const [tokens, setTokens] = useState([]);
+    const [rawTokenData, setRawTokenData] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+    const [totalTokens, setTotalTokens] = useState(0);
+    const [rowsPerPage] = useState(20);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [error, setError] = useState(null);
+    const [lastSyncedBlock, setLastSyncedBlock] = useState('');
 
-    // Fetch Dogecoin price
-    const fetchDogePrice = useCallback(async () => {
-        try {
-            const response = await getDogePrice();
-            if (response && response.dogecoin && response.dogecoin.usd) {
-                setDogecoinPrice(response.dogecoin.usd);
-            } else {
-                console.error("Invalid Dogecoin price response:", response);
-            }
-        } catch (error) {
-            console.error("Error fetching Dogecoin price:", error);
-        }
-    }, []);
-
-    // Set up price refresh interval
-    useEffect(() => {
-        fetchDogePrice(); // Fetch price immediately
-
-        // Refresh price every minute
-        // const priceInterval = setInterval(fetchDogePrice, 60000);
-
-        // return () => clearInterval(priceInterval);
-    }, [fetchDogePrice]);
-
-    const navigateToToken = useCallback((token) => {
-        router.push(`/listings?token=${token.tick}`, undefined, { shallow: true });
-    }, [router]);
-
-    // Fetch current block info
+    // Fetch current block
     const fetchCurrentBlock = useCallback(async () => {
         try {
-            const result = await getCurrentBlock();
-            setCurrentBlock(result.result);
-        } catch (err) {
-            setError(err);
+            const response = await getCurrentBlock();
+            setLastSyncedBlock(response.result || 'N/A');
+        } catch (error) {
+            console.error('Error fetching current block:', error);
+            setLastSyncedBlock('Error');
         }
     }, []);
 
-    // Format large numbers
-    const formatNumber = (num) => {
-        if (num === undefined || num === null || isNaN(num)) return '0.00';
-        return num.toLocaleString('en-US', { maximumFractionDigits: 2 });
-    };
-
-    // Process and update tokens in state - separate from data fetching
+    // Process tokens data
     const processTokensData = useCallback((tokenArr) => {
-        if (!tokenArr || tokenArr.length === 0) return;
+        if (!Array.isArray(tokenArr)) {
+            console.error('processTokensData: tokenArr is not an array', tokenArr);
+            return;
+        }
 
         const processedTokens = tokenArr.map((token) => {
-            if (!token) return null;
-
-            // Calculate market cap - explicitly check for null/undefined, not just falsy values
-            let marketCap = '$0.00';
-
-            const hasMax = token.max !== undefined && token.max !== null;
-            const hasPrice = token.lastSoldPrice !== undefined && token.lastSoldPrice !== null;
-            const hasDogecoinPrice = dogecoinPrice !== undefined && dogecoinPrice !== null;
-
-            const maxValue = token.max || 0;
-            const lastPrice = token.lastSoldPrice || 0;
-            const dogePriceValue = dogecoinPrice || 0;
-
-            const marketCapInToken = (maxValue / 1e18) * lastPrice;
-            const marketCapVal = marketCapInToken * dogePriceValue;
-
-            // Even if calculated value is 0, display formatted value
-            marketCap = marketCapVal;
+            if (!token || !token.tick) return null;
 
             return {
-                ...token,
-                marketCap
+                tick: token.tick,
+                floor: token.floor || '0',
+                dayVolume: token.dayVolume || '0',
+                totalVolume: token.totalVolume || '0',
+                marketCap: token.marketCap || '0',
+                holders: token.holders || '0',
+                supply: token.supply || '0',
+                isOfficial: token.tick === 'tap'
             };
-        });
+        }).filter(Boolean);
 
-        setTokens(processedTokens.filter((token) => token !== null));
-    }, [dogecoinPrice]);
+        setTokens(processedTokens);
+    }, []);
 
-    // Recalculate market caps when dogecoinPrice changes
-    useEffect(() => {
-        if (rawTokenData.length > 0) {
-            processTokensData(rawTokenData);
-        }
-    }, [dogecoinPrice, processTokensData, rawTokenData]);
-
-    // Fetch and process all tokens
-    const getAllTokens = useCallback(async (page) => {
-        // Prevent duplicate API calls
+    // Get all tokens with pagination
+    const getAllTokens = useCallback(async (page = 1) => {
         if (isLoadingRef.current) return;
+        
+        isLoadingRef.current = true;
+        showLoader();
+        setError(null);
 
         try {
-            isLoadingRef.current = true;
-            showLoader();
-
-            const offset = (page - 1) * rowsPerPage;
-
-            // Fetch deployments for this specific page
+            const offset = page === 1 ? 0 : (page - 1) * rowsPerPage;
+            
+            // Get page-specific deployments
             const deploymentsResponse = await getDeployments(offset, rowsPerPage);
             if (!deploymentsResponse || !deploymentsResponse.result) {
-                console.error("Invalid deployments response:", deploymentsResponse);
-                hideLoader();
-                isLoadingRef.current = false;
-                return;
+                throw new Error('Invalid deployments response');
             }
 
-            // Get page-specific deployments
             const pageTokens = deploymentsResponse.result;
 
             // Get total tokens count for pagination
@@ -167,6 +119,8 @@ const AllTokens = memo(() => {
             setIsDataLoaded(true);
         } catch (error) {
             console.error("Error fetching tokens:", error);
+            setError(error.message || 'Failed to fetch tokens');
+            toast.error('Failed to fetch tokens. Please try again later.');
         } finally {
             hideLoader();
             isLoadingRef.current = false;
@@ -175,12 +129,10 @@ const AllTokens = memo(() => {
 
     // Handle page change
     const handlePageChange = useCallback((page) => {
-        console.log(`Page change requested to: ${page}`);
-        if (page >= 1 && page <= totalPages) {
-            setCurrentPage(page); // Update the page state first
-            getAllTokens(page); // Then fetch data for the new page
+        if (page >= 1 && page <= totalPages && page !== currentPage) {
+            getAllTokens(page);
         }
-    }, [getAllTokens, totalPages]);
+    }, [getAllTokens, totalPages, currentPage]);
 
     // Initial data loading - only fetch current block
     useEffect(() => {
@@ -192,18 +144,18 @@ const AllTokens = memo(() => {
         if (!isDataLoaded && !isLoadingRef.current) {
             getAllTokens(1);
         }
-    }, [getAllTokens, isDataLoaded]);
+    }, []); // Empty dependency array to run only once
 
     // Handle URL changes for pagination
     useEffect(() => {
         const { page } = router.query;
-        if (page && !isLoadingRef.current) {
+        if (page && !isLoadingRef.current && isDataLoaded) {
             const pageNumber = Number(page);
             if (pageNumber >= 1 && pageNumber <= totalPages && pageNumber !== currentPage) {
                 getAllTokens(pageNumber);
             }
         }
-    }, [router.query, getAllTokens, totalPages, currentPage]);
+    }, [router.query, totalPages, currentPage, isDataLoaded]);
 
     // Filter tokens based on search term
     const filteredTokens = tokens.filter((token) =>
@@ -222,37 +174,35 @@ const AllTokens = memo(() => {
     endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);
 
     if (error) {
-        return <div>Error: {error.message}</div>;
+        return (
+            <div className="alert alert-danger">
+                <i className="fas fa-exclamation-circle me-2"></i>
+                Error: {error}
+            </div>
+        );
     }
 
     return (
         <>
-            {/* Block Info */}
+            {/* Last Synced Block */}
             <div className="bg-light py-2 px-3 mb-4 rounded d-flex align-items-center justify-content-between">
                 <span className="text-muted">
-                    Last Synced Block: <span className="fw-bold">{currentBlock}</span>
+                    Last Synced Block: <span className="fw-bold">{lastSyncedBlock}</span>
                 </span>
-                <div
-                    className="rounded-circle bg-success"
+                <div 
                     style={{
                         width: '8px',
                         height: '8px',
                         animation: 'blink 1s ease-in-out infinite',
-                        WebkitAnimation: 'blink 1s ease-in-out infinite',
                         opacity: 1
-                    }}
-                />
-                <style jsx>{`
-                    @keyframes blink {
-                        0% { opacity: 0; }
-                        50% { opacity: 1; }
-                        100% { opacity: 0; }
-                    }
-                `}</style>
+                    }} 
+                    className="rounded-circle bg-success"
+                ></div>
             </div>
 
-            {/* Header and Search */}
             <h2>All Tokens</h2>
+
+            {/* Search */}
             <div className="mb-4">
                 <input
                     type="search"
@@ -264,7 +214,7 @@ const AllTokens = memo(() => {
                 />
             </div>
 
-            {/* Token Table */}
+            {/* Tokens Table */}
             <div className="table-responsive">
                 <table className="table table-hover">
                     <thead>
@@ -280,17 +230,29 @@ const AllTokens = memo(() => {
                     <tbody>
                         {filteredTokens.length > 0 ? (
                             filteredTokens.map((token, index) => (
-                                <tr key={index}>
-                                    <td>{token.tick}</td>
-                                    <td>{token.floor}</td>
-                                    <td>{token.dayVolume}</td>
-                                    <td>{token.totalVolume}</td>
-                                    <td>{formatCurrency(token.marketCap || 0)}</td>
+                                <tr key={`${token.tick}-${index}`} style={{ cursor: 'pointer' }}>
                                     <td>
-                                        <button
-                                            type="button"
-                                            className="btn btn-primary btn-sm"
-                                            onClick={() => navigateToToken(token)}
+                                        <div className="d-flex align-items-center">
+                                            {token.tick}
+                                            {token.isOfficial && (
+                                                <img 
+                                                    src="/verify.png" 
+                                                    alt="verified" 
+                                                    className="ms-1" 
+                                                    width="20" 
+                                                    title="Official Token"
+                                                />
+                                            )}
+                                        </div>
+                                    </td>
+                                    <td>{token.floor || '0'}</td>
+                                    <td>{token.dayVolume || '0'}</td>
+                                    <td>{token.totalVolume || '0'}</td>
+                                    <td>{token.marketCap || '0'}</td>
+                                    <td>
+                                        <button 
+                                            className="btn btn-sm btn-primary"
+                                            onClick={() => router.push(`/trade?tick=${encodeURIComponent(token.tick)}`)}
                                         >
                                             Trade
                                         </button>
@@ -299,7 +261,12 @@ const AllTokens = memo(() => {
                             ))
                         ) : (
                             <tr>
-                                <td colSpan="6" className="text-center">No tokens found</td>
+                                <td colSpan="6" className="text-center">
+                                    <div className="alert alert-info mb-0">
+                                        <i className="fas fa-info-circle me-2"></i>
+                                        {searchTerm ? 'No tokens found matching your search' : 'No tokens found'}
+                                    </div>
+                                </td>
                             </tr>
                         )}
                     </tbody>
@@ -308,41 +275,32 @@ const AllTokens = memo(() => {
 
             {/* Pagination */}
             {totalPages > 1 && (
-                <nav aria-label="Table pagination">
+                <nav aria-label="Token pagination">
                     <ul className="pagination justify-content-center">
                         <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
-                            <button
-                                type="button"
-                                className="page-link"
+                            <button 
+                                className="page-link" 
                                 onClick={() => handlePageChange(currentPage - 1)}
                                 disabled={currentPage === 1}
                             >
                                 Previous
                             </button>
                         </li>
-
-                        {[...Array(endPage - startPage + 1)].map((_, index) => {
-                            const pageIndex = startPage + index;
-                            return (
-                                <li
-                                    key={pageIndex}
-                                    className={`page-item pagination-overflow ${currentPage === pageIndex ? 'active' : ''}`}
+                        
+                        {Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i).map((page) => (
+                            <li key={page} className={`page-item ${page === currentPage ? 'active' : ''}`}>
+                                <button 
+                                    className="page-link" 
+                                    onClick={() => handlePageChange(page)}
                                 >
-                                    <button
-                                        type="button"
-                                        className="page-link"
-                                        onClick={() => handlePageChange(pageIndex)}
-                                    >
-                                        {pageIndex}
-                                    </button>
-                                </li>
-                            );
-                        })}
-
+                                    {page}
+                                </button>
+                            </li>
+                        ))}
+                        
                         <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
-                            <button
-                                type="button"
-                                className="page-link"
+                            <button 
+                                className="page-link" 
                                 onClick={() => handlePageChange(currentPage + 1)}
                                 disabled={currentPage === totalPages}
                             >
@@ -352,10 +310,13 @@ const AllTokens = memo(() => {
                     </ul>
                 </nav>
             )}
+
+            {/* Results info */}
+            {totalTokens > 0 && (
+                <div className="text-center text-muted mt-3">
+                    Showing {((currentPage - 1) * rowsPerPage) + 1} to {Math.min(currentPage * rowsPerPage, totalTokens)} of {totalTokens} tokens
+                </div>
+            )}
         </>
     );
-});
-
-AllTokens.displayName = 'AllTokens';
-
-export default AllTokens;
+}

@@ -7,10 +7,9 @@ const apiClient = axios.create({
   timeout: 10000, // Set a timeout for requests
 });
 
-
 export const getCurrentBlock = async () => {
   try {
-    const response = await apiClient.get(`${Constants.BASE_API_URL}/getCurrentBlock`);
+    const response = await axios.get(`/api/tap/getCurrentBlock`);
     return response.data;
   } catch (error) {
     console.error("Error fetching data:", error);
@@ -20,7 +19,7 @@ export const getCurrentBlock = async () => {
 
 export const getBestBlockHash = async () => {
   try {
-    const response = await apiClient.get(`${Constants.API_BASE_URL}/wallet/bestblock`);
+    const response = await axios.get(`/api/tapondoge/wallet/bestblock`);
     return response.data;
   } catch (error) {
     console.error("Error fetching data:", error);
@@ -28,13 +27,10 @@ export const getBestBlockHash = async () => {
   }
 };
 
-
-
 export const getDogePrice = async () => {
   try {
-    // const response = await apiClient.get('https://api.coingecko.com/api/v3/simple/price?ids=dogecoin&vs_currencies=usd');
-    // return response.data;
-    return { "dogecoin": { "usd": 0.178595 } };
+    const response = await axios.get(`${Constants.COINGECKO_API_URL}/simple/price?ids=dogecoin&vs_currencies=usd`);
+    return response.data;
   } catch (error) {
     console.error("Error fetching doge price:", error);
     throw error;
@@ -43,7 +39,7 @@ export const getDogePrice = async () => {
 
 export const getDayTokens = async () => {
   try {
-    const response = await apiClient.get(`${Constants.API_BASE_URL}/token/stats/day`);
+    const response = await axios.get(`/api/tapondoge/token/stats/day`);
     return response.data;
   } catch (error) {
     console.error("Error fetching day tokens:", error);
@@ -53,7 +49,7 @@ export const getDayTokens = async () => {
 
 export const getDeploymentsLength = async () => {
   try {
-    const response = await apiClient.get(`${Constants.BASE_API_URL}/getDeploymentsLength`);
+    const response = await axios.get(`/api/tap/getDeploymentsLength`);
     return response.data;
   } catch (error) {
     console.error("Error fetching deployments length:", error);
@@ -63,7 +59,7 @@ export const getDeploymentsLength = async () => {
 
 export const getDeployments = async (offset, limit) => {
   try {
-    const response = await apiClient.get(`${Constants.BASE_API_URL}/getDeployments?offset=${offset}&max=${limit}`);
+    const response = await axios.get(`/api/tap/getDeployments?offset=${offset}&max=${limit}`);
     return response.data;
   } catch (error) {
     console.error("Error fetching deployments:", error);
@@ -73,7 +69,7 @@ export const getDeployments = async (offset, limit) => {
 
 export const getStatsResponse = async (body) => {
   try {
-    const response = await apiClient.post(`${Constants.API_BASE_URL}/token/stats/multi`, body);
+    const response = await axios.post(`/api/tod/token/stats/multi`, body);
     return response.data;
   } catch (error) {
     console.error("Error in getStatsResponse:", error);
@@ -83,7 +79,7 @@ export const getStatsResponse = async (body) => {
 
 export const getTokensBalance = async (address) => {
   try {
-    const response = await apiClient.get(`${Constants.BASE_API_URL}/getAccountTokensBalance/${address}`);
+    const response = await axios.get(`/api/tap/getAccountTokensBalance/${address}`);
     return response.data;
   } catch (error) {
     console.error("Error in getTokensBalance:", error);
@@ -93,107 +89,42 @@ export const getTokensBalance = async (address) => {
 
 export const getMintTokensLeft = async (token) => {
   try {
-    const response = await apiClient.get(`${Constants.BASE_API_URL}/getMintTokensLeft/${token}`);
+    const response = await axios.get(`/api/tap/getMintTokensLeft/${token}`);
     return response.data;
   } catch (error) {
     console.log('Error in getMintTokensLeft', error);
-  }
-}
-
-export const getAccountBlockedTransferables = async (address) => {
-  try {
-    const response = await apiClient.get(`${Constants.BASE_API_URL}/getAccountBlockedTransferables/${address}`);
-    return response.data;
-  } catch (error) {
-    console.error('Error fetching blocked transferables:', error);
     throw error;
   }
 }
 
 export const callSoChainForData = async (address) => {
   try {
-    const response = await axios.post(`${Constants.API_BASE_URL}/wallet/utxos`, {
+    const response = await axios.post(`/api/tapondoge/wallet/utxos`, {
       address: address
     });
     return response.data;
   } catch (error) {
-    if (error.response?.status === 500) {
-      console.warn('SoChain API returned 500 error');
-      // Return empty outputs to prevent UI break
-      return {
-        data: {
-          data: {
-            outputs: []
-          }
-        }
-      };
-    }
-    throw error; // Re-throw other errors
-  }
-};
-
-// Get token listings
-export const getTokenListings = async (tick) => {
-  try {
-    const response = await axios.get(`${Constants.API_BASE_URL}/token/list/all/${tick}`);
-    return response.data.response;
-  } catch (error) {
-    console.error('Error fetching token listings:', error);
+    console.error("Error in callSoChainForData:", error);
     throw error;
   }
 };
 
-// Get token stats
-export const getTokenStats = async (tick) => {
+export const getAccountBlockedTransferables = async (address) => {
   try {
-    const response = await axios.get(`${Constants.API_BASE_URL}/token/stats/${tick}`);
-    return response.data.response;
-  } catch (error) {
-    console.error('Error fetching token stats:', error);
-    throw error;
-  }
-};
-
-// Get token holders count
-export const getTokenHolders = async (tick) => {
-  try {
-    const response = await axios.get(`${Constants.BASE_API_URL}/getHoldersLength/${tick}`);
-    return response.data.result;
-  } catch (error) {
-    console.error('Error fetching token holders:', error);
-    throw error;
-  }
-};
-
-// Get token deployment info
-export const getTokenDeployment = async (tick) => {
-  try {
-    const response = await axios.get(`${Constants.BASE_API_URL}/getDeployment/${tick}`);
-    return response.data.result;
-  } catch (error) {
-    console.error('Error fetching token deployment:', error);
-    throw error;
-  }
-};
-
-// Get token activity
-export const getTokenActivity = async (tick, page = 1, limit = 10) => {
-  try {
-    const response = await axios.get(`${Constants.API_BASE_URL}/token/activity/${tick}?page=${page}&limit=${limit}`);
+    const response = await axios.get(`/api/tap/getAccountBlockedTransferables/${address}`);
     return response.data;
   } catch (error) {
-    console.error('Error fetching token activity:', error);
+    console.error("Error in getAccountBlockedTransferables:", error);
     throw error;
   }
 };
 
-// Buy token
-export const buyToken = async (inscriptionId) => {
+export const inscribe = async (data) => {
   try {
-    const response = await axios.post(`${Constants.API_BASE_URL}/token/buy`, { inscriptionId });
-    return response.data;
+    const response = await axios.post(`/api/tapondoge/wallet/inscribe`, data);
+    return response;
   } catch (error) {
-    console.error('Error buying token:', error);
+    console.error("Error in inscribe:", error);
     throw error;
   }
 };

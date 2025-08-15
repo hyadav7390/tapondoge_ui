@@ -1,40 +1,89 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
+# Tap on Doge UI
 
-## Getting Started
+A modern React-based UI for the Tap on Doge platform, built with Next.js and TailwindCSS.
 
-First, run the development server:
+## Features
 
+- Wallet connection and management
+- Token listing with pagination
+- Token balance checking
+- Token inscription (mint, deploy, transfer)
+- DMT token support
+- Recent token deployments
+- Transaction history
+- Price tracking with DOGE/USD conversion
+
+## Prerequisites
+
+- Node.js 18.x or later
+- npm or yarn
+
+## Setup
+
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/tapondoge_ui.git
+cd tapondoge_ui
+```
+
+2. Install dependencies:
+```bash
+npm install
+# or
+yarn install
+```
+
+3. Create a `.env.local` file in the root directory with the following content:
+```env
+NEXT_PUBLIC_API_URL=https://api.tapondoge.com
+```
+
+4. Start the development server:
 ```bash
 npm run dev
 # or
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+5. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+## Project Structure
 
-[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+```
+src/
+├── components/     # React components
+├── contexts/      # React contexts
+├── pages/         # Next.js pages
+├── services/      # API services
+├── styles/        # Global styles and CSS modules
+├── utils/         # Utility functions
+└── types/         # TypeScript type definitions
+```
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) instead of React pages.
+## Available Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run start` - Start production server
+- `npm run lint` - Run ESLint
 
-## Learn More
+## Technologies Used
 
-To learn more about Next.js, take a look at the following resources:
+- [Next.js](https://nextjs.org/) - React framework
+- [TailwindCSS](https://tailwindcss.com/) - CSS framework
+- [React Hot Toast](https://react-hot-toast.com/) - Toast notifications
+- [Bitcore](https://bitcore.io/) - Bitcoin/Dogecoin library
+- [Axios](https://axios-http.com/) - HTTP client
+- [FontAwesome](https://fontawesome.com/) - Icons
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn-pages-router) - an interactive Next.js tutorial.
+## Contributing
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-## Deploy on Vercel
+## License
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying) for more details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

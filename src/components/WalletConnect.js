@@ -26,6 +26,7 @@ export default function WalletConnect({ onConnected }) {
     const [walletBalance, setWalletBalance] = useState(null);
     const [tokensBalance, setTokensBalance] = useState([]);
     const [selectedToken, setSelectedToken] = useState(null);
+    const [showQR, setShowQR] = useState(false);
 
     // Ref for dropdown menu
     const optionsRef = useRef(null);
@@ -323,7 +324,25 @@ export default function WalletConnect({ onConnected }) {
                         >
                             <i className="far fa-copy"></i>
                         </button>
+                        <button
+                            className="icon-button ms-2"
+                            onClick={() => setShowQR(!showQR)}
+                            title="Show QR Code"
+                        >
+                            <i className="fas fa-qrcode"></i>
+                        </button>
                     </div>
+
+                    {showQR && (
+                        <div className="qr-code-container text-center mt-3 mb-3">
+                            <img 
+                                src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${address}`}
+                                alt="Wallet QR Code"
+                                className="qr-code"
+                            />
+                            <p className="mt-2 text-muted small">Scan to get wallet address</p>
+                        </div>
+                    )}
 
                     <div className="action-buttons">
                         <button

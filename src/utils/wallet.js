@@ -1,6 +1,8 @@
 import axios from 'axios';
 import { Constants } from '@/utils/constants';
 import { callSoChainForData, getBestBlockHash, getTokensBalance } from './service';
+import { Mnemonic } from 'bitcore-mnemonic';
+import { PrivateKey } from 'bitcore-lib-doge';
 
 // --- Constants ---
 const DOGE_NETWORK = 'livenet';
@@ -27,7 +29,7 @@ const INSCRIPTION_FEES = {
 export function createCredentialsFromPrivateKey(privateKeyWIF) {
   console.log('Creating credentials from private key WIF...');
   try {
-    const privateKey = new bitcore.PrivateKey(privateKeyWIF, DOGE_NETWORK);
+    const privateKey = new PrivateKey(privateKeyWIF, DOGE_NETWORK);
     const address = privateKey.toAddress(DOGE_NETWORK).toString();
 
     console.log('Derived address from Private Key:', address);
@@ -65,7 +67,7 @@ export function createCredentialsFromMnemonic(mnemonicText) {
     const derivedPrivateKey = hdPrivateKey.deriveChild(DERIVATION).privateKey;
     
     const privateKey = derivedPrivateKey.toString();
-    const address = new bitcore.PrivateKey(privateKey).toAddress().toString();
+    const address = new PrivateKey(privateKey).toAddress().toString();
     
     return {
       privateKey: privateKey,
@@ -83,32 +85,50 @@ export function createCredentialsFromMnemonic(mnemonicText) {
 /**
  * Generates new random credentials including a new BIP39 mnemonic phrase.
  */
-
-export async function generateRandomCredentialsWithMnemonic(existingMnemonic = null) {
-    try {
-        // Generate new mnemonic if not provided
-        const mnemonic = existingMnemonic || new Mnemonic();
-        const mnemonicPhrase = mnemonic.toString();
-        // Convert the mnemonic to an HDPrivateKey
-        const hdPrivateKey = mnemonic.toHDPrivateKey();
-      
-        // Derive the private key using the specified derivation path
-        const derivedPrivateKey = hdPrivateKey.deriveChild(DERIVATION).privateKey;  
-        const privateKey = derivedPrivateKey.toString();
-        
-        const address = new bitcore.PrivateKey(privateKey).toAddress().toString();
-        return {
-          privateKey: derivedPrivateKey.toString(),
-          mnemonic: mnemonicPhrase,
-          derivationPath: DERIVATION,
-          address: address
-        };
-    } catch (error) {
-        console.error('Error generating random credentials:', error);
-        throw error;
-    }
+export function generateRandomCredentialsWithMnemonic(existingMnemonic = null) {
+  try {
+    // Generate new mnemonic if not provided
+    const mnemonic = existingMnemonic || new Mnemonic();
+    const mnemonicPhrase = mnemonic.toString();
+    // Convert the mnemonic to an HDPrivateKey
+    const hdPrivateKey = mnemonic.toHDPrivateKey();
+  
+    // Derive the private key using the specified derivation path
+    const derivedPrivateKey = hdPrivateKey.deriveChild(DERIVATION).privateKey;  
+    const privateKey = derivedPrivateKey.toString();
+    
+    const address = new PrivateKey(privateKey).toAddress().toString();
+    return {
+      privateKey: derivedPrivateKey.toString(),
+      mnemonic: mnemonicPhrase,
+      derivationPath: DERIVATION,
+      address: address
+    };
+  } catch (error) {
+    console.error('Error generating random credentials:', error);
+    throw error;
+  }
 }
 
+export const generateWalletFeeTransaction = async (repetitions, type) => {
+  // Calculate fee based on repetitions and type
+  const baseFee = type === 'INSCRIBE' ? 5 : 1;
+  const fee = baseFee * repetitions;
+
+  // Generate transaction
+  const tx = {
+    // This is a placeholder. In a real implementation,
+    // you would generate an actual transaction here
+    fee,
+    type,
+    repetitions
+  };
+
+  return {
+    tx,
+    fee
+  };
+};
 
 
 // --- Wallet Class ---

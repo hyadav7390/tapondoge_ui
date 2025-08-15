@@ -1,213 +1,117 @@
-import { useEffect, useState, useCallback, useRef } from 'react';
-import { getDeployments, getMintTokensLeft } from '@/utils/service';
+import { useState, useEffect } from 'react';
+import { getDeploymentsLength, getDeployments, getMintTokensLeft } from '@/services/api';
 import { useLoader } from '@/contexts/LoaderContext';
+import { useWallet } from '@/contexts/WalletContext';
+import { toast } from 'react-hot-toast';
 
 export default function WhatsMinting() {
-    const [tokensWithMints, setTokensWithMints] = useState([]);
-    const { showLoader, hideLoader } = useLoader();
-    const loadingRef = useRef(false);
-    const mountedRef = useRef(true);
+  const [recentTokens, setRecentTokens] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const { showLoader, hideLoader } = useLoader();
+  const { isConnected, address } = useWallet();
 
-    // Calculate mint progress percentage
-    const calculateMintProgress = useCallback((max, balance) => {
-        max = parseFloat(max);
-        balance = parseFloat(balance);
-        const progress = ((max - balance) / max) * 100;
-        return Math.min(Math.round(progress), 100);
-    }, []);
+  useEffect(() => {
+    fetchRecentlyDeployed();
+  }, []);
 
-    // Load all data
-    useEffect(() => {
-        // Set mounted reference to true on mount
-        mountedRef.current = true;
+  const calculateMintProgress = (max, balance) => {
+    max = parseFloat(max);
+    balance = parseFloat(balance);
+    const progress = ((max - balance) / max) * 100;
+    return Math.min(Math.round(progress), 100);
+  };
 
-        const loadData = async () => {
-            // Prevent duplicate calls
-            if (loadingRef.current) return;
-            loadingRef.current = true;
+  const fetchRecentlyDeployed = async () => {
+    try {
+      showLoader();
+      const lengthResponse = await getDeploymentsLength();
+      const totalTokens = lengthResponse.result;
+      const offset = totalTokens - 10;
+      
+      const response = await getDeployments(offset);
+      const tokens = response.result;
 
-            try {
-                console.log("Starting to fetch deployments");
-                showLoader();
+      const tokensWithProgress = await Promise.all(
+        tokens.map(async (token) => {
+          const mintsLeftResponse = await getMintTokensLeft(token.tick);
+          const mintsLeft = mintsLeftResponse.result / 1e18;
+          const progress = calculateMintProgress(token.max, mintsLeft);
+          return { ...token, progress, mintsLeft };
+        })
+      );
 
-                // Step 1: Get deployments
-                const deploymentsResponse = await getDeployments(0, 10);
-                const tokens = deploymentsResponse.result || [];
+      setRecentTokens(tokensWithProgress);
+    } catch (error) {
+      console.error('Error fetching recently deployed tokens:', error);
+      toast.error('Failed to load recently deployed tokens');
+    } finally {
+      hideLoader();
+      setLoading(false);
+    }
+  };
 
-                // Check if component is still mounted
-                if (!mountedRef.current) {
-                    console.log("Component unmounted, stopping data load");
-                    return;
-                }
+  const handleMint = async (tick, limit) => {
+    if (!isConnected) {
+      toast.error('Please connect your wallet first');
+      return;
+    }
 
-                if (!tokens || tokens.length === 0) {
-                    console.log("No tokens found");
-                    setTokensWithMints([]);
-                    return;
-                }
+    // Navigate to inscribe page with pre-filled values
+    // This should be handled by your routing system
+  };
 
-                console.log(`Found ${tokens.length} tokens, fetching mints left`);
+  if (loading) {
+    return <div className="text-center">Loading...</div>;
+  }
 
-                // Step 2: Get mints left for each token
-                const tokensPromises = tokens.map(async (token) => {
-                    try {
-                        // Check if still mounted before each API call
-                        if (!mountedRef.current) return null;
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {recentTokens.map((token, index) => (
+        <div key={index} className="token-card bg-opacity-20 bg-white p-6 rounded-lg">
+          <div className="flex justify-between items-center mb-4">
+            <h3 className="text-xl font-semibold">{token.tick}</h3>
+            {token.progress < 100 && (
+              <span className="text-sm text-green-400">Available</span>
+            )}
+          </div>
 
-                        console.log(`Fetching mints left for ${token.tick}`);
-                        const response = await getMintTokensLeft(token.tick);
-
-                        // Check again if still mounted after API call
-                        if (!mountedRef.current) return null;
-
-                        const mintsLeft = response.result / 1e18;
-                        const progress = calculateMintProgress(token.max, mintsLeft);
-
-                        return {
-                            ...token,
-                            mintsLeft,
-                            progress,
-                            showMintButton: progress < 100
-                        };
-                    } catch (err) {
-                        console.error(`Error fetching mints left for ${token.tick}:`, err);
-                        return {
-                            ...token,
-                            mintsLeft: 0,
-                            progress: 100,
-                            showMintButton: false
-                        };
-                    }
-                });
-
-                const tokensWithMintData = await Promise.all(tokensPromises);
-
-                // Final mounted check before state update
-                if (!mountedRef.current) {
-                    console.log("Component unmounted before final state update");
-                    return;
-                }
-
-                console.log("Setting tokens with mint data", tokensWithMintData);
-                // Filter out any null values from unmounted calls
-                setTokensWithMints(tokensWithMintData.filter(token => token !== null));
-            } catch (error) {
-                console.error("Error in WhatsMining loadData:", error);
-                if (mountedRef.current) {
-                    setTokensWithMints([]);
-                }
-            } finally {
-                if (mountedRef.current) {
-                    console.log("Finishing data load");
-                }
-                loadingRef.current = false;
-                hideLoader();
-            }
-        };
-
-        loadData();
-
-        // Cleanup function to run when component unmounts
-        return () => {
-            console.log("WhatsMining component unmounting");
-            mountedRef.current = false;
-            hideLoader();
-        };
-    }, [showLoader, hideLoader, calculateMintProgress]);
-
-    // Handle mint button click
-    const handleMint = useCallback((tick, lim) => {
-        console.log(`Mint ${tick} with limit ${lim}`);
-        // Implement mint functionality or navigate to mint page
-    }, []);
-
-    return (
-        <>
-            <div className="container">
-                <h3 className="mb-4">Recently Deployed Tokens</h3>
-                <div className="row g-4">
-                    {tokensWithMints.length > 0 ? (
-                        tokensWithMints.map((token, index) => (
-                            <div key={index} className="col-md-4">
-                                <div className="card h-100">
-                                    <div className="card-body">
-                                        <h5 className="card-title text-center mb-4">{token.tick}</h5>
-
-                                        <div className="mb-3 p-2 rounded" style={{ backgroundColor: 'var(--color-cardHeader)', border: '1px solid var(--color-border)' }}>
-                                            <div className="d-flex justify-content-between">
-                                                <span>Max Supply:</span>
-                                                <span title={token.max ? (parseInt(token.max)).toLocaleString() : '0'}
-                                                    data-bs-toggle="tooltip"
-                                                    data-bs-placement="top" className="fw-bold text-truncate" style={{ maxWidth: '60%', textAlign: 'right' }}>
-                                                    {token.max ? parseInt(token.max).toLocaleString() : '0'}
-                                                </span>
-                                            </div>
-                                        </div>
-
-                                        <div className="mb-3 p-2 rounded" style={{ backgroundColor: 'var(--color-cardHeader)', border: '1px solid var(--color-border)' }}>
-                                            <div className="d-flex justify-content-between">
-                                                <span>Limit Per Mint:</span>
-                                                <span title={token.lim ? (parseInt(token.lim)).toLocaleString() : '0'}
-                                                    data-bs-toggle="tooltip"
-                                                    data-bs-placement="top" className="fw-bold text-truncate" style={{ maxWidth: '60%', textAlign: 'right' }}>
-                                                    {token.lim ? parseInt(token.lim).toLocaleString() : '0'}
-                                                </span>
-                                            </div>
-                                        </div>
-
-                                        <div className="mb-3 p-2 rounded" style={{ backgroundColor: 'var(--color-cardHeader)', border: '1px solid var(--color-border)' }}>
-                                            <label className="form-label d-flex justify-content-between mb-1">
-                                                <span>Progress:</span>
-                                                <span className="text-truncate" style={{ maxWidth: '60%', textAlign: 'right' }}>
-                                                    {token.progress}%
-                                                </span>
-                                            </label>
-                                            <div className="progress">
-                                                <div
-                                                    className="progress-bar"
-                                                    role="progressbar"
-                                                    style={{ width: `${token.progress}%` }}
-                                                    aria-valuenow={token.progress}
-                                                    aria-valuemin="0"
-                                                    aria-valuemax="100"
-                                                ></div>
-                                            </div>
-                                        </div>
-
-                                        <div className="mb-3 p-2 rounded" style={{ backgroundColor: 'var(--color-cardHeader)', border: '1px solid var(--color-border)' }}>
-                                            <div className="d-flex justify-content-between">
-                                                <span>Available:</span>
-                                                <span className="fw-bold text-truncate" style={{ maxWidth: '60%', textAlign: 'right' }}>
-                                                    {token.mintsLeft ? Math.round(token.mintsLeft).toLocaleString() : 'N/A'}
-                                                </span>
-                                            </div>
-                                        </div>
-
-                                        {token.showMintButton && (
-                                            <div className="text-center mt-4">
-                                                <button
-                                                    className="btn btn-primary"
-                                                    onClick={() => handleMint(token.tick, token.lim)}
-                                                    disabled={token.progress >= 100}
-                                                    style={{ zIndex: 9999 }}
-                                                >
-                                                    Mint Now
-                                                </button>
-                                            </div>
-                                        )}
-                                    </div>
-                                </div>
-                            </div>
-                        ))
-                    ) : (
-                        <div className="col-12 text-center">
-                            <div className="alert alert-info">
-                                Loading the tokens available for minting at the moment...
-                            </div>
-                        </div>
-                    )}
-                </div>
+          <div className="space-y-4">
+            <div className="stat-group">
+              <div className="text-sm text-gray-400">Max Supply</div>
+              <div className="text-lg">{token.max}.00Z</div>
             </div>
-        </>
-    );
+
+            <div className="stat-group">
+              <div className="text-sm text-gray-400">Limit Per Mint</div>
+              <div className="text-lg">{token.lim}.00Z</div>
+            </div>
+
+            <div className="stat-group">
+              <div className="text-sm text-gray-400">Progress</div>
+              <div className="relative pt-1">
+                <div className="flex mb-2 items-center justify-between">
+                  <div className="text-lg">{token.progress}%</div>
+                </div>
+                <div className="overflow-hidden h-2 text-xs flex rounded bg-gray-700">
+                  <div
+                    style={{ width: `${token.progress}%` }}
+                    className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-primary"
+                  ></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {token.progress < 100 && (
+            <button
+              onClick={() => handleMint(token.tick, token.lim)}
+              className="w-full mt-4 bg-primary text-secondary py-2 rounded-lg hover:bg-opacity-90 transition-colors"
+            >
+              Mint Now
+            </button>
+          )}
+        </div>
+      ))}
+    </div>
+  );
 }
