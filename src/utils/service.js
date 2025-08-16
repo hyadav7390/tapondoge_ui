@@ -198,3 +198,71 @@ export const buyToken = async (inscriptionId) => {
   }
 };
 
+// List token for sale
+export const listTokenForSale = async (inscription, tick, price, amt) => {
+  try {
+    const response = await axios.post(`${Constants.API_BASE_URL}/token/list/`, {
+      tick: tick,
+      rawTx: inscription.rawTx,
+      price: price,
+      amt: amt,
+      sellerAddress: inscription.sellerAddress,
+      inscriptionId: inscription.inscriptionId,
+      inscriptionUtxo: JSON.stringify(inscription.inscriptionUtxo)
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error listing token:', error);
+    throw error;
+  }
+};
+
+// Unlist token
+export const unlistToken = async (inscriptionId) => {
+  try {
+    const response = await axios.post(`${Constants.API_BASE_URL}/token/unlist`, {
+      inscriptionId: inscriptionId
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error unlisting token:', error);
+    throw error;
+  }
+};
+
+// Get wallet listed tokens
+export const getWalletListedTokens = async (address) => {
+  try {
+    const response = await axios.get(`${Constants.API_BASE_URL}/token/list/wallet/${address}`);
+    return response.data.response || [];
+  } catch (error) {
+    console.error('Error fetching wallet listed tokens:', error);
+    throw error;
+  }
+};
+
+// Transfer token
+export const transferToken = async (inscription, recipientAddress) => {
+  try {
+    const response = await axios.post(`${Constants.API_BASE_URL}/token/transfer`, {
+      inscription: inscription,
+      recipientAddress: recipientAddress
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error transferring token:', error);
+    throw error;
+  }
+};
+
+// Get token data by ticker
+export const getTokenByTicker = async (ticker) => {
+  try {
+    const response = await axios.get(`${Constants.BASE_API_URL}/getDeployment/${ticker}`);
+    return response.data.result;
+  } catch (error) {
+    console.error('Error fetching token data:', error);
+    throw error;
+  }
+};
+

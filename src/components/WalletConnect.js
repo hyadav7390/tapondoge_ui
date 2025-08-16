@@ -1,24 +1,23 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useWallet } from '@/contexts/WalletContext';
-import { createCredentialsFromMnemonic, createCredentialsFromPrivateKey, generateRandomCredentialsWithMnemonic, refreshWalletState } from '@/utils/wallet';
+import { useWallet } from '../contexts/WalletContext';
+import { getTokensBalance } from '@/utils/service';
 import { formatAddress } from '@/utils/formatters';
-import TokenDetails from './TokenDetails';
+import { createCredentialsFromMnemonic, createCredentialsFromPrivateKey, generateRandomCredentialsWithMnemonic, refreshWalletState } from '@/utils/wallet';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { 
-  faWallet, 
-  faCopy, 
-  faSync, 
-  faEllipsisV, 
-  faPaperPlane, 
-  faKey, 
-  faShieldAlt, 
-  faSignOutAlt,
-  faExclamationTriangle,
-  faCheckCircle,
-  faPlus,
-  faUser,
-  faLock,
-  faCoins
+    faWallet, 
+    faPlus, 
+    faKey, 
+    faLock, 
+    faCopy, 
+    faSync, 
+    faEllipsisV, 
+    faPaperPlane, 
+    faSignOutAlt, 
+    faCheckCircle, 
+    faExclamationTriangle,
+    faCoins,
+    faExternalLinkAlt
 } from '@fortawesome/free-solid-svg-icons';
 
 export default function WalletConnect({ onConnected }) {
@@ -42,7 +41,6 @@ export default function WalletConnect({ onConnected }) {
     const [copyStatus, setCopyStatus] = useState('');
     const [walletBalance, setWalletBalance] = useState(null);
     const [tokensBalance, setTokensBalance] = useState([]);
-    const [selectedToken, setSelectedToken] = useState(null);
 
     // Ref for dropdown menu
     const optionsRef = useRef(null);
@@ -317,11 +315,8 @@ export default function WalletConnect({ onConnected }) {
     };
 
     const handleTokenClick = (token) => {
-        setSelectedToken(token);
-    };
-
-    const handleBack = () => {
-        setSelectedToken(null);
+        // Open token details in a new tab
+        window.open(`/token/${token.ticker}`, '_self');
     };
 
     const renderWalletDetails = () => {
@@ -500,7 +495,7 @@ export default function WalletConnect({ onConnected }) {
                             {tokensBalance.map((token, index) => (
                                 <div 
                                     key={index} 
-                                    className="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-200 cursor-pointer"
+                                    className="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-200 cursor-pointer group"
                                     onClick={() => handleTokenClick(token)}
                                 >
                                     <div className="flex items-center space-x-3">
@@ -512,9 +507,15 @@ export default function WalletConnect({ onConnected }) {
                                             <p className="text-sm text-gray-600">Token</p>
                                         </div>
                                     </div>
-                                    <div className="text-right">
-                                        <p className="font-bold text-gray-900">{(parseFloat(token.overallBalance) || 0)/1e18}</p>
-                                        <p className="text-sm text-gray-600">Balance</p>
+                                    <div className="flex items-center space-x-3">
+                                        <div className="text-right">
+                                            <p className="font-bold text-gray-900">{(parseFloat(token.overallBalance) || 0)/1e18}</p>
+                                            <p className="text-sm text-gray-600">Balance</p>
+                                        </div>
+                                        <FontAwesomeIcon 
+                                            icon={faExternalLinkAlt} 
+                                            className="w-4 h-4 text-gray-400 group-hover:text-primary-600 transition-colors duration-200" 
+                                        />
                                     </div>
                                 </div>
                             ))}
@@ -622,10 +623,6 @@ export default function WalletConnect({ onConnected }) {
             </div>
         );
     };
-
-    if (selectedToken) {
-        return <TokenDetails token={selectedToken} onBack={handleBack} />;
-    }
 
     if (isConnected) {
         return renderWalletDetails();

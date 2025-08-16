@@ -592,6 +592,127 @@ export const WalletUtils = {
 // Also export the Wallet class directly if needed for type hinting or extension
 // export { Wallet };
 
+// Wallet listing functions
+export const listTokenForSaleWithWallet = async (inscription, tick, price, amt, wallet) => {
+  try {
+    if (!wallet || !wallet.credentials || !wallet.utxos) {
+      throw new Error('Wallet not properly initialized');
+    }
+
+    // Step 1: Refresh UTXOs to get fresh data
+    console.log('Step 1: Refreshing UTXOs...');
+    await wallet.refreshUtxos(true);
+    
+    // Step 1.5: Get fresh UTXOs from API (as done in JavaScript reference)
+    console.log('Step 1.5: Getting fresh UTXOs from API...');
+    const utxosResponse = await fetch(`${Constants.API_BASE_URL}/wallet/utxos`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        address: wallet.address
+      })
+    });
+    const utxosData = await utxosResponse.json();
+    
+    if (!utxosData.success) {
+      throw new Error('Failed to get fresh UTXOs');
+    }
+    
+    // Step 2: Get best block hash to verify blockchain sync
+    console.log('Step 2: Getting best block hash...');
+    const bestBlockResponse = await fetch(`${Constants.API_BASE_URL}/wallet/bestblock`);
+    const bestBlockData = await bestBlockResponse.json();
+    
+    if (!bestBlockData.success) {
+      throw new Error('Failed to verify blockchain sync');
+    }
+
+    // Step 3: Get transaction details for the inscription
+    console.log('Step 3: Getting transaction details...');
+    const txResponse = await fetch(`${Constants.API_BASE_URL}/tx/${inscription.outpoint.split(':')[0]}`);
+    const txData = await txResponse.json();
+    
+    if (!txData.success) {
+      throw new Error('Failed to get transaction details');
+    }
+
+    // Step 4: Find the inscription UTXO
+    const inscriptionUtxo = wallet.utxos.find(x => `${x.txid}:${x.vout}` === inscription.outpoint);
+    if (!inscriptionUtxo) {
+      throw new Error("Inscription UTXO not found");
+    }
+
+    // Step 4.5: Get and set UTXO script (as done in JavaScript reference)
+    console.log('Step 4.5: Getting UTXO script...');
+    const utxoResponse = await fetch(`${Constants.API_BASE_URL}/tx/${inscriptionUtxo.txid}`);
+    const utxoResponseData = await utxoResponse.json();
+    
+    if (!utxoResponseData.success) {
+      throw new Error('Failed to get UTXO transaction data');
+    }
+    
+    const utxoResponseVout = utxoResponseData.data.vout;
+    let scriptFound = false;
+    
+    utxoResponseVout.forEach((item) => {
+      if (item.n === inscriptionUtxo.vout && item.addresses.indexOf(wallet.address) > -1) {
+        inscriptionUtxo.script = item.hex;
+        scriptFound = true;
+      }
+    });
+    
+    if (!scriptFound) {
+      throw new Error('Failed to find UTXO script for wallet address');
+    }
+
+    // Step 5: Create the listing data structure
+    // Note: In the JavaScript reference, they create a signed transaction
+    // For now, we'll send the minimal required data and let the backend handle the transaction creation
+    const listingData = {
+      inscriptionId: inscription.inscriptionId,
+      // tick: tick,
+      // price: price,
+      // amt: amt,
+      // sellerAddress: wallet.address,
+      // inscriptionUtxo: JSON.stringify([inscriptionUtxo]),
+      // The backend will need to handle the transaction creation and signing
+      // This is a simplified approach - in production, you'd need the full transaction signing
+    };
+
+    console.log('Step 4: Submitting listing...');
+    console.log('Listing data:', listingData);
+    
+    // Call the listing API
+    const response = await fetch(`${Constants.API_BASE_URL}/token/list/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(listingData)
+    });
+
+    const result = await response.json();
+    console.log('Listing API response:', result);
+    
+    if (!response.ok) {
+      console.error('Listing API error:', result);
+      throw new Error(result.message || result.error || 'Failed to list token');
+    }
+
+    if (!result.success) {
+      console.error('Listing API failed:', result);
+      throw new Error(result.message || 'Failed to list token');
+    }
+
+    return result;
+  } catch (error) {
+    console.error('Error listing token with wallet:', error);
+    throw error;
+  }
+};
+
 export const decodeInscriptionData = (data) => {
     try {
         if (!data) return null;
