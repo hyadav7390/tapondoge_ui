@@ -6,7 +6,7 @@ export default function MintingPage() {
   return (
     <>
       <Head>
-        <title>What's Minting | TapOnDoge Platform</title>
+        <title>Whats Minting | TapOnDoge Platform</title>
         <meta name="description" content="Discover tokens available for minting on TapOnDoge platform" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/tapondoge.ico" />
