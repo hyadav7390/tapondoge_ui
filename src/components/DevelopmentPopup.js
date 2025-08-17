@@ -64,7 +64,7 @@ export default function DevelopmentPopup({ isOpen, onClose, featureName }) {
                         </div>
                         <h4 className="text-xl font-bold text-gray-900 mb-2">Coming Soon!</h4>
                         <p className="text-gray-600">
-                            We're working hard to bring you this amazing feature. Our development team is putting the finishing touches to ensure the best user experience.
+                            We are working hard to bring you this amazing feature. Our development team is putting the finishing touches to ensure the best user experience.
                         </p>
                     </div>
 
