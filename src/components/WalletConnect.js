@@ -17,7 +17,8 @@ import {
     faCheckCircle, 
     faExclamationTriangle,
     faCoins,
-    faExternalLinkAlt
+    faExternalLinkAlt,
+    faTimes
 } from '@fortawesome/free-solid-svg-icons';
 
 export default function WalletConnect({ onConnected }) {
@@ -324,21 +325,22 @@ export default function WalletConnect({ onConnected }) {
             <div className="space-y-6">
                 {/* Wallet Header */}
                 <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-6">
-                    <div className="flex items-center justify-between mb-4">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 space-y-0 sm:space-y-0">
                         <div className="flex items-center space-x-3">
                             <div className="p-2 bg-primary-100 rounded-lg">
                                 <FontAwesomeIcon icon={faWallet} className="w-5 h-5 text-primary-600" />
                             </div>
-                            <div>
-                                <h3 className="text-lg font-bold text-gray-900">Wallet</h3>
-                                <p className="text-sm text-gray-600">{formatAddress(address)}</p>
+                            <div className="min-w-0 flex-1">
+                                <h3 className="text-lg font-bold text-gray-900 truncate">Wallet</h3>
+                                <p className="text-sm text-gray-600 truncate">{formatAddress(address)}</p>
                             </div>
                         </div>
                         
-                        <div className="flex items-center space-x-2">
+                        {/* Action Buttons Container */}
+                        <div className="flex items-center space-x-1 self-end sm:self-auto pb-5">
                             <button
                                 onClick={() => copyToClipboard(address, 'Address')}
-                                className="p-2 text-gray-600 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors duration-200"
+                                className="p-1 text-gray-600 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors duration-200"
                                 title="Copy address"
                             >
                                 <FontAwesomeIcon icon={faCopy} className="w-4 h-4" />
@@ -347,7 +349,7 @@ export default function WalletConnect({ onConnected }) {
                             <button
                                 onClick={handleSync}
                                 disabled={isSyncing}
-                                className={`p-2 rounded-lg transition-colors duration-200 ${
+                                className={`p-1 rounded-lg transition-colors duration-200 ${
                                     isSyncing 
                                         ? 'text-gray-400 cursor-not-allowed' 
                                         : 'text-gray-600 hover:text-primary-600 hover:bg-primary-50'
@@ -360,44 +362,46 @@ export default function WalletConnect({ onConnected }) {
                                 />
                             </button>
                             
+                            {/* More Options Dropdown */}
                             <div className="relative">
                                 <button
                                     onClick={() => setShowOptions(!showOptions)}
-                                    className="p-2 text-gray-600 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors duration-200"
+                                    className="p-1 text-gray-600 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors duration-200"
                                     title="More options"
                                 >
                                     <FontAwesomeIcon icon={faEllipsisV} className="w-4 h-4" />
                                 </button>
                                 
                                 {showOptions && (
-                                    <div className="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-2xl border border-gray-200 overflow-hidden z-50" style={{ right: '-6rem' }} ref={optionsRef}>
+                                    <div className="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-2xl border border-gray-200 overflow-hidden z-50 sm:right-0" ref={optionsRef}>
                                         <div className="py-1">
                                             <button 
                                                 onClick={() => setShowSendModal(true)}
-                                                className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center"
+                                                className="w-full px-4 py-3 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center transition-colors duration-150"
                                             >
-                                                <FontAwesomeIcon icon={faPaperPlane} className="w-4 h-4 mr-2" />
+                                                <FontAwesomeIcon icon={faPaperPlane} className="w-4 h-4 mr-3 text-gray-500" />
                                                 Send DOGE
                                             </button>
                                             <button 
                                                 onClick={() => setShowRecoveryPhrase(!showRecoveryPhrase)}
-                                                className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center"
+                                                className="w-full px-4 py-3 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center transition-colors duration-150"
                                             >
-                                                <FontAwesomeIcon icon={faKey} className="w-4 h-4 mr-2" />
+                                                <FontAwesomeIcon icon={faKey} className="w-4 h-4 mr-3 text-gray-500" />
                                                 {!showRecoveryPhrase ? "Show Recovery Phrase" : "Hide Recovery Phrase"}
                                             </button>
                                             <button 
                                                 onClick={() => setShowPrivateKey(!showPrivateKey)}
-                                                className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center"
+                                                className="w-full px-4 py-3 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center transition-colors duration-150"
                                             >
-                                                <FontAwesomeIcon icon={faLock} className="w-4 h-4 mr-2" />
+                                                <FontAwesomeIcon icon={faLock} className="w-4 h-4 mr-3 text-gray-500" />
                                                 {!showPrivateKey ? "Show Private Key" : "Hide Private Key"}
                                             </button>
+                                            <div className="border-t border-gray-100 my-1"></div>
                                             <button 
                                                 onClick={handleDisconnect}
-                                                className="w-full px-4 py-2 text-left text-sm text-red-600 hover:bg-red-50 flex items-center"
+                                                className="w-full px-4 py-3 text-left text-sm text-red-600 hover:bg-red-50 flex items-center transition-colors duration-150"
                                             >
-                                                <FontAwesomeIcon icon={faSignOutAlt} className="w-4 h-4 mr-2" />
+                                                <FontAwesomeIcon icon={faSignOutAlt} className="w-4 h-4 mr-3 text-red-500" />
                                                 Disconnect Wallet
                                             </button>
                                         </div>
@@ -539,7 +543,7 @@ export default function WalletConnect({ onConnected }) {
                                     onClick={() => setShowSendModal(false)}
                                     className="p-2 text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-lg transition-colors duration-200"
                                 >
-                                    <FontAwesomeIcon icon={faSignOutAlt} className="w-4 h-4" />
+                                    <FontAwesomeIcon icon={faTimes} className="w-4 h-4" />
                                 </button>
                             </div>
 

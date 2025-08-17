@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCoins, faUser, faPaperPlane } from '@fortawesome/free-solid-svg-icons';
+import DevelopmentPopup from './DevelopmentPopup';
 
 export default function Transfer() {
     const [tick, setTick] = useState('');
     const [recipientAddress, setRecipientAddress] = useState('');
     const [amount, setAmount] = useState('');
     const [error, setError] = useState('');
+    const [showPopup, setShowPopup] = useState(false);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -26,11 +28,13 @@ export default function Transfer() {
             return;
         }
 
+        // Show development popup instead of processing
+        setShowPopup(true);
+        
         // Log the form values if validation passes
         console.log('Tick:', tick);
         console.log('Recipient Address:', recipientAddress);
         console.log('Amount:', amount);
-        // Add any additional form handling logic here
     };
 
     return (
@@ -113,6 +117,13 @@ export default function Transfer() {
                     </div>
                 </form>
             </div>
+
+            {/* Development Popup */}
+            <DevelopmentPopup 
+                isOpen={showPopup} 
+                onClose={() => setShowPopup(false)} 
+                featureName="Token Transfer"
+            />
         </div>
     );
 }

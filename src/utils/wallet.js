@@ -14,9 +14,12 @@ const INSCRIPTION_FEES = {
   TRANSFER: 0.5, // 0.5 DOGE
   MINT: 0.5 // 0.5 DOGE
 };
-// --- Bitcore Configuration ---
-// bitcore.Transaction.DUST_AMOUNT = 10000; // Minimum non-dust output amount in satoshis
 
+// Set up bitcore like the reference code
+if (typeof window !== 'undefined' && window.bitcore) {
+  window.bitcore.Transaction.DUST_AMOUNT = 10000;
+}
+const Mnemonic = typeof window !== 'undefined' ? window.Mnemonic : null;
 
 // --- Credential Generation ---
 
@@ -27,7 +30,11 @@ const INSCRIPTION_FEES = {
 export function createCredentialsFromPrivateKey(privateKeyWIF) {
   console.log('Creating credentials from private key WIF...');
   try {
-    const privateKey = new bitcore.PrivateKey(privateKeyWIF, DOGE_NETWORK);
+    if (typeof window === 'undefined' || !window.bitcore) {
+      throw new Error('Bitcore library not loaded. Please refresh the page.');
+    }
+    
+    const privateKey = new window.bitcore.PrivateKey(privateKeyWIF, DOGE_NETWORK);
     const address = privateKey.toAddress(DOGE_NETWORK).toString();
 
     console.log('Derived address from Private Key:', address);
@@ -53,10 +60,18 @@ export function createCredentialsFromPrivateKey(privateKeyWIF) {
 export function createCredentialsFromMnemonic(mnemonicText) {
   console.log('Creating credentials from mnemonic...');
   try {
-    if (!Mnemonic.isValid(mnemonicText)) {
+    if (typeof window === 'undefined' || !window.Mnemonic) {
+      throw new Error('Mnemonic library not loaded. Please refresh the page.');
+    }
+    
+    if (typeof window === 'undefined' || !window.bitcore) {
+      throw new Error('Bitcore library not loaded. Please refresh the page.');
+    }
+    
+    if (!window.Mnemonic.isValid(mnemonicText)) {
       throw new Error('Invalid mnemonic phrase');
     }
-    const mnemonic = new Mnemonic(mnemonicText);
+    const mnemonic = new window.Mnemonic(mnemonicText);
 
     // Convert the mnemonic to an HDPrivateKey
     const hdPrivateKey = mnemonic.toHDPrivateKey();
@@ -65,7 +80,7 @@ export function createCredentialsFromMnemonic(mnemonicText) {
     const derivedPrivateKey = hdPrivateKey.deriveChild(DERIVATION).privateKey;
     
     const privateKey = derivedPrivateKey.toString();
-    const address = new bitcore.PrivateKey(privateKey).toAddress().toString();
+    const address = new window.bitcore.PrivateKey(privateKey).toAddress().toString();
     
     return {
       privateKey: privateKey,
@@ -83,11 +98,18 @@ export function createCredentialsFromMnemonic(mnemonicText) {
 /**
  * Generates new random credentials including a new BIP39 mnemonic phrase.
  */
-
 export async function generateRandomCredentialsWithMnemonic(existingMnemonic = null) {
     try {
+        if (typeof window === 'undefined' || !window.Mnemonic) {
+            throw new Error('Mnemonic library not loaded. Please refresh the page.');
+        }
+        
+        if (typeof window === 'undefined' || !window.bitcore) {
+            throw new Error('Bitcore library not loaded. Please refresh the page.');
+        }
+        
         // Generate new mnemonic if not provided
-        const mnemonic = existingMnemonic || new Mnemonic();
+        const mnemonic = existingMnemonic || new window.Mnemonic();
         const mnemonicPhrase = mnemonic.toString();
         // Convert the mnemonic to an HDPrivateKey
         const hdPrivateKey = mnemonic.toHDPrivateKey();
@@ -96,7 +118,7 @@ export async function generateRandomCredentialsWithMnemonic(existingMnemonic = n
         const derivedPrivateKey = hdPrivateKey.deriveChild(DERIVATION).privateKey;  
         const privateKey = derivedPrivateKey.toString();
         
-        const address = new bitcore.PrivateKey(privateKey).toAddress().toString();
+        const address = new window.bitcore.PrivateKey(privateKey).toAddress().toString();
         return {
           privateKey: derivedPrivateKey.toString(),
           mnemonic: mnemonicPhrase,
@@ -464,6 +486,7 @@ export class Wallet {
     this.inscriptions = inscriptions;
   }
 }
+
 // --- Wallet Initialization & State Refresh ---
 
 /**
@@ -574,9 +597,6 @@ export async function getTransferableInscriptions(ticker, inscriptions) {
   }
 }
 
-
-
-
 // --- Exports ---
 // Export utility functions and the Wallet class
 export const WalletUtils = {
@@ -672,11 +692,11 @@ export const listTokenForSaleWithWallet = async (inscription, tick, price, amt, 
     // For now, we'll send the minimal required data and let the backend handle the transaction creation
     const listingData = {
       inscriptionId: inscription.inscriptionId,
-      // tick: tick,
-      // price: price,
-      // amt: amt,
-      // sellerAddress: wallet.address,
-      // inscriptionUtxo: JSON.stringify([inscriptionUtxo]),
+      tick: tick,
+      price: price,
+      amt: amt,
+      sellerAddress: wallet.address,
+      inscriptionUtxo: JSON.stringify([inscriptionUtxo]),
       // The backend will need to handle the transaction creation and signing
       // This is a simplified approach - in production, you'd need the full transaction signing
     };

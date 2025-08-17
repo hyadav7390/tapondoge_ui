@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCoins, faWallet, faRepeat, faPlay } from '@fortawesome/free-solid-svg-icons';
+import DevelopmentPopup from './DevelopmentPopup';
 
 export default function Mint() {
     const [tick, setTick] = useState('');
@@ -8,6 +9,7 @@ export default function Mint() {
     const [walletAddress, setWalletAddress] = useState('');
     const [repetitions, setRepetitions] = useState(1);
     const [error, setError] = useState('');
+    const [showPopup, setShowPopup] = useState(false);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -31,12 +33,14 @@ export default function Mint() {
             return;
         }
 
+        // Show development popup instead of processing
+        setShowPopup(true);
+        
         // Log the form values if validation passes
         console.log('Tick:', tick);
         console.log('Mint Amount:', mintAmount);
         console.log('Wallet Address:', walletAddress);
         console.log('Repetitions:', repetitions);
-        // Add any additional form handling logic here
     };
 
     return (
@@ -147,6 +151,13 @@ export default function Mint() {
                     </div>
                 </form>
             </div>
+
+            {/* Development Popup */}
+            <DevelopmentPopup 
+                isOpen={showPopup} 
+                onClose={() => setShowPopup(false)} 
+                featureName="Token Minting"
+            />
         </div>
     );
 }

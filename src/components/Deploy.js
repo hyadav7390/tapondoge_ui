@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCoins, faLayerGroup, faWallet, faRocket } from '@fortawesome/free-solid-svg-icons';
+import DevelopmentPopup from './DevelopmentPopup';
 
 export default function Deploy() {
     const [tick, setTick] = useState('');
@@ -8,6 +9,7 @@ export default function Deploy() {
     const [limitPerMint, setLimitPerMint] = useState('');
     const [walletAddress, setWalletAddress] = useState('');
     const [error, setError] = useState('');
+    const [showPopup, setShowPopup] = useState(false);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -31,12 +33,14 @@ export default function Deploy() {
             return;
         }
 
+        // Show development popup instead of processing
+        setShowPopup(true);
+        
         // Log the form values if validation passes
         console.log('Tick:', tick);
         console.log('Total Supply:', totalSupply);
         console.log('Limit Per Mint:', limitPerMint);
         console.log('Wallet Address:', walletAddress);
-        // Add any additional form handling logic here
     };
 
     return (
@@ -136,6 +140,13 @@ export default function Deploy() {
                     </div>
                 </form>
             </div>
+
+            {/* Development Popup */}
+            <DevelopmentPopup 
+                isOpen={showPopup} 
+                onClose={() => setShowPopup(false)} 
+                featureName="Token Deployment"
+            />
         </div>
     );
 }
