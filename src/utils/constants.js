@@ -9,8 +9,8 @@ const SFM_POLL_FEE_ADDRESS = "DJY7sZk8VBTaAchhnYkT2SF7CyS3raJZwV";
 
 // const BASE_URL = "http://localhost:3000/api/tod";
 // const API_BASE_URL = 'http://localhost:3000/api/tod';
-const BASE_URL = "https://api.tapondoge.com/api/tod";
-const API_BASE_URL = 'https://api.tapondoge.com/api/tod';
+const BASE_URL = "https://newapi.tapondoge.com/api/tod";
+const API_BASE_URL = 'https://newapi.tapondoge.com/api/tod';
 
 const UTXO_CACHE_DURATION = 36000000 * 24; // 1 Hour
 const UTXO_FORCE_REFRESH_EVENTS = new Set(['SEND_TRANSACTION', 'RECEIVE_TRANSACTION']);
