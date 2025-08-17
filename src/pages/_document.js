@@ -12,10 +12,10 @@ class MyDocument extends Document {
           />
           
           {/* Add required libraries for wallet functionality - using local files like reference */}
-          <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-          <script src="/lib/bundle_buffer.js"></script>
-          <script src="/lib/bitcore-mnemonic.js"></script>
-          <script src="/lib/bitcore-lib-doge.js"></script>
+          <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js" async></script>
+          <script src="/lib/bundle_buffer.js" async></script>
+          <script src="/lib/bitcore-mnemonic.js" async></script>
+          <script src="/lib/bitcore-lib-doge.js" async></script>
         </Head>
         <body>
           <Main />
