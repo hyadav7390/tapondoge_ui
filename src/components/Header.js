@@ -62,7 +62,7 @@ export default function Header({ onMenuClick }) {
                         {/* Logo */}
                         <Link href="/" className="flex items-center hover:scale-105 transition-transform duration-200">
                             <img
-                                src="/Borksy_logo.png"
+                                src="/logo.png"
                                 alt="BORKSY Logo"
                                 className="h-12 w-auto object-contain"
                             />
