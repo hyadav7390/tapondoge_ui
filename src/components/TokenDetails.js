@@ -55,16 +55,16 @@ const TokenDetails = ({ token, onBack }) => {
 
                 // Get blocked status
                 if (wallet && wallet.address) {
-                    const blocked = await getAccountBlockedTransferables(wallet.address);
-                    console.log('blocked', blocked);
-                    setIsBlocked(!blocked);
+                const blocked = await getAccountBlockedTransferables(wallet.address);
+                console.log('blocked', blocked);
+                setIsBlocked(!blocked);
                 }
                 
                 // Get transferable inscriptions using the new API-based approach
                 if (wallet && wallet.address && token.ticker) {
                     const transferables = await getTransferableInscriptionsNew(token.ticker, wallet.address);
-                    console.log('transferables', transferables);
-                    setTransferableInscriptions(transferables);
+                console.log('transferables', transferables);
+                setTransferableInscriptions(transferables);
                 }
                 
                 // Get listed tokens
@@ -80,7 +80,7 @@ const TokenDetails = ({ token, onBack }) => {
         };
 
         if (token && token.ticker) {
-            loadTokenDetails();
+        loadTokenDetails();
         }
     }, [token, wallet]);
 
@@ -307,21 +307,21 @@ const TokenDetails = ({ token, onBack }) => {
         <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
             <div className="container mx-auto px-4 py-8 max-w-6xl">
                 <div className="space-y-8">
-                    {/* Header Section */}
+            {/* Header Section */}
                     <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-8">
                         <div className="flex items-center justify-between mb-6">
                             <div className="flex items-center space-x-4">
-                                <button 
-                                    onClick={onBack}
+                    <button 
+                        onClick={onBack}
                                     className="p-3 text-gray-600 hover:text-primary-600 hover:bg-primary-50 rounded-xl transition-colors duration-200"
-                                >
+                    >
                                     <FontAwesomeIcon icon={faArrowLeft} className="w-5 h-5" />
-                                </button>
+                    </button>
                                 <div className="flex items-center space-x-3">
                                     <div className="p-3 bg-primary-100 rounded-xl">
                                         <FontAwesomeIcon icon={faCoins} className="w-6 h-6 text-primary-600" />
                                     </div>
-                                    <div>
+                    <div>
                                         <h1 className="text-3xl font-bold text-gray-900">{token.ticker}</h1>
                                         <p className="text-gray-600">Token Details</p>
                                     </div>
@@ -371,10 +371,10 @@ const TokenDetails = ({ token, onBack }) => {
                                     {listedTokens.filter(lt => lt.tick === token.ticker).length}
                                 </p>
                                 <p className="text-sm text-gray-600 mt-1">For sale</p>
-                            </div>
-                        </div>
+                    </div>
+                </div>
                         
-                        {isBlocked && (
+                {isBlocked && (
                             <div className="p-4 bg-danger-50 border border-danger-200 rounded-xl">
                                 <div className="flex items-center">
                                     <FontAwesomeIcon icon={faExclamationTriangle} className="w-5 h-5 text-danger-600 mr-3" />
@@ -383,11 +383,11 @@ const TokenDetails = ({ token, onBack }) => {
                                         <p className="text-danger-700 text-sm mt-1">This wallet cannot transfer tokens at the moment</p>
                                     </div>
                                 </div>
-                            </div>
-                        )}
                     </div>
+                )}
+            </div>
 
-                    {/* Transferable Tokens Section */}
+            {/* Transferable Tokens Section */}
                     <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-8">
                         <div className="flex items-center justify-between mb-8">
                             <h2 className="text-2xl font-bold text-gray-900 flex items-center">
@@ -403,45 +403,45 @@ const TokenDetails = ({ token, onBack }) => {
                         
                         {transferableInscriptions && transferableInscriptions.length > 0 ? (
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                                {transferableInscriptions.map((insc, index) => {
+                            {transferableInscriptions.map((insc, index) => {
                                     const isListed = isInscriptionListed(insc.inscriptionId);
 
-                                    return (
+                                return (
                                         <div key={index} className={`bg-gray-50 rounded-xl p-6 border-2 transition-all duration-200 ${
                                             isBlocked ? 'border-gray-200 opacity-60' : 'border-gray-200 hover:border-primary-300 hover:shadow-lg'
                                         }`}>
                                             {/* Header */}
                                             <div className="flex justify-between items-start mb-4">
                                                 <span className="px-3 py-1 bg-gray-200 text-gray-700 text-sm font-medium rounded-full">
-                                                    #{index + 1}
+                                                        #{index + 1}
                                                 </span>
                                                 {isListed && (
                                                     <span className="px-3 py-1 bg-success-100 text-success-800 text-sm font-medium rounded-full">
                                                         LISTED
                                                     </span>
                                                 )}
-                                                {isBlocked && (
+                                                    {isBlocked && (
                                                     <span className="px-3 py-1 bg-danger-100 text-danger-800 text-sm font-medium rounded-full">
-                                                        BLOCKED
-                                                    </span>
-                                                )}
-                                            </div>
-                                            
+                                                            BLOCKED
+                                                        </span>
+                                                    )}
+                                                </div>
+                                                
                                             {/* Token Amount */}
                                             <div className="text-center mb-6">
                                                 <div className="flex items-center justify-center mb-3">
                                                     <FontAwesomeIcon icon={faCoins} className="w-8 h-8 text-primary-600 mr-3" />
                                                     <h4 className="text-2xl font-bold text-gray-900">
-                                                        {insc.amount}
-                                                    </h4>
+                                                    {insc.amount}
+                                                </h4>
                                                 </div>
                                                 <p className="text-sm text-gray-600">tokens</p>
                                             </div>
 
                                             {/* Action Buttons */}
-                                            {!isBlocked && (
+                                                {!isBlocked && (
                                                 <div className="space-y-3">
-                                                    {isListed ? (
+                                                        {isListed ? (
                                                         <button 
                                                             onClick={() => handleUnlistToken(insc.inscriptionId)}
                                                             disabled={isSubmitting}
@@ -467,14 +467,14 @@ const TokenDetails = ({ token, onBack }) => {
                                                                 Transfer
                                                             </button>
                                                         </>
-                                                    )}
-                                                </div>
-                                            )}
-                                        </div>
-                                    );
-                                })}
-                            </div>
-                        ) : (
+                                                        )}
+                                                    </div>
+                                                )}
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    ) : (
                             <div className="text-center py-16">
                                 <div className="bg-gray-100 rounded-full w-24 h-24 flex items-center justify-center mx-auto mb-6">
                                     <FontAwesomeIcon icon={faTag} className="w-12 h-12 text-gray-400" />
@@ -483,8 +483,8 @@ const TokenDetails = ({ token, onBack }) => {
                                 <p className="text-gray-600 max-w-md mx-auto">
                                     All your tokens are currently in use or locked. Check back later for available transferable inscriptions.
                                 </p>
-                            </div>
-                        )}
+                        </div>
+                    )}
                     </div>
                 </div>
             </div>

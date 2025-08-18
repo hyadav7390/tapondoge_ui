@@ -8,7 +8,7 @@ export default function Dmt() {
     const { showLoader, hideLoader } = useLoader();
 
     useEffect(() => {
-        fetchDeployments(0, 20);
+        fetchDeployments(0, 500);
     }, []);
 
     // Fetch Deployments

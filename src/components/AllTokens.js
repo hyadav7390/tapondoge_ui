@@ -229,7 +229,7 @@ const AllTokens = memo(() => {
     return (
         <div className="space-y-6">
             {/* Block Info */}
-            <div className="bg-gradient-to-r from-primary-50 to-accent-50 border border-primary-200 rounded-xl p-4 flex items-center justify-between">
+            {/* <div className="bg-gradient-to-r from-primary-50 to-accent-50 border border-primary-200 rounded-xl p-4 flex items-center justify-between">
                 <div className="flex items-center space-x-3">
                     <span className="text-gray-600">
                         Last Synced Block: <span className="font-bold text-gray-900">{currentBlock}</span>
@@ -239,7 +239,7 @@ const AllTokens = memo(() => {
                     <div className="w-3 h-3 bg-success-500 rounded-full animate-pulse"></div>
                     <span className="text-sm text-success-600 font-medium">Live</span>
                 </div>
-            </div>
+            </div> */}
 
             {/* Header and Search */}
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0">
