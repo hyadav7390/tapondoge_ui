@@ -188,7 +188,7 @@ export default function Layout({ children }) {
                                     {/* Social Links */}
                                     <div className="flex items-center justify-center space-x-4">
                                         <a 
-                                            href="https://discord.com/invite/CHbTua4UZj" 
+                                            href="https://discord.com" 
                                             target="_blank" 
                                             rel="noopener noreferrer"
                                             className="flex items-center space-x-2 text-teal-700 hover:text-lime-600 transition-all duration-200 group hover:scale-110"
@@ -200,7 +200,7 @@ export default function Layout({ children }) {
                                             <span className="text-xs font-bold">Discord</span>
                                         </a>
                                         <a 
-                                            href="https://x.com/tapondogehq" 
+                                            href="https://x.com/borksy_" 
                                             target="_blank" 
                                             rel="noopener noreferrer"
                                             className="flex items-center space-x-2 text-teal-700 hover:text-lime-600 transition-all duration-200 group hover:scale-110"

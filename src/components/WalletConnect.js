@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { createPortal } from 'react-dom';
 import { useWallet } from '../contexts/WalletContext';
 import { getTokensBalance } from '@/utils/service';
 import { formatAddress } from '@/utils/formatters';
@@ -43,7 +42,6 @@ export default function WalletConnect({ onConnected }) {
     const [copyStatus, setCopyStatus] = useState('');
     const [walletBalance, setWalletBalance] = useState(null);
     const [tokensBalance, setTokensBalance] = useState([]);
-    const [buttonPosition, setButtonPosition] = useState({ top: 0, right: 0 });
 
     // Ref for dropdown menu
     const optionsRef = useRef(null);
@@ -369,10 +367,6 @@ export default function WalletConnect({ onConnected }) {
                                 <button
                                     onClick={(e) => {
                                         const rect = e.currentTarget.getBoundingClientRect();
-                                        setButtonPosition({
-                                            top: rect.bottom + window.scrollY + 12,
-                                            right: window.innerWidth - rect.right
-                                        });
                                         setShowOptions(!showOptions);
                                     }}
                                     className="p-2 text-teal-600 hover:text-lime-600 hover:bg-lime-100 rounded-cartoon transition-all duration-200 hover:scale-105 active:scale-95"
@@ -380,6 +374,58 @@ export default function WalletConnect({ onConnected }) {
                                 >
                                     <FontAwesomeIcon icon={faEllipsisV} className="w-4 h-4" />
                                 </button>
+                                
+                                {showOptions && (
+                                    <div 
+                                        className="absolute right-0 mt-3 w-56 bg-white rounded-cartoon shadow-cartoon-xl border-2 border-teal-300 overflow-hidden z-[9999]" 
+                                        ref={optionsRef}
+                                        onClick={(e) => e.stopPropagation()}
+                                    >
+                                        <div className="py-2">
+                                            <button 
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    setShowSendModal(true);
+                                                }}
+                                                className="w-full px-4 py-3 text-left text-sm text-teal-700 hover:bg-lime-100 flex items-center transition-all duration-150 font-bold"
+                                            >
+                                                <FontAwesomeIcon icon={faPaperPlane} className="w-4 h-4 mr-3 text-teal-500" />
+                                                Send DOGE
+                                            </button>
+                                            <button 
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    setShowRecoveryPhrase(!showRecoveryPhrase);
+                                                }}
+                                                className="w-full px-4 py-3 text-left text-sm text-teal-700 hover:bg-lime-100 flex items-center transition-all duration-150 font-bold"
+                                            >
+                                                <FontAwesomeIcon icon={faKey} className="w-4 h-4 mr-3 text-teal-500" />
+                                                {!showRecoveryPhrase ? "Show Recovery Phrase" : "Hide Recovery Phrase"}
+                                            </button>
+                                            <button 
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    setShowPrivateKey(!showPrivateKey);
+                                                }}
+                                                className="w-full px-4 py-3 text-left text-sm text-teal-700 hover:bg-lime-100 flex items-center transition-all duration-150 font-bold"
+                                            >
+                                                <FontAwesomeIcon icon={faLock} className="w-4 h-4 mr-3 text-teal-500" />
+                                                {!showPrivateKey ? "Show Private Key" : "Hide Private Key"}
+                                            </button>
+                                            <div className="border-t-2 border-lime-200 my-2"></div>
+                                            <button 
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    handleDisconnect();
+                                                }}
+                                                className="w-full px-4 py-3 text-left text-sm text-red-600 hover:bg-red-50 flex items-center transition-all duration-150 font-bold"
+                                            >
+                                                <FontAwesomeIcon icon={faSignOutAlt} className="w-4 h-4 mr-3 text-red-500" />
+                                                Disconnect Wallet
+                                            </button>
+                                        </div>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </div>
@@ -392,6 +438,58 @@ export default function WalletConnect({ onConnected }) {
                                 {(!walletBalance && walletBalance !== 0) ? 'Loading...' : `${walletBalance} DOGE`}
                             </span>
                         </div>
+                    </div>
+
+                    {/* Divider */}
+                    <div className="border-t-2 border-lime-300 my-6"></div>
+
+                    {/* Tokens Section */}
+                    <div>
+                        <h3 className="text-xl font-black text-teal-800 mb-4 flex items-center">
+                            <FontAwesomeIcon icon={faCoins} className="w-5 h-5 mr-3 text-lime-600" />
+                            Tokens
+                        </h3>
+                        
+                        {!tokensBalance ? (
+                            <div className="text-center py-8">
+                                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-lime-600 mx-auto mb-2"></div>
+                                <p className="text-teal-600 font-bold">Loading...</p>
+                            </div>
+                        ) : tokensBalance && tokensBalance.length > 0 ? (
+                            <div className="space-y-3">
+                                {tokensBalance.map((token, index) => (
+                                    <div 
+                                        key={index} 
+                                        className="flex items-center justify-between p-4 bg-gradient-to-r from-lime-50 to-lime-100 rounded-cartoon hover:from-lime-100 hover:to-lime-200 transition-all duration-200 cursor-pointer group border-2 border-lime-200 hover:border-lime-300"
+                                        onClick={() => handleTokenClick(token)}
+                                    >
+                                        <div className="flex items-center space-x-3">
+                                            <img src="/tap_symbol.png" alt="TAPONDOGE SYMBOL" className="w-6 h-6 mr-1" />
+                                            <div>
+                                                <p className="font-bold text-teal-800">{token.ticker}</p>
+                                                <p className="text-sm text-teal-600 font-medium">Token</p>
+                                            </div>
+                                        </div>
+                                        <div className="flex items-center space-x-3">
+                                            <div className="text-right">
+                                                <p className="font-black text-teal-800">{(parseFloat(token.overallBalance) || 0)/1e18}</p>
+                                                <p className="text-sm text-teal-600 font-medium">Balance</p>
+                                            </div>
+                                            <FontAwesomeIcon 
+                                                icon={faExternalLinkAlt} 
+                                                className="w-4 h-4 text-teal-400 group-hover:text-lime-600 transition-all duration-200" 
+                                            />
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        ) : (
+                            <div className="text-center py-8">
+                                <div className="text-4xl mb-4">🐕</div>
+                                <p className="text-teal-600 font-bold">No tokens found</p>
+                                <p className="text-teal-500 text-sm">Your wallet doesn&apos;t contain any tokens</p>
+                            </div>
+                        )}
                     </div>
                 </div>
 
@@ -454,55 +552,6 @@ export default function WalletConnect({ onConnected }) {
                         </div>
                     </div>
                 )}
-
-                {/* Tokens List */}
-                <div className="bg-white/95 backdrop-blur-md rounded-cartoon shadow-cartoon-xl border-2 border-teal-300 p-6">
-                    <h3 className="text-xl font-black text-teal-800 mb-4 flex items-center">
-                        <FontAwesomeIcon icon={faCoins} className="w-5 h-5 mr-3 text-lime-600" />
-                        Tokens
-                    </h3>
-                    
-                    {!tokensBalance ? (
-                        <div className="text-center py-8">
-                            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-lime-600 mx-auto mb-2"></div>
-                            <p className="text-teal-600 font-bold">Loading...</p>
-                        </div>
-                    ) : tokensBalance && tokensBalance.length > 0 ? (
-                        <div className="space-y-3">
-                            {tokensBalance.map((token, index) => (
-                                <div 
-                                    key={index} 
-                                    className="flex items-center justify-between p-4 bg-gradient-to-r from-lime-50 to-lime-100 rounded-cartoon hover:from-lime-100 hover:to-lime-200 transition-all duration-200 cursor-pointer group border-2 border-lime-200 hover:border-lime-300"
-                                    onClick={() => handleTokenClick(token)}
-                                >
-                                    <div className="flex items-center space-x-3">
-                                        <img src="/tap_symbol.png" alt="TAPONDOGE SYMBOL" className="w-6 h-6 mr-1" />
-                                        <div>
-                                            <p className="font-bold text-teal-800">{token.ticker}</p>
-                                            <p className="text-sm text-teal-600 font-medium">Token</p>
-                                        </div>
-                                    </div>
-                                    <div className="flex items-center space-x-3">
-                                        <div className="text-right">
-                                            <p className="font-black text-teal-800">{(parseFloat(token.overallBalance) || 0)/1e18}</p>
-                                            <p className="text-sm text-teal-600 font-medium">Balance</p>
-                                        </div>
-                                        <FontAwesomeIcon 
-                                            icon={faExternalLinkAlt} 
-                                            className="w-4 h-4 text-teal-400 group-hover:text-lime-600 transition-all duration-200" 
-                                        />
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    ) : (
-                        <div className="text-center py-8">
-                            <div className="text-4xl mb-4">🐕</div>
-                            <p className="text-teal-600 font-bold">No tokens found</p>
-                            <p className="text-teal-500 text-sm">Your wallet doesn&apos;t contain any tokens</p>
-                        </div>
-                    )}
-                </div>
 
                 {/* Send DOGE Modal */}
                 {showSendModal && (
@@ -599,60 +648,10 @@ export default function WalletConnect({ onConnected }) {
         );
     };
 
-    // Portal-based dropdown
-    const renderDropdownPortal = () => {
-        if (!showOptions) return null;
-        
-        return createPortal(
-            <div 
-                className="fixed w-56 bg-white rounded-cartoon shadow-cartoon-xl border-2 border-teal-300 overflow-hidden z-[9999]" 
-                style={{
-                    top: `${buttonPosition.top}px`,
-                    right: `${buttonPosition.right}px`
-                }}
-                ref={optionsRef}
-            >
-                <div className="py-2">
-                    <button 
-                        onClick={() => setShowSendModal(true)}
-                        className="w-full px-4 py-3 text-left text-sm text-teal-700 hover:bg-lime-100 flex items-center transition-all duration-150 font-bold"
-                    >
-                        <FontAwesomeIcon icon={faPaperPlane} className="w-4 h-4 mr-3 text-teal-500" />
-                        Send DOGE
-                    </button>
-                    <button 
-                        onClick={() => setShowRecoveryPhrase(!showRecoveryPhrase)}
-                        className="w-full px-4 py-3 text-left text-sm text-teal-700 hover:bg-lime-100 flex items-center transition-all duration-150 font-bold"
-                    >
-                        <FontAwesomeIcon icon={faKey} className="w-4 h-4 mr-3 text-teal-500" />
-                        {!showRecoveryPhrase ? "Show Recovery Phrase" : "Hide Recovery Phrase"}
-                    </button>
-                    <button 
-                        onClick={() => setShowPrivateKey(!showPrivateKey)}
-                        className="w-full px-4 py-3 text-left text-sm text-teal-700 hover:bg-lime-100 flex items-center transition-all duration-150 font-bold"
-                    >
-                        <FontAwesomeIcon icon={faLock} className="w-4 h-4 mr-3 text-teal-500" />
-                        {!showPrivateKey ? "Show Private Key" : "Hide Private Key"}
-                    </button>
-                    <div className="border-t-2 border-lime-200 my-2"></div>
-                    <button 
-                        onClick={handleDisconnect}
-                        className="w-full px-4 py-3 text-left text-sm text-red-600 hover:bg-red-50 flex items-center transition-all duration-150 font-bold"
-                    >
-                        <FontAwesomeIcon icon={faSignOutAlt} className="w-4 h-4 mr-3 text-red-500" />
-                        Disconnect Wallet
-                    </button>
-                </div>
-            </div>,
-            document.body
-        );
-    };
-
     if (isConnected) {
         return (
             <>
                 {renderWalletDetails()}
-                {renderDropdownPortal()}
             </>
         );
     }
