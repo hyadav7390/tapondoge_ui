@@ -32,7 +32,7 @@ export default function Layout({ children }) {
         {
             id: 'dmt',
             name: 'DMT',
-            description: 'Doge Mining Token',
+            description: 'Digital Matter Theory',
             path: '/dmt',
             icon: faChartLine
         },
@@ -99,37 +99,27 @@ export default function Layout({ children }) {
                     ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
                     ${sidebarCollapsed ? 'lg:w-20' : 'lg:w-64'}
                 `}>
-                    <div className="h-full bg-white/95 backdrop-blur-md shadow-cartoon-xl border-2 border-lime-300 flex flex-col rounded-r-cartoon">
-                        {/* Sidebar Header */}
-                        <div className="flex items-center justify-between p-4 border-b-2 border-lime-200 bg-gradient-to-r from-lime-50 to-lime-100">
-                            {!sidebarCollapsed && (
-                                <div className="flex items-center space-x-3">
-                                    <div className="w-8 h-8 bg-gradient-to-r from-gold-400 to-gold-500 rounded-cartoon flex items-center justify-center shadow-cartoon-soft">
-                                        <FontAwesomeIcon icon={faCoins} className="w-4 h-4 text-white" />
-                                    </div>
-                                    <span className="text-lg font-bold text-teal-800">Menu</span>
-                                </div>
-                            )}
-                            
-                            <div className="flex items-center space-x-2">
-                                <button
-                                    onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-                                    className="hidden lg:flex p-2 text-teal-600 hover:text-lime-600 hover:bg-lime-100 rounded-cartoon transition-all duration-200 hover:scale-105"
-                                >
-                                    <FontAwesomeIcon 
-                                        icon={sidebarCollapsed ? faChevronRight : faChevronLeft} 
-                                        className="w-4 h-4" 
-                                    />
-                                </button>
-                                
-                                <button
-                                    onClick={() => setSidebarOpen(false)}
-                                    className="lg:hidden p-2 text-teal-600 hover:text-lime-600 hover:bg-lime-100 rounded-cartoon transition-all duration-200 hover:scale-105"
-                                >
-                                    <FontAwesomeIcon icon={faTimes} className="w-4 h-4" />
-                                </button>
-                            </div>
-                        </div>
+                    <div className="h-full bg-white/95 backdrop-blur-md shadow-cartoon-xl border-2 border-lime-300 flex flex-col rounded-r-cartoon relative">
+                        {/* Desktop Collapse Toggle - Absolute Position */}
+                        <button
+                            onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
+                            className="hidden lg:flex absolute -right-3 top-6 w-6 h-6 bg-white border-2 border-lime-300 rounded-full shadow-cartoon items-center justify-center text-teal-600 hover:text-lime-600 hover:bg-lime-100 transition-all duration-200 hover:scale-110 z-10"
+                            title={sidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+                        >
+                            <FontAwesomeIcon 
+                                icon={sidebarCollapsed ? faChevronRight : faChevronLeft} 
+                                className="w-3 h-3" 
+                            />
+                        </button>
+
+                        {/* Mobile Close Button - Top Right */}
+                        <button
+                            onClick={() => setSidebarOpen(false)}
+                            className="lg:hidden absolute top-4 right-4 p-2 text-teal-600 hover:text-lime-600 hover:bg-lime-100 rounded-cartoon transition-all duration-200 hover:scale-105 z-10"
+                            title="Close sidebar"
+                        >
+                            <FontAwesomeIcon icon={faTimes} className="w-4 h-4" />
+                        </button>
 
                         {/* Navigation Items */}
                         <nav className="flex-1 p-4 space-y-3 overflow-y-auto">

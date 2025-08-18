@@ -325,9 +325,9 @@ export default function WalletConnect({ onConnected }) {
             <div className="space-y-6">
                 {/* Wallet Header */}
                 <div className="bg-white/95 backdrop-blur-md rounded-cartoon shadow-cartoon-xl border-2 border-teal-300 p-6">
-                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4">
-                        <div className="flex items-center space-x-4 min-w-0 flex-1">
-                            <div className="p-3 bg-gradient-to-r from-lime-400 to-lime-500 rounded-cartoon shadow-cartoon-soft border-2 border-lime-600">
+                    <div className="flex items-center justify-between mb-4">
+                        <div className="flex items-center space-x-4 min-w-0 flex-1 mr-4">
+                            <div className="p-3 bg-gradient-to-r from-lime-400 to-lime-500 rounded-cartoon shadow-cartoon-soft border-2 border-lime-600 flex-shrink-0">
                                 <FontAwesomeIcon icon={faWallet} className="w-6 h-6 text-teal-900" />
                             </div>
                             <div className="min-w-0 flex-1">
@@ -337,7 +337,7 @@ export default function WalletConnect({ onConnected }) {
                         </div>
                         
                         {/* Action Buttons Container */}
-                        <div className="flex items-center space-x-2 flex-shrink-0 ml-auto">
+                        <div className="flex items-center space-x-2 flex-shrink-0">
                             <button
                                 onClick={() => copyToClipboard(address, 'Address')}
                                 className="p-2 text-teal-600 hover:text-lime-600 hover:bg-lime-100 rounded-cartoon transition-all duration-200 hover:scale-105 active:scale-95"

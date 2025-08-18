@@ -100,7 +100,7 @@ export default function Footer() {
                         <div className="flex items-center space-x-2">
                             <span className="text-sm text-teal-700 font-bold">Powered by</span>
                             <a 
-                                href="https://api.tapondoge.com" 
+                                href="https://tap.tapondoge.com/docs/static/index.html" 
                                 target="_blank" 
                                 rel="noopener noreferrer"
                                 className="text-lg font-black text-gradient-gold hover:scale-110 transition-transform duration-200"

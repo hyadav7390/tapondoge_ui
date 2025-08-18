@@ -277,10 +277,16 @@ const AllTokens = memo(() => {
                                             </div>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
-                                            <span className="text-sm font-bold text-teal-800">{token.floor || '$0.00'}</span>
+                                            <div className="flex items-center space-x-1">
+                                                <span className="text-sm font-bold text-teal-800">{token.floor || '0.00'}</span>
+                                                <img src="/dogecoin.png" alt="dogecoin" className="w-4 h-4" />
+                                            </div>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
-                                            <span className="text-sm font-bold text-teal-800">{token.dayVolume || '$0.00'}</span>
+                                            <div className="flex items-center space-x-1">
+                                                <span className="text-sm font-bold text-teal-800">{token.dayVolume || '0.00'}</span>
+                                                <img src="/dogecoin.png" alt="dogecoin" className="w-4 h-4" />
+                                            </div>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             <span className="text-sm font-bold text-teal-800">{formatCurrency(token.marketCap || 0)}</span>

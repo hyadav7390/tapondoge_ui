@@ -34,7 +34,7 @@ export default function Dmt() {
             {/* Header */}
             <div className="text-center">
                 <h2 className="text-3xl font-black text-teal-800 mb-2">⛏️ DMT Tokens</h2>
-                <p className="text-teal-600 font-medium">Dogecoin Mining Tokens</p>
+                <p className="text-teal-600 font-medium">Digital Matter Theory</p>
             </div>
 
             {/* Table */}

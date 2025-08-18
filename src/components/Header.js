@@ -47,7 +47,7 @@ export default function Header({ onMenuClick }) {
 
     return (
         <header className="bg-white/90 backdrop-blur-md shadow-cartoon-medium border-b-2 border-lime-300">
-            <div className="container mx-auto px-4">
+            <div className="container-fluid px-6">
                 <div className="flex items-center justify-between h-20">
                     {/* Left Section: Menu Button (Mobile) + Logo */}
                     <div className="flex items-center space-x-4">
@@ -70,38 +70,40 @@ export default function Header({ onMenuClick }) {
                     </div>
 
                     {/* Right Section: Wallet Connect Button */}
-                    <div className="relative">
-                        <button 
-                            ref={buttonRef}
-                            onClick={toggleWalletModal}
-                            className={`flex items-center space-x-3 px-6 py-3 rounded-cartoon font-bold transition-all duration-200 text-sm shadow-cartoon hover:shadow-cartoon-lg hover:scale-105 active:scale-95 transform ${isConnected
-                                ? 'bg-gradient-to-r from-lime-400 to-lime-500 text-teal-900 border-2 border-lime-600'
-                                : 'bg-gradient-to-r from-gold-400 to-gold-500 text-white border-2 border-gold-600'
-                            }`}
-                        >
-                            <div className="relative">
-                                <FontAwesomeIcon icon={faWallet} className="w-5 h-5" />
-                            </div>
-                            <span className="hidden sm:inline">
-                                {isConnected 
-                                    ? (address ? formatAddress(address) : 'Loading...')
-                                    : 'Connect Wallet'
-                                }
-                            </span>
-                            <span className="sm:hidden">
-                                {isConnected ? 'Wallet' : 'Connect'}
-                            </span>
-                        </button>
-                        
-                        {/* Wallet Modal Dropdown */}
-                        {isWalletModalOpen && (
-                            <div 
-                                className="absolute right-0 mt-3 w-96 bg-white/95 backdrop-blur-md rounded-cartoon shadow-cartoon-xl border-2 border-lime-300 overflow-hidden z-50"
-                                ref={modalRef}
+                    <div className="flex items-center">
+                        <div className="relative">
+                            <button 
+                                ref={buttonRef}
+                                onClick={toggleWalletModal}
+                                className={`flex items-center space-x-3 px-6 py-3 rounded-cartoon font-bold transition-all duration-200 text-sm shadow-cartoon hover:shadow-cartoon-lg hover:scale-105 active:scale-95 transform ${isConnected
+                                    ? 'bg-gradient-to-r from-lime-400 to-lime-500 text-teal-900 border-2 border-lime-600'
+                                    : 'bg-gradient-to-r from-gold-400 to-gold-500 text-white border-2 border-gold-600'
+                                }`}
                             >
-                                <WalletConnect onConnected={handleWalletConnected} />
-                            </div>
-                        )}
+                                <div className="relative">
+                                    <FontAwesomeIcon icon={faWallet} className="w-5 h-5" />
+                                </div>
+                                <span className="hidden sm:inline">
+                                    {isConnected 
+                                        ? (address ? formatAddress(address) : 'Loading...')
+                                        : 'Connect Wallet'
+                                    }
+                                </span>
+                                <span className="sm:hidden">
+                                    {isConnected ? 'Wallet' : 'Connect'}
+                                </span>
+                            </button>
+                            
+                            {/* Wallet Modal Dropdown */}
+                            {isWalletModalOpen && (
+                                <div 
+                                    className="absolute right-0 mt-3 w-96 bg-white/95 backdrop-blur-md rounded-cartoon shadow-cartoon-xl border-2 border-lime-300 overflow-hidden z-50"
+                                    ref={modalRef}
+                                >
+                                    <WalletConnect onConnected={handleWalletConnected} />
+                                </div>
+                            )}
+                        </div>
                     </div>
                 </div>
             </div>

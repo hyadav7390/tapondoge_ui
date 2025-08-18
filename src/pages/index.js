@@ -11,7 +11,7 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/borksy.ico" />
       </Head>
-      
+
       <Layout>
         <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
           <div className="container mx-auto px-4 py-8">
@@ -21,16 +21,7 @@ export default function Home() {
                 Welcome to <span className="text-gradient">BORKSY</span>
               </h1>
               <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-                Most powerful metaprotocol on top of Doginals with a clear focus on Bitcoin L1 powered by{' '}
-                <a 
-                  href="https://api.tapondoge.com" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="font-bold text-gradient-gold hover:scale-110 transition-transform duration-200"
-                >
-                  Benny Protocol
-                </a>
-                .
+                One paw-some platform  for TapOnDoge trading. Discover, inscribe, and manage your tokens effortlessly!
               </p>
             </div>
 
