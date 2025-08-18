@@ -84,7 +84,7 @@ export default function Layout({ children }) {
       </div>
       
       {/* Main Content Area - positioned below fixed header and above fixed footer */}
-      <div className="flex flex-1 mt-16 mb-20">
+      <div className="flex flex-1 mt-16 mb-40 lg:mb-20">
         {/* Mobile Sidebar Overlay */}
         {sidebarOpen && (
           <div 
@@ -95,7 +95,7 @@ export default function Layout({ children }) {
 
         {/* Sidebar */}
         <div className={`
-          fixed lg:static top-16 left-0 z-50 w-64 lg:w-auto h-[calc(100vh-4rem-5rem)] lg:h-full
+          fixed lg:static top-16 left-0 z-50 w-64 lg:w-auto h-[calc(100vh-4rem-6rem)] lg:h-full
           transform transition-transform duration-300 ease-in-out
           ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
           ${sidebarCollapsed ? 'lg:w-16' : 'lg:w-64'}

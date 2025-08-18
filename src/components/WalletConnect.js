@@ -325,22 +325,22 @@ export default function WalletConnect({ onConnected }) {
             <div className="space-y-6">
                 {/* Wallet Header */}
                 <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-6">
-                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 space-y-0 sm:space-y-0">
-                        <div className="flex items-center space-x-3">
+                    <div className="flex items-start justify-between mb-4">
+                        <div className="flex items-center space-x-3 min-w-0 flex-1">
                             <div className="p-2 bg-primary-100 rounded-lg">
                                 <FontAwesomeIcon icon={faWallet} className="w-5 h-5 text-primary-600" />
                             </div>
                             <div className="min-w-0 flex-1">
                                 <h3 className="text-lg font-bold text-gray-900 truncate">Wallet</h3>
-                                <p className="text-sm text-gray-600 truncate">{formatAddress(address)}</p>
+                                <p className="text-sm text-gray-600">{formatAddress(address)}</p>
                             </div>
                         </div>
                         
                         {/* Action Buttons Container */}
-                        <div className="flex items-center space-x-1 self-end sm:self-auto pb-5">
+                        <div className="flex items-center space-x-1 flex-shrink-0 ml-auto">
                             <button
                                 onClick={() => copyToClipboard(address, 'Address')}
-                                className="p-1 text-gray-600 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors duration-200"
+                                className="p-1 text-gray-600 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-all duration-200 active:scale-95"
                                 title="Copy address"
                             >
                                 <FontAwesomeIcon icon={faCopy} className="w-4 h-4" />
@@ -373,7 +373,7 @@ export default function WalletConnect({ onConnected }) {
                                 </button>
                                 
                                 {showOptions && (
-                                    <div className="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-2xl border border-gray-200 overflow-hidden z-50 sm:right-0" ref={optionsRef}>
+                                    <div className="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-2xl border border-gray-200 overflow-hidden z-50" ref={optionsRef}>
                                         <div className="py-1">
                                             <button 
                                                 onClick={() => setShowSendModal(true)}
@@ -436,7 +436,7 @@ export default function WalletConnect({ onConnected }) {
                                 </code>
                                 <button
                                     onClick={() => copyToClipboard(getPrivateKey() || "", 'Private Key')}
-                                    className="ml-2 p-2 text-gray-600 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors duration-200"
+                                    className="ml-2 p-2 text-gray-600 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-all duration-200 active:scale-95"
                                     title="Copy private key"
                                 >
                                     <FontAwesomeIcon icon={faCopy} className="w-4 h-4" />
@@ -466,7 +466,7 @@ export default function WalletConnect({ onConnected }) {
                                 </code>
                                 <button
                                     onClick={() => copyToClipboard(getMnemonic() || "", 'Recovery Phrase')}
-                                    className="ml-2 p-2 text-gray-600 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors duration-200"
+                                    className="ml-2 p-2 text-gray-600 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-all duration-200 active:scale-95"
                                     title="Copy recovery phrase"
                                 >
                                     <FontAwesomeIcon icon={faCopy} className="w-4 h-4" />
@@ -598,10 +598,10 @@ export default function WalletConnect({ onConnected }) {
 
                 {/* Copy Status Message */}
                 {copyStatus && (
-                    <div className="fixed bottom-4 right-4 bg-green-600 text-white px-4 py-2 rounded-lg shadow-lg">
+                    <div className="fixed top-20 left-1/2 transform -translate-x-1/2 bg-green-600 text-white px-6 py-3 rounded-lg shadow-2xl z-[60] animate-fade-in">
                         <div className="flex items-center">
                             <FontAwesomeIcon icon={faCheckCircle} className="w-4 h-4 mr-2" />
-                            {copyStatus}
+                            <span className="text-sm font-medium">{copyStatus}</span>
                         </div>
                     </div>
                 )}
