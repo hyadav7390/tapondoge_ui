@@ -17,10 +17,10 @@ export default function Home() {
           <div className="container mx-auto px-4 py-8">
             {/* Header Section */}
             <div className="text-center mb-8">
-              <h1 className="text-4xl font-bold text-gray-900 mb-4">
+              <h1 className="text-4xl font-bold text-gray-900 mb-4 font-display">
                 Welcome to <span className="text-gradient">BORKSY</span>
               </h1>
-              <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              <p className="text-lg text-gray-600 max-w-2xl mx-auto font-body">
                 One paw-some platform  for TapOnDoge trading. Discover, inscribe, and manage your tokens effortlessly!
               </p>
             </div>

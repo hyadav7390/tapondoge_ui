@@ -131,9 +131,12 @@ module.exports = {
         },
       },
       fontFamily: {
-        'cartoon': ['Comic Sans MS', 'Chalkboard SE', 'Marker Felt', 'cursive'],
-        'display': ['Inter', 'system-ui', 'sans-serif'],
-        'body': ['Inter', 'system-ui', 'sans-serif'],
+        'cartoon': ['Fredoka One', 'Bubblegum Sans', 'Comic Neue', 'cursive'],
+        'display': ['Fredoka One', 'Bubblegum Sans', 'cursive'],
+        'body': ['Comic Neue', 'Fredoka', 'cursive'],
+        'sans': ['Comic Neue', 'Fredoka', 'cursive'],
+        // Make cartoon font the default
+        'default': ['Comic Neue', 'Fredoka', 'cursive'],
       },
       animation: {
         'bounce-slow': 'bounce 2s infinite',
