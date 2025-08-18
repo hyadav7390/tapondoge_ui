@@ -189,11 +189,6 @@ export default function Layout({ children }) {
                             <div className="p-4 border-t-2 border-lime-200 bg-gradient-to-r from-lime-50 to-lime-100">
                                 <div className="text-center">
                                     <div className="text-xs text-teal-600 font-bold mb-2">🚀 To The Moon! 🌙</div>
-                                    <div className="flex justify-center space-x-2">
-                                        <div className="cartoon-coin" style={{ fontSize: '10px' }}>D</div>
-                                        <div className="cartoon-coin" style={{ fontSize: '10px', animationDelay: '0.5s' }}>D</div>
-                                        <div className="cartoon-coin" style={{ fontSize: '10px', animationDelay: '1s' }}>D</div>
-                                    </div>
                                 </div>
                             </div>
                         )}

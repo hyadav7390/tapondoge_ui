@@ -131,9 +131,9 @@ export default function Balance() {
                                     {/* Token Header */}
                                     <div className="flex items-center justify-between mb-4">
                                         <div className="flex items-center space-x-3">
-                                            <div className="w-10 h-10 bg-gradient-to-r from-gold-400 to-gold-500 rounded-cartoon flex items-center justify-center shadow-cartoon-soft border-2 border-gold-600">
-                                                <FontAwesomeIcon icon={faCoins} className="w-5 h-5 text-white" />
-                                            </div>
+                                            {/* <div className="w-10 h-10 bg-gradient-to-r from-gold-400 to-gold-500 rounded-cartoon flex items-center justify-center shadow-cartoon-soft border-2 border-gold-600"> */}
+                                                <img src="/tap_symbol.png" alt="TAPONDOGE SYMBOL" className="w-6 h-6 mr-1" />
+                                            {/* </div> */}
                                             <div>
                                                 <h4 className="text-xl font-black text-teal-800">{balance.ticker}</h4>
                                                 <p className="text-sm text-teal-600 font-medium">Token</p>

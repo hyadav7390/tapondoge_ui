@@ -3,6 +3,7 @@ import { useWallet } from '../contexts/WalletContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faWallet } from '@fortawesome/free-solid-svg-icons';
 import WalletConnect from './WalletConnect';
+import Link from 'next/link';
 
 export default function Header({ onMenuClick }) {
     const { isConnected, address } = useWallet();
@@ -59,32 +60,13 @@ export default function Header({ onMenuClick }) {
                         </button>
                         
                         {/* Logo */}
-                        <div className="flex items-center space-x-3">
-                            <div className="relative">
-                                <img
-                                    src="/tapondoge.jpg"
-                                    alt="TAPONDOGE Logo"
-                                    className="h-12 w-12 rounded-cartoon shadow-cartoon border-2 border-lime-400 hover:scale-110 transition-transform duration-200"
-                                />
-                                {/* Decorative stars around logo */}
-                                <div className="cartoon-star" style={{ top: '-5px', right: '-5px', animationDelay: '0s' }}></div>
-                                <div className="cartoon-star" style={{ bottom: '-5px', left: '-5px', animationDelay: '0.5s' }}></div>
-                            </div>
-                            <div className="hidden sm:block">
-                                <span className="text-2xl font-black text-gradient text-display">BORKSY</span>
-                                <div className="text-xs text-teal-600 font-medium flex items-center">
-                                    <img src="/tap_symbol.png" alt="TAPONDOGE SYMBOL" className="w-6 h-6 mr-1" />
-                                    Tap on doge! 🌙
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Center Spacer for Desktop */}
-                    <div className="hidden lg:flex flex-1 justify-center">
-                        <div className="text-sm text-teal-700 font-bold bg-gradient-to-r from-lime-100 to-lime-200 px-4 py-2 rounded-cartoon border-2 border-lime-300 shadow-cartoon-soft">
-                            🐕 Dogecoin Token Trading Platform 🚀
-                        </div>
+                        <Link href="/" className="flex items-center hover:scale-105 transition-transform duration-200">
+                            <img
+                                src="/Borksy_logo.png"
+                                alt="BORKSY Logo"
+                                className="h-20 w-auto object-contain"
+                            />
+                        </Link>
                     </div>
 
                     {/* Right Section: Wallet Connect Button */}
@@ -92,16 +74,13 @@ export default function Header({ onMenuClick }) {
                         <button 
                             ref={buttonRef}
                             onClick={toggleWalletModal}
-                            className={`flex items-center space-x-3 px-6 py-3 rounded-cartoon font-bold transition-all duration-200 text-sm shadow-cartoon hover:shadow-cartoon-lg hover:scale-105 active:scale-95 transform ${
-                                isConnected 
-                                    ? 'bg-gradient-to-r from-lime-400 to-lime-500 text-teal-900 border-2 border-lime-600' 
-                                    : 'bg-gradient-to-r from-gold-400 to-gold-500 text-white border-2 border-gold-600'
+                            className={`flex items-center space-x-3 px-6 py-3 rounded-cartoon font-bold transition-all duration-200 text-sm shadow-cartoon hover:shadow-cartoon-lg hover:scale-105 active:scale-95 transform ${isConnected
+                                ? 'bg-gradient-to-r from-lime-400 to-lime-500 text-teal-900 border-2 border-lime-600'
+                                : 'bg-gradient-to-r from-gold-400 to-gold-500 text-white border-2 border-gold-600'
                             }`}
                         >
                             <div className="relative">
                                 <FontAwesomeIcon icon={faWallet} className="w-5 h-5" />
-                                {/* Floating coin animation */}
-                                <div className="cartoon-coin" style={{ top: '-15px', right: '-15px', fontSize: '10px' }}>D</div>
                             </div>
                             <span className="hidden sm:inline">
                                 {isConnected 

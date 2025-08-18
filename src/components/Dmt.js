@@ -59,9 +59,9 @@ export default function Dmt() {
                                     <tr key={index} className="hover:bg-lime-50 transition-all duration-200 group">
                                         <td className="px-6 py-4 text-center">
                                             <div className="flex items-center justify-center space-x-3">
-                                                <div className="w-8 h-8 bg-gradient-to-r from-gold-400 to-gold-500 rounded-full flex items-center justify-center shadow-cartoon-soft border-2 border-gold-600">
+                                                {/* <div className="w-8 h-8 bg-gradient-to-r from-gold-400 to-gold-500 rounded-full flex items-center justify-center shadow-cartoon-soft border-2 border-gold-600">
                                                     <FontAwesomeIcon icon={faCoins} className="w-4 h-4 text-white" />
-                                                </div>
+                                                </div> */}
                                                 <span className="text-sm font-bold text-teal-800">{data.tick}</span>
                                             </div>
                                         </td>

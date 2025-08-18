@@ -9,7 +9,7 @@ export default function Home() {
         <title>All Tokens | TapOnDoge Platform</title>
         <meta name="description" content="Discover and trade Dogecoin tokens on TapOnDoge platform" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/tapondoge.ico" />
+        <link rel="icon" href="/borksy.ico" />
       </Head>
       
       <Layout>
@@ -18,7 +18,7 @@ export default function Home() {
             {/* Header Section */}
             <div className="text-center mb-8">
               <h1 className="text-4xl font-bold text-gray-900 mb-4">
-                Welcome to <span className="text-gradient">TapOnDoge</span>
+                Welcome to <span className="text-gradient">BORKSY</span>
               </h1>
               <p className="text-lg text-gray-600 max-w-2xl mx-auto">
                 Most powerful metaprotocol on top of Doginals with a clear focus on Bitcoin L1 powered by{' '}

@@ -232,7 +232,7 @@ const AllTokens = memo(() => {
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0">
                 <div>
                     <h2 className="text-3xl font-black text-teal-800 mb-2">🐕 All Tokens</h2>
-                    <p className="text-teal-600 font-medium">Discover and trade Dogecoin tokens</p>
+                    <p className="text-teal-600 font-medium">Discover and trade Tap tokens</p>
                 </div>
                 <div className="relative">
                     <FontAwesomeIcon 

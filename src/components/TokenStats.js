@@ -3,7 +3,7 @@ import { getTokenStats, getTokenHolders, getTokenDeployment, getDogePrice } from
 import { useLoader } from '@/contexts/LoaderContext';
 import { formatAmericanStyle, formatCurrency } from '@/utils/formatters';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faList, faTag, faChartLine, faDollarSign, faUsers } from '@fortawesome/free-solid-svg-icons';
+import { faList, faTag, faChartLine, faChartBar, faUsers, faDollarSign } from '@fortawesome/free-solid-svg-icons';
 
 export default function TokenStats({ tokenName }) {
   const [stats, setStats] = useState({
@@ -86,7 +86,12 @@ export default function TokenStats({ tokenName }) {
     {
       icon: faTag,
       title: "Floor Price",
-      value: `${parseFloat(stats.floor).toFixed(2)} DOGE`,
+      value: (
+        <div className="flex items-center space-x-1">
+          <span>{parseFloat(stats.floor).toFixed(2)}</span>
+          <img src="/dogecoin.png" alt="dogecoin" className="w-6 h-6" />
+        </div>
+      ),
       color: "bg-gradient-to-r from-green-400 to-green-500",
       bgColor: "from-green-50 to-green-100",
       borderColor: "border-green-300"
@@ -94,15 +99,25 @@ export default function TokenStats({ tokenName }) {
     {
       icon: faChartLine,
       title: "24h Volume",
-      value: `${formatAmericanStyle(stats.dayVolume)} DOGE`,
+      value: (
+        <div className="flex items-center space-x-1">
+          <span>{formatAmericanStyle(stats.dayVolume)}</span>
+          <img src="/dogecoin.png" alt="dogecoin" className="w-6 h-6" />
+        </div>
+      ),
       color: "bg-gradient-to-r from-purple-400 to-purple-500",
       bgColor: "from-purple-50 to-purple-100",
       borderColor: "border-purple-300"
     },
     {
-      icon: faDollarSign,
+      icon: faChartBar,
       title: "Total Volume",
-      value: `${formatAmericanStyle(stats.totalVolume)} DOGE`,
+      value: (
+        <div className="flex items-center space-x-1">
+          <span>{formatAmericanStyle(stats.totalVolume)}</span>
+          <img src="/dogecoin.png" alt="dogecoin" className="w-6 h-6" />
+        </div>
+      ),
       color: "bg-gradient-to-r from-orange-400 to-orange-500",
       bgColor: "from-orange-50 to-orange-100",
       borderColor: "border-orange-300"
