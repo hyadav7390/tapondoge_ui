@@ -324,23 +324,23 @@ export default function WalletConnect({ onConnected }) {
         return (
             <div className="space-y-6">
                 {/* Wallet Header */}
-                <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-6">
-                    <div className="flex items-start justify-between mb-4">
-                        <div className="flex items-center space-x-3 min-w-0 flex-1">
-                            <div className="p-2 bg-primary-100 rounded-lg">
-                                <FontAwesomeIcon icon={faWallet} className="w-5 h-5 text-primary-600" />
+                <div className="bg-white/95 backdrop-blur-md rounded-cartoon shadow-cartoon-xl border-2 border-teal-300 p-6">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4">
+                        <div className="flex items-center space-x-4 min-w-0 flex-1">
+                            <div className="p-3 bg-gradient-to-r from-lime-400 to-lime-500 rounded-cartoon shadow-cartoon-soft border-2 border-lime-600">
+                                <FontAwesomeIcon icon={faWallet} className="w-6 h-6 text-teal-900" />
                             </div>
                             <div className="min-w-0 flex-1">
-                                <h3 className="text-lg font-bold text-gray-900 truncate">Wallet</h3>
-                                <p className="text-sm text-gray-600">{formatAddress(address)}</p>
+                                <h3 className="text-xl font-black text-teal-800 truncate">🐕 Wallet</h3>
+                                <p className="text-sm font-bold text-teal-600 truncate">{formatAddress(address)}</p>
                             </div>
                         </div>
                         
                         {/* Action Buttons Container */}
-                        <div className="flex items-center space-x-1 flex-shrink-0 ml-auto">
+                        <div className="flex items-center space-x-2 flex-shrink-0 ml-auto">
                             <button
                                 onClick={() => copyToClipboard(address, 'Address')}
-                                className="p-1 text-gray-600 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-all duration-200 active:scale-95"
+                                className="p-2 text-teal-600 hover:text-lime-600 hover:bg-lime-100 rounded-cartoon transition-all duration-200 hover:scale-105 active:scale-95"
                                 title="Copy address"
                             >
                                 <FontAwesomeIcon icon={faCopy} className="w-4 h-4" />
@@ -349,10 +349,10 @@ export default function WalletConnect({ onConnected }) {
                             <button
                                 onClick={handleSync}
                                 disabled={isSyncing}
-                                className={`p-1 rounded-lg transition-colors duration-200 ${
+                                className={`p-2 rounded-cartoon transition-all duration-200 hover:scale-105 active:scale-95 ${
                                     isSyncing 
-                                        ? 'text-gray-400 cursor-not-allowed' 
-                                        : 'text-gray-600 hover:text-primary-600 hover:bg-primary-50'
+                                        ? 'text-teal-400 cursor-not-allowed' 
+                                        : 'text-teal-600 hover:text-lime-600 hover:bg-lime-100'
                                 }`}
                                 title="Sync wallet"
                             >
@@ -366,40 +366,40 @@ export default function WalletConnect({ onConnected }) {
                             <div className="relative">
                                 <button
                                     onClick={() => setShowOptions(!showOptions)}
-                                    className="p-1 text-gray-600 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors duration-200"
+                                    className="p-2 text-teal-600 hover:text-lime-600 hover:bg-lime-100 rounded-cartoon transition-all duration-200 hover:scale-105 active:scale-95"
                                     title="More options"
                                 >
                                     <FontAwesomeIcon icon={faEllipsisV} className="w-4 h-4" />
                                 </button>
                                 
                                 {showOptions && (
-                                    <div className="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-2xl border border-gray-200 overflow-hidden z-50" ref={optionsRef}>
-                                        <div className="py-1">
+                                    <div className="absolute right-0 mt-3 w-56 bg-white rounded-cartoon shadow-cartoon-xl border-2 border-teal-300 overflow-hidden z-50" ref={optionsRef}>
+                                        <div className="py-2">
                                             <button 
                                                 onClick={() => setShowSendModal(true)}
-                                                className="w-full px-4 py-3 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center transition-colors duration-150"
+                                                className="w-full px-4 py-3 text-left text-sm text-teal-700 hover:bg-lime-100 flex items-center transition-all duration-150 font-bold"
                                             >
-                                                <FontAwesomeIcon icon={faPaperPlane} className="w-4 h-4 mr-3 text-gray-500" />
+                                                <FontAwesomeIcon icon={faPaperPlane} className="w-4 h-4 mr-3 text-teal-500" />
                                                 Send DOGE
                                             </button>
                                             <button 
                                                 onClick={() => setShowRecoveryPhrase(!showRecoveryPhrase)}
-                                                className="w-full px-4 py-3 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center transition-colors duration-150"
+                                                className="w-full px-4 py-3 text-left text-sm text-teal-700 hover:bg-lime-100 flex items-center transition-all duration-150 font-bold"
                                             >
-                                                <FontAwesomeIcon icon={faKey} className="w-4 h-4 mr-3 text-gray-500" />
+                                                <FontAwesomeIcon icon={faKey} className="w-4 h-4 mr-3 text-teal-500" />
                                                 {!showRecoveryPhrase ? "Show Recovery Phrase" : "Hide Recovery Phrase"}
                                             </button>
                                             <button 
                                                 onClick={() => setShowPrivateKey(!showPrivateKey)}
-                                                className="w-full px-4 py-3 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center transition-colors duration-150"
+                                                className="w-full px-4 py-3 text-left text-sm text-teal-700 hover:bg-lime-100 flex items-center transition-all duration-150 font-bold"
                                             >
-                                                <FontAwesomeIcon icon={faLock} className="w-4 h-4 mr-3 text-gray-500" />
+                                                <FontAwesomeIcon icon={faLock} className="w-4 h-4 mr-3 text-teal-500" />
                                                 {!showPrivateKey ? "Show Private Key" : "Hide Private Key"}
                                             </button>
-                                            <div className="border-t border-gray-100 my-1"></div>
+                                            <div className="border-t-2 border-lime-200 my-2"></div>
                                             <button 
                                                 onClick={handleDisconnect}
-                                                className="w-full px-4 py-3 text-left text-sm text-red-600 hover:bg-red-50 flex items-center transition-colors duration-150"
+                                                className="w-full px-4 py-3 text-left text-sm text-red-600 hover:bg-red-50 flex items-center transition-all duration-150 font-bold"
                                             >
                                                 <FontAwesomeIcon icon={faSignOutAlt} className="w-4 h-4 mr-3 text-red-500" />
                                                 Disconnect Wallet
@@ -412,10 +412,10 @@ export default function WalletConnect({ onConnected }) {
                     </div>
 
                     {/* Wallet Balance */}
-                    <div className="bg-gray-50 rounded-lg p-4">
+                    <div className="bg-gradient-to-r from-lime-100 to-lime-200 rounded-cartoon p-4 border-2 border-lime-300">
                         <div className="flex items-center justify-between">
-                            <span className="text-sm font-medium text-gray-700">Balance</span>
-                            <span className="text-lg font-bold text-gray-900">
+                            <span className="text-sm font-bold text-teal-700">Balance</span>
+                            <span className="text-xl font-black text-teal-800">
                                 {(!walletBalance && walletBalance !== 0) ? 'Loading...' : `${walletBalance} DOGE`}
                             </span>
                         </div>
@@ -424,29 +424,29 @@ export default function WalletConnect({ onConnected }) {
 
                 {/* Private Key Display */}
                 {showPrivateKey && (
-                    <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-6">
-                        <h4 className="text-lg font-bold text-gray-900 mb-4 flex items-center">
-                            <FontAwesomeIcon icon={faLock} className="w-5 h-5 mr-2 text-primary-600" />
+                    <div className="bg-white/95 backdrop-blur-md rounded-cartoon shadow-cartoon-xl border-2 border-teal-300 p-6">
+                        <h4 className="text-xl font-black text-teal-800 mb-4 flex items-center">
+                            <FontAwesomeIcon icon={faLock} className="w-5 h-5 mr-3 text-lime-600" />
                             Private Key
                         </h4>
-                        <div className="bg-gray-50 rounded-lg p-4 mb-4">
+                        <div className="bg-gradient-to-r from-lime-50 to-lime-100 rounded-cartoon p-4 mb-4 border-2 border-lime-200">
                             <div className="flex items-center justify-between">
-                                <code className="text-sm text-gray-900 font-mono break-all">
+                                <code className="text-sm text-teal-900 font-mono break-all font-bold">
                                     {getPrivateKey() || "Private key not available"}
                                 </code>
                                 <button
                                     onClick={() => copyToClipboard(getPrivateKey() || "", 'Private Key')}
-                                    className="ml-2 p-2 text-gray-600 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-all duration-200 active:scale-95"
+                                    className="ml-3 p-2 text-teal-600 hover:text-lime-600 hover:bg-lime-100 rounded-cartoon transition-all duration-200 hover:scale-105 active:scale-95"
                                     title="Copy private key"
                                 >
                                     <FontAwesomeIcon icon={faCopy} className="w-4 h-4" />
                                 </button>
                             </div>
                         </div>
-                        <div className="p-3 bg-danger-50 border border-danger-200 rounded-lg">
+                        <div className="p-4 bg-gradient-to-r from-red-50 to-red-100 border-2 border-red-300 rounded-cartoon">
                             <div className="flex items-center">
-                                <FontAwesomeIcon icon={faExclamationTriangle} className="w-4 h-4 text-danger-600 mr-2" />
-                                <p className="text-sm text-danger-800 font-medium">Never share your private key with anyone!</p>
+                                <FontAwesomeIcon icon={faExclamationTriangle} className="w-5 h-5 text-red-600 mr-3" />
+                                <p className="text-sm text-red-800 font-bold">Never share your private key with anyone!</p>
                             </div>
                         </div>
                     </div>
@@ -454,71 +454,71 @@ export default function WalletConnect({ onConnected }) {
 
                 {/* Recovery Phrase Display */}
                 {showRecoveryPhrase && (
-                    <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-6">
-                        <h4 className="text-lg font-bold text-gray-900 mb-4 flex items-center">
-                            <FontAwesomeIcon icon={faKey} className="w-5 h-5 mr-2 text-primary-600" />
+                    <div className="bg-white/95 backdrop-blur-md rounded-cartoon shadow-cartoon-xl border-2 border-teal-300 p-6">
+                        <h4 className="text-xl font-black text-teal-800 mb-4 flex items-center">
+                            <FontAwesomeIcon icon={faKey} className="w-5 h-5 mr-3 text-lime-600" />
                             Recovery Phrase
                         </h4>
-                        <div className="bg-gray-50 rounded-lg p-4 mb-4">
+                        <div className="bg-gradient-to-r from-lime-50 to-lime-100 rounded-cartoon p-4 mb-4 border-2 border-lime-200">
                             <div className="flex items-center justify-between">
-                                <code className="text-sm text-gray-900 font-mono break-all">
+                                <code className="text-sm text-teal-900 font-mono break-all font-bold">
                                     {getMnemonic() || "Recovery phrase not available"}
                                 </code>
                                 <button
                                     onClick={() => copyToClipboard(getMnemonic() || "", 'Recovery Phrase')}
-                                    className="ml-2 p-2 text-gray-600 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-all duration-200 active:scale-95"
+                                    className="ml-3 p-2 text-teal-600 hover:text-lime-600 hover:bg-lime-100 rounded-cartoon transition-all duration-200 hover:scale-105 active:scale-95"
                                     title="Copy recovery phrase"
                                 >
                                     <FontAwesomeIcon icon={faCopy} className="w-4 h-4" />
                                 </button>
                             </div>
                         </div>
-                        <div className="p-3 bg-warning-50 border border-warning-200 rounded-lg">
+                        <div className="p-4 bg-gradient-to-r from-yellow-50 to-yellow-100 border-2 border-yellow-300 rounded-cartoon">
                             <div className="flex items-center">
-                                <FontAwesomeIcon icon={faExclamationTriangle} className="w-4 h-4 text-warning-600 mr-2" />
-                                <p className="text-sm text-warning-800 font-medium">Write this down and keep it safe. Never share your recovery phrase with anyone!</p>
+                                <FontAwesomeIcon icon={faExclamationTriangle} className="w-5 h-5 text-yellow-600 mr-3" />
+                                <p className="text-sm text-yellow-800 font-bold">Write this down and keep it safe. Never share your recovery phrase with anyone!</p>
                             </div>
                         </div>
                     </div>
                 )}
 
                 {/* Tokens List */}
-                <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-6">
-                    <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center">
-                        <FontAwesomeIcon icon={faCoins} className="w-5 h-5 mr-2 text-primary-600" />
+                <div className="bg-white/95 backdrop-blur-md rounded-cartoon shadow-cartoon-xl border-2 border-teal-300 p-6">
+                    <h3 className="text-xl font-black text-teal-800 mb-4 flex items-center">
+                        <FontAwesomeIcon icon={faCoins} className="w-5 h-5 mr-3 text-lime-600" />
                         Tokens
                     </h3>
                     
                     {!tokensBalance ? (
                         <div className="text-center py-8">
-                            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600 mx-auto mb-2"></div>
-                            <p className="text-gray-600">Loading...</p>
+                            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-lime-600 mx-auto mb-2"></div>
+                            <p className="text-teal-600 font-bold">Loading...</p>
                         </div>
                     ) : tokensBalance && tokensBalance.length > 0 ? (
                         <div className="space-y-3">
                             {tokensBalance.map((token, index) => (
                                 <div 
                                     key={index} 
-                                    className="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-200 cursor-pointer group"
+                                    className="flex items-center justify-between p-4 bg-gradient-to-r from-lime-50 to-lime-100 rounded-cartoon hover:from-lime-100 hover:to-lime-200 transition-all duration-200 cursor-pointer group border-2 border-lime-200 hover:border-lime-300"
                                     onClick={() => handleTokenClick(token)}
                                 >
                                     <div className="flex items-center space-x-3">
-                                        <div className="w-8 h-8 bg-primary-100 rounded-lg flex items-center justify-center">
-                                            <FontAwesomeIcon icon={faCoins} className="w-4 h-4 text-primary-600" />
+                                        <div className="w-10 h-10 bg-gradient-to-r from-gold-400 to-gold-500 rounded-cartoon flex items-center justify-center shadow-cartoon-soft border-2 border-gold-600">
+                                            <FontAwesomeIcon icon={faCoins} className="w-5 h-5 text-white" />
                                         </div>
                                         <div>
-                                            <p className="font-medium text-gray-900">{token.ticker}</p>
-                                            <p className="text-sm text-gray-600">Token</p>
+                                            <p className="font-bold text-teal-800">{token.ticker}</p>
+                                            <p className="text-sm text-teal-600 font-medium">Token</p>
                                         </div>
                                     </div>
                                     <div className="flex items-center space-x-3">
                                         <div className="text-right">
-                                            <p className="font-bold text-gray-900">{(parseFloat(token.overallBalance) || 0)/1e18}</p>
-                                            <p className="text-sm text-gray-600">Balance</p>
+                                            <p className="font-black text-teal-800">{(parseFloat(token.overallBalance) || 0)/1e18}</p>
+                                            <p className="text-sm text-teal-600 font-medium">Balance</p>
                                         </div>
                                         <FontAwesomeIcon 
                                             icon={faExternalLinkAlt} 
-                                            className="w-4 h-4 text-gray-400 group-hover:text-primary-600 transition-colors duration-200" 
+                                            className="w-4 h-4 text-teal-400 group-hover:text-lime-600 transition-all duration-200" 
                                         />
                                     </div>
                                 </div>
@@ -526,22 +526,22 @@ export default function WalletConnect({ onConnected }) {
                         </div>
                     ) : (
                         <div className="text-center py-8">
-                            <FontAwesomeIcon icon={faCoins} className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-                            <p className="text-gray-500 font-medium">No tokens found</p>
-                            <p className="text-gray-400 text-sm">Your wallet doesn&apos;t contain any tokens</p>
+                            <div className="text-4xl mb-4">🐕</div>
+                            <p className="text-teal-600 font-bold">No tokens found</p>
+                            <p className="text-teal-500 text-sm">Your wallet doesn&apos;t contain any tokens</p>
                         </div>
                     )}
                 </div>
 
                 {/* Send DOGE Modal */}
                 {showSendModal && (
-                    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                        <div className="bg-white rounded-2xl shadow-2xl p-6 w-full max-w-md mx-4">
+                    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
+                        <div className="bg-white rounded-cartoon shadow-cartoon-xl p-6 w-full max-w-md mx-4 border-2 border-teal-300">
                             <div className="flex items-center justify-between mb-6">
-                                <h3 className="text-xl font-bold text-gray-900">Send DOGE</h3>
+                                <h3 className="text-2xl font-black text-teal-800">Send DOGE</h3>
                                 <button
                                     onClick={() => setShowSendModal(false)}
-                                    className="p-2 text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-lg transition-colors duration-200"
+                                    className="p-2 text-teal-600 hover:text-teal-800 hover:bg-lime-100 rounded-cartoon transition-all duration-200 hover:scale-105 active:scale-95"
                                 >
                                     <FontAwesomeIcon icon={faTimes} className="w-4 h-4" />
                                 </button>
@@ -549,7 +549,7 @@ export default function WalletConnect({ onConnected }) {
 
                             <form onSubmit={handleSendDoge} className="space-y-4">
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">Amount (DOGE)</label>
+                                    <label className="block text-sm font-bold text-teal-700 mb-2">Amount (DOGE)</label>
                                     <input
                                         type="number"
                                         value={sendAmount}
@@ -558,19 +558,19 @@ export default function WalletConnect({ onConnected }) {
                                         min="0.1"
                                         step="0.1"
                                         required
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors duration-200"
+                                        className="w-full px-4 py-3 border-2 border-teal-300 rounded-cartoon focus:outline-none focus:ring-2 focus:ring-lime-400 focus:border-lime-500 transition-all duration-200 bg-white/90 backdrop-blur-sm font-medium text-teal-800 placeholder-teal-500"
                                     />
                                 </div>
 
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">Recipient Address</label>
+                                    <label className="block text-sm font-bold text-teal-700 mb-2">Recipient Address</label>
                                     <input
                                         type="text"
                                         value={sendAddress}
                                         onChange={(e) => setSendAddress(e.target.value)}
                                         placeholder="Enter DOGE address"
                                         required
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors duration-200"
+                                        className="w-full px-4 py-3 border-2 border-teal-300 rounded-cartoon focus:outline-none focus:ring-2 focus:ring-lime-400 focus:border-lime-500 transition-all duration-200 bg-white/90 backdrop-blur-sm font-medium text-teal-800 placeholder-teal-500"
                                     />
                                 </div>
 
@@ -578,14 +578,14 @@ export default function WalletConnect({ onConnected }) {
                                     <button
                                         type="button"
                                         onClick={() => setShowSendModal(false)}
-                                        className="flex-1 px-4 py-2 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors duration-200"
+                                        className="flex-1 px-4 py-3 border-2 border-teal-300 text-teal-700 font-bold rounded-cartoon hover:bg-lime-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition-all duration-200"
                                     >
                                         Cancel
                                     </button>
                                     <button
                                         type="submit"
                                         disabled={isLoading}
-                                        className="flex-1 inline-flex items-center justify-center px-4 py-2 bg-primary-600 text-white font-medium rounded-lg hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                                        className="flex-1 inline-flex items-center justify-center px-4 py-3 bg-gradient-to-r from-lime-400 to-lime-500 text-teal-900 font-bold rounded-cartoon shadow-cartoon hover:shadow-cartoon-lg hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-lime-500 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed transform"
                                     >
                                         <FontAwesomeIcon icon={faPaperPlane} className="w-4 h-4 mr-2" />
                                         {isLoading ? 'Sending...' : 'Send DOGE'}
@@ -598,29 +598,29 @@ export default function WalletConnect({ onConnected }) {
 
                 {/* Copy Status Message */}
                 {copyStatus && (
-                    <div className="fixed top-20 left-1/2 transform -translate-x-1/2 bg-green-600 text-white px-6 py-3 rounded-lg shadow-2xl z-[60] animate-fade-in">
+                    <div className="fixed top-20 left-1/2 transform -translate-x-1/2 bg-green-600 text-white px-6 py-3 rounded-cartoon shadow-cartoon-xl z-[60] animate-fade-in">
                         <div className="flex items-center">
                             <FontAwesomeIcon icon={faCheckCircle} className="w-4 h-4 mr-2" />
-                            <span className="text-sm font-medium">{copyStatus}</span>
+                            <span className="text-sm font-bold">{copyStatus}</span>
                         </div>
                     </div>
                 )}
 
                 {/* Error/Success Messages */}
                 {error && (
-                    <div className="p-4 bg-danger-50 border border-danger-200 rounded-lg">
+                    <div className="p-4 bg-gradient-to-r from-red-50 to-red-100 border-2 border-red-300 rounded-cartoon">
                         <div className="flex items-center">
-                            <FontAwesomeIcon icon={faExclamationTriangle} className="w-5 h-5 text-danger-600 mr-2" />
-                            <p className="text-sm text-danger-600">{error}</p>
+                            <FontAwesomeIcon icon={faExclamationTriangle} className="w-5 h-5 text-red-600 mr-3" />
+                            <p className="text-sm text-red-800 font-bold">{error}</p>
                         </div>
                     </div>
                 )}
 
                 {success && (
-                    <div className="p-4 bg-success-50 border border-success-200 rounded-lg">
+                    <div className="p-4 bg-gradient-to-r from-green-50 to-green-100 border-2 border-green-300 rounded-cartoon">
                         <div className="flex items-center">
-                            <FontAwesomeIcon icon={faCheckCircle} className="w-5 h-5 text-success-600 mr-2" />
-                            <p className="text-sm text-success-600">{success}</p>
+                            <FontAwesomeIcon icon={faCheckCircle} className="w-5 h-5 text-green-600 mr-3" />
+                            <p className="text-sm text-green-800 font-bold">{success}</p>
                         </div>
                     </div>
                 )}
@@ -636,38 +636,38 @@ export default function WalletConnect({ onConnected }) {
         <div className="max-w-2xl mx-auto space-y-6">
             {/* Header */}
             <div className="text-center">
-                <h2 className="text-2xl font-bold text-gray-900">Connect Wallet</h2>
-                <p className="text-gray-600 mt-1">Connect your wallet to start trading</p>
+                <h2 className="text-3xl font-black text-teal-800 mb-2">🐕 Connect Wallet</h2>
+                <p className="text-teal-600 font-medium">Connect your wallet to start trading</p>
             </div>
 
             {/* Connect Wallet Card */}
-            <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-6">
+            <div className="bg-white/95 backdrop-blur-md rounded-cartoon shadow-cartoon-xl border-2 border-teal-300 p-6">
                 {/* Error/Success Messages */}
                 {error && (
-                    <div className="mb-6 p-4 bg-danger-50 border border-danger-200 rounded-lg">
+                    <div className="mb-6 p-4 bg-gradient-to-r from-red-50 to-red-100 border-2 border-red-300 rounded-cartoon">
                         <div className="flex items-center">
-                            <FontAwesomeIcon icon={faExclamationTriangle} className="w-5 h-5 text-danger-600 mr-2" />
-                            <p className="text-sm text-danger-600">{error}</p>
+                            <FontAwesomeIcon icon={faExclamationTriangle} className="w-5 h-5 text-red-600 mr-3" />
+                            <p className="text-sm text-red-800 font-bold">{error}</p>
                         </div>
                     </div>
                 )}
 
                 {success && (
-                    <div className="mb-6 p-4 bg-success-50 border border-success-200 rounded-lg">
+                    <div className="mb-6 p-4 bg-gradient-to-r from-green-50 to-green-100 border-2 border-green-300 rounded-cartoon">
                         <div className="flex items-center">
-                            <FontAwesomeIcon icon={faCheckCircle} className="w-5 h-5 text-success-600 mr-2" />
-                            <p className="text-sm text-success-600">{success}</p>
+                            <FontAwesomeIcon icon={faCheckCircle} className="w-5 h-5 text-green-600 mr-3" />
+                            <p className="text-sm text-green-800 font-bold">{success}</p>
                         </div>
                     </div>
                 )}
 
                 {/* Tab Navigation */}
-                <div className="flex space-x-1 mb-6 bg-gray-100 rounded-lg p-1">
+                <div className="flex space-x-2 mb-6 bg-gradient-to-r from-lime-100 to-lime-200 rounded-cartoon p-2 border-2 border-lime-300">
                     <button
-                        className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-colors duration-200 ${
+                        className={`flex-1 py-3 px-4 rounded-cartoon text-sm font-bold transition-all duration-200 ${
                             activeTab === 'create'
-                                ? 'bg-white text-primary-600 shadow-sm'
-                                : 'text-gray-600 hover:text-gray-900'
+                                ? 'bg-white text-teal-800 shadow-cartoon-soft border-2 border-lime-400'
+                                : 'text-teal-700 hover:text-teal-800 hover:bg-lime-50 border-2 border-transparent'
                         }`}
                         onClick={() => setActiveTab('create')}
                     >
@@ -675,10 +675,10 @@ export default function WalletConnect({ onConnected }) {
                         Create New
                     </button>
                     <button
-                        className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-colors duration-200 ${
+                        className={`flex-1 py-3 px-4 rounded-cartoon text-sm font-bold transition-all duration-200 ${
                             activeTab === 'mnemonic'
-                                ? 'bg-white text-primary-600 shadow-sm'
-                                : 'text-gray-600 hover:text-gray-900'
+                                ? 'bg-white text-teal-800 shadow-cartoon-soft border-2 border-lime-400'
+                                : 'text-teal-700 hover:text-teal-800 hover:bg-lime-50 border-2 border-transparent'
                         }`}
                         onClick={() => setActiveTab('mnemonic')}
                     >
@@ -686,10 +686,10 @@ export default function WalletConnect({ onConnected }) {
                         Mnemonic
                     </button>
                     <button
-                        className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-colors duration-200 ${
+                        className={`flex-1 py-3 px-4 rounded-cartoon text-sm font-bold transition-all duration-200 ${
                             activeTab === 'privateKey'
-                                ? 'bg-white text-primary-600 shadow-sm'
-                                : 'text-gray-600 hover:text-gray-900'
+                                ? 'bg-white text-teal-800 shadow-cartoon-soft border-2 border-lime-400'
+                                : 'text-teal-700 hover:text-teal-800 hover:bg-lime-50 border-2 border-transparent'
                         }`}
                         onClick={() => setActiveTab('privateKey')}
                     >
@@ -704,9 +704,9 @@ export default function WalletConnect({ onConnected }) {
                         <div className="space-y-4">
                             {!showMnemonic ? (
                                 <div className="text-center">
-                                    <p className="text-gray-600 mb-4">Create a new wallet with a randomly generated mnemonic phrase.</p>
+                                    <p className="text-teal-600 mb-4 font-medium">Create a new wallet with a randomly generated mnemonic phrase.</p>
                                     <button 
-                                        className="inline-flex items-center px-6 py-3 bg-primary-600 text-white font-medium rounded-lg hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors duration-200"
+                                        className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-lime-400 to-lime-500 text-teal-900 font-bold rounded-cartoon shadow-cartoon hover:shadow-cartoon-lg hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-lime-500 transition-all duration-200 transform"
                                         onClick={handleCreateWallet}
                                         disabled={isLoading}
                                     >
@@ -715,16 +715,16 @@ export default function WalletConnect({ onConnected }) {
                                     </button>
                                 </div>
                             ) : (
-                                <div className="p-4 bg-warning-50 border border-warning-200 rounded-lg">
-                                    <h4 className="font-bold text-warning-800 mb-2">Your Mnemonic Phrase:</h4>
-                                    <div className="bg-white p-4 rounded-lg border border-warning-300 mb-4">
-                                        <p className="text-sm font-mono text-gray-900">{generatedMnemonic}</p>
+                                <div className="p-4 bg-gradient-to-r from-yellow-50 to-yellow-100 border-2 border-yellow-300 rounded-cartoon">
+                                    <h4 className="font-black text-yellow-800 mb-2">Your Mnemonic Phrase:</h4>
+                                    <div className="bg-white p-4 rounded-cartoon border-2 border-yellow-400 mb-4">
+                                        <p className="text-sm font-mono text-teal-900 font-bold">{generatedMnemonic}</p>
                                     </div>
-                                    <p className="text-sm text-warning-700 mb-4">
+                                    <p className="text-sm text-yellow-700 mb-4 font-medium">
                                         Write this down and keep it safe! You will need it to recover your wallet.
                                     </p>
                                     <button 
-                                        className="inline-flex items-center px-6 py-3 bg-primary-600 text-white font-medium rounded-lg hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors duration-200"
+                                        className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-lime-400 to-lime-500 text-teal-900 font-bold rounded-cartoon shadow-cartoon hover:shadow-cartoon-lg hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-lime-500 transition-all duration-200 transform"
                                         onClick={handleConfirmMnemonic}
                                         disabled={isLoading}
                                     >
@@ -739,9 +739,9 @@ export default function WalletConnect({ onConnected }) {
                     {activeTab === 'mnemonic' && (
                         <div className="space-y-4">
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">Mnemonic Phrase</label>
+                                <label className="block text-sm font-bold text-teal-700 mb-2">Mnemonic Phrase</label>
                                 <textarea
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors duration-200"
+                                    className="w-full px-4 py-3 border-2 border-teal-300 rounded-cartoon focus:outline-none focus:ring-2 focus:ring-lime-400 focus:border-lime-500 transition-all duration-200 bg-white/90 backdrop-blur-sm font-medium text-teal-800 placeholder-teal-500"
                                     rows="3"
                                     value={mnemonic}
                                     onChange={(e) => setMnemonic(e.target.value)}
@@ -749,7 +749,7 @@ export default function WalletConnect({ onConnected }) {
                                 ></textarea>
                             </div>
                             <button 
-                                className="w-full inline-flex items-center justify-center px-6 py-3 bg-primary-600 text-white font-medium rounded-lg hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors duration-200"
+                                className="w-full inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-lime-400 to-lime-500 text-teal-900 font-bold rounded-cartoon shadow-cartoon hover:shadow-cartoon-lg hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-lime-500 transition-all duration-200 transform"
                                 onClick={handleConnectWithMnemonic}
                             >
                                 <FontAwesomeIcon icon={faWallet} className="w-4 h-4 mr-2" />
@@ -761,17 +761,17 @@ export default function WalletConnect({ onConnected }) {
                     {activeTab === 'privateKey' && (
                         <div className="space-y-4">
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">Private Key</label>
+                                <label className="block text-sm font-bold text-teal-700 mb-2">Private Key</label>
                                 <input
                                     type="text"
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors duration-200"
+                                    className="w-full px-4 py-3 border-2 border-teal-300 rounded-cartoon focus:outline-none focus:ring-2 focus:ring-lime-400 focus:border-lime-500 transition-all duration-200 bg-white/90 backdrop-blur-sm font-medium text-teal-800 placeholder-teal-500"
                                     value={privateKey}
                                     onChange={(e) => setPrivateKey(e.target.value)}
                                     placeholder="Enter your private key"
                                 />
                             </div>
                             <button 
-                                className="w-full inline-flex items-center justify-center px-6 py-3 bg-primary-600 text-white font-medium rounded-lg hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors duration-200"
+                                className="w-full inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-lime-400 to-lime-500 text-teal-900 font-bold rounded-cartoon shadow-cartoon hover:shadow-cartoon-lg hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-lime-500 transition-all duration-200 transform"
                                 onClick={handleConnectWithPrivateKey}
                             >
                                 <FontAwesomeIcon icon={faWallet} className="w-4 h-4 mr-2" />

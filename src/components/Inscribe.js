@@ -20,10 +20,10 @@ export default function Inscribe() {
 
     return (
         <div className="max-w-4xl mx-auto">
-            <div className="bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden">
+            <div className="bg-white/95 backdrop-blur-md rounded-cartoon shadow-cartoon-xl border-2 border-teal-300 overflow-hidden">
                 {/* Header */}
-                <div className="border-b border-gray-200 p-6">
-                    <h2 className="text-2xl font-bold text-gray-900 text-center mb-6">Inscribe</h2>
+                <div className="border-b-2 border-lime-200 p-6">
+                    <h2 className="text-3xl font-black text-teal-800 text-center mb-6">📝 Inscribe</h2>
                     
                     {/* Navigation Tabs */}
                     <div className="flex justify-center space-x-2">
@@ -31,10 +31,10 @@ export default function Inscribe() {
                             <button
                                 key={tab.id}
                                 onClick={() => handleTabClick(tab.id)}
-                                className={`px-6 py-3 rounded-xl font-medium transition-all duration-200 ${
+                                className={`px-6 py-3 rounded-cartoon font-bold transition-all duration-200 ${
                                     activeTab === tab.id
-                                        ? 'bg-primary-600 text-white shadow-lg'
-                                        : 'text-gray-600 hover:text-primary-600 hover:bg-primary-50'
+                                        ? 'bg-gradient-to-r from-lime-400 to-lime-500 text-teal-900 shadow-cartoon border-2 border-lime-600'
+                                        : 'text-teal-700 hover:text-teal-800 hover:bg-lime-100 border-2 border-transparent hover:border-lime-300'
                                 }`}
                             >
                                 {tab.name}

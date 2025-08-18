@@ -50,15 +50,15 @@ export default function SendTransaction() {
     return (
       <div className="max-w-2xl mx-auto space-y-6">
         <div className="text-center">
-          <h2 className="text-2xl font-bold text-gray-900">Send DOGE</h2>
-          <p className="text-gray-600 mt-1">Transfer DOGE to another wallet</p>
+          <h2 className="text-3xl font-black text-teal-800 mb-2">📤 Send DOGE</h2>
+          <p className="text-teal-600 font-medium">Transfer DOGE to another wallet</p>
         </div>
         
-        <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-12">
+        <div className="bg-white/95 backdrop-blur-md rounded-cartoon shadow-cartoon-xl border-2 border-teal-300 p-12">
           <div className="text-center">
-            <FontAwesomeIcon icon={faWallet} className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 mb-2">Wallet Not Connected</h3>
-            <p className="text-gray-500">Please connect your wallet to send transactions.</p>
+            <div className="text-4xl mb-4">🔒</div>
+            <h3 className="text-xl font-black text-teal-800 mb-2">Wallet Not Connected</h3>
+            <p className="text-teal-600 font-medium">Please connect your wallet to send transactions.</p>
           </div>
         </div>
       </div>
@@ -69,28 +69,28 @@ export default function SendTransaction() {
     <div className="max-w-2xl mx-auto space-y-6">
       {/* Header */}
       <div className="text-center">
-        <h2 className="text-2xl font-bold text-gray-900">Send DOGE</h2>
-        <p className="text-gray-600 mt-1">Transfer DOGE to another wallet address</p>
+        <h2 className="text-3xl font-black text-teal-800 mb-2">📤 Send DOGE</h2>
+        <p className="text-teal-600 font-medium">Transfer DOGE to another wallet address</p>
       </div>
 
       {/* Form Card */}
-      <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-6">
+      <div className="bg-white/95 backdrop-blur-md rounded-cartoon shadow-cartoon-xl border-2 border-teal-300 p-6">
         {/* Error Display */}
         {error && (
-          <div className="mb-6 p-4 bg-danger-50 border border-danger-200 rounded-lg">
+          <div className="mb-6 p-4 bg-gradient-to-r from-red-50 to-red-100 border-2 border-red-300 rounded-cartoon">
             <div className="flex items-center">
-              <FontAwesomeIcon icon={faExclamationTriangle} className="w-5 h-5 text-danger-600 mr-2" />
-              <p className="text-sm text-danger-600">{error}</p>
+              <FontAwesomeIcon icon={faExclamationTriangle} className="w-5 h-5 text-red-600 mr-3" />
+              <p className="text-sm text-red-800 font-bold">{error}</p>
             </div>
           </div>
         )}
 
         {/* Success Display */}
         {success && (
-          <div className="mb-6 p-4 bg-success-50 border border-success-200 rounded-lg">
+          <div className="mb-6 p-4 bg-gradient-to-r from-green-50 to-green-100 border-2 border-green-300 rounded-cartoon">
             <div className="flex items-center">
-              <FontAwesomeIcon icon={faCheckCircle} className="w-5 h-5 text-success-600 mr-2" />
-              <p className="text-sm text-success-600">{success}</p>
+              <FontAwesomeIcon icon={faCheckCircle} className="w-5 h-5 text-green-600 mr-3" />
+              <p className="text-sm text-green-800 font-bold">{success}</p>
             </div>
           </div>
         )}
@@ -98,12 +98,12 @@ export default function SendTransaction() {
         <form onSubmit={handleSend} className="space-y-6">
           {/* Amount Input */}
           <div>
-            <label htmlFor="amount" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="amount" className="block text-sm font-bold text-teal-700 mb-2">
               Amount (DOGE)
             </label>
             <input
               type="number"
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors duration-200"
+              className="w-full px-4 py-3 border-2 border-teal-300 rounded-cartoon focus:outline-none focus:ring-2 focus:ring-lime-400 focus:border-lime-500 transition-all duration-200 bg-white/90 backdrop-blur-sm font-medium text-teal-800 placeholder-teal-500"
               id="amount"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
@@ -117,12 +117,12 @@ export default function SendTransaction() {
           
           {/* Address Input */}
           <div>
-            <label htmlFor="address" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="address" className="block text-sm font-bold text-teal-700 mb-2">
               Recipient Address
             </label>
             <input
               type="text"
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors duration-200"
+              className="w-full px-4 py-3 border-2 border-teal-300 rounded-cartoon focus:outline-none focus:ring-2 focus:ring-lime-400 focus:border-lime-500 transition-all duration-200 bg-white/90 backdrop-blur-sm font-medium text-teal-800 placeholder-teal-500"
               id="address"
               value={address}
               onChange={(e) => setAddress(e.target.value)}
@@ -136,7 +136,7 @@ export default function SendTransaction() {
           <div className="text-center">
             <button 
               type="submit" 
-              className="inline-flex items-center px-6 py-3 bg-primary-600 text-white font-medium rounded-lg hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-lime-400 to-lime-500 text-teal-900 font-bold rounded-cartoon shadow-cartoon hover:shadow-cartoon-lg hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-lime-500 transition-all duration-200 transform disabled:opacity-50 disabled:cursor-not-allowed"
               disabled={isLoading}
             >
               <FontAwesomeIcon icon={faPaperPlane} className="w-4 h-4 mr-2" />

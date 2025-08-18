@@ -5,7 +5,7 @@ import { useLoader } from '@/contexts/LoaderContext.js';
 import { useRouter } from 'next/router.js';
 import { formatAmericanStyle, formatCurrency } from '@/utils/formatters';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch, faArrowLeft, faArrowRight, faPlay } from '@fortawesome/free-solid-svg-icons';
+import { faSearch, faArrowLeft, faArrowRight, faPlay, faCoins } from '@fortawesome/free-solid-svg-icons';
 
 const AllTokens = memo(() => {
 
@@ -228,33 +228,20 @@ const AllTokens = memo(() => {
 
     return (
         <div className="space-y-6">
-            {/* Block Info */}
-            {/* <div className="bg-gradient-to-r from-primary-50 to-accent-50 border border-primary-200 rounded-xl p-4 flex items-center justify-between">
-                <div className="flex items-center space-x-3">
-                    <span className="text-gray-600">
-                        Last Synced Block: <span className="font-bold text-gray-900">{currentBlock}</span>
-                    </span>
-                </div>
-                <div className="flex items-center space-x-2">
-                    <div className="w-3 h-3 bg-success-500 rounded-full animate-pulse"></div>
-                    <span className="text-sm text-success-600 font-medium">Live</span>
-                </div>
-            </div> */}
-
             {/* Header and Search */}
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0">
                 <div>
-                    <h2 className="text-2xl font-bold text-gray-900">All Tokens</h2>
-                    <p className="text-gray-600 mt-1">Discover and trade Dogecoin tokens</p>
+                    <h2 className="text-3xl font-black text-teal-800 mb-2">🐕 All Tokens</h2>
+                    <p className="text-teal-600 font-medium">Discover and trade Dogecoin tokens</p>
                 </div>
                 <div className="relative">
                     <FontAwesomeIcon 
                         icon={faSearch} 
-                        className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" 
+                        className="absolute left-4 top-1/2 transform -translate-y-1/2 text-teal-600 w-5 h-5" 
                     />
                     <input
                         type="search"
-                        className="pl-10 pr-4 py-2 w-full sm:w-80 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors duration-200"
+                        className="pl-12 pr-4 py-3 w-full sm:w-80 border-2 border-teal-300 rounded-cartoon focus:outline-none focus:ring-2 focus:ring-lime-400 focus:border-lime-500 transition-all duration-200 bg-white/90 backdrop-blur-sm font-medium text-teal-800 placeholder-teal-500"
                         placeholder="Search tokens..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
@@ -263,44 +250,47 @@ const AllTokens = memo(() => {
             </div>
 
             {/* Token Table */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+            <div className="bg-white/95 backdrop-blur-md rounded-cartoon shadow-cartoon-xl border-2 border-teal-300 overflow-hidden">
                 <div className="overflow-x-auto">
                     <table className="w-full">
-                        <thead className="bg-gray-50">
+                        <thead className="bg-gradient-to-r from-lime-100 to-lime-200">
                             <tr>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tick</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Volume (24h)</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total Volume</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Market Cap</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
+                                <th className="px-6 py-4 text-left text-sm font-black text-teal-800 uppercase tracking-wider border-b-2 border-lime-300">#</th>
+                                <th className="px-6 py-4 text-left text-sm font-black text-teal-800 uppercase tracking-wider border-b-2 border-lime-300">Token</th>
+                                <th className="px-6 py-4 text-left text-sm font-black text-teal-800 uppercase tracking-wider border-b-2 border-lime-300">Price</th>
+                                <th className="px-6 py-4 text-left text-sm font-black text-teal-800 uppercase tracking-wider border-b-2 border-lime-300">Volume 24h</th>
+                                <th className="px-6 py-4 text-left text-sm font-black text-teal-800 uppercase tracking-wider border-b-2 border-lime-300">Market Cap</th>
+                                <th className="px-6 py-4 text-left text-sm font-black text-teal-800 uppercase tracking-wider border-b-2 border-lime-300">Action</th>
                             </tr>
                         </thead>
-                        <tbody className="bg-white divide-y divide-gray-200">
+                        <tbody className="bg-white divide-y-2 divide-lime-100">
                             {filteredTokens.length > 0 ? (
                                 filteredTokens.map((token, index) => (
-                                    <tr key={index} className="hover:bg-gray-50 transition-colors duration-150">
+                                    <tr key={index} className="hover:bg-lime-50 transition-all duration-200 group">
                                         <td className="px-6 py-4 whitespace-nowrap">
-                                            <span className="text-sm font-medium text-gray-900">{token.tick}</span>
+                                            <span className="text-sm font-bold text-teal-700">#{index + 1}</span>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
-                                            <span className="text-sm text-gray-900">{token.floor}</span>
+                                            <div className="flex items-center space-x-3">
+                                                <img src="/tap_symbol.png" alt="TAPONDOGE SYMBOL" className="w-6 h-6 mr-1" />
+                                                <span className="text-sm font-bold text-teal-800">{token.tick}</span>
+                                            </div>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
-                                            <span className="text-sm text-gray-900">{token.dayVolume}</span>
+                                            <span className="text-sm font-bold text-teal-800">{token.floor || '$0.00'}</span>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
-                                            <span className="text-sm text-gray-900">{token.totalVolume}</span>
+                                            <span className="text-sm font-bold text-teal-800">{token.dayVolume || '$0.00'}</span>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
-                                            <span className="text-sm font-medium text-gray-900">{formatCurrency(token.marketCap || 0)}</span>
+                                            <span className="text-sm font-bold text-teal-800">{formatCurrency(token.marketCap || 0)}</span>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             <button
                                                 onClick={() => navigateToToken(token)}
-                                                className="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-lg text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors duration-200"
+                                                className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-lime-400 to-lime-500 text-teal-900 font-bold rounded-cartoon shadow-cartoon border-2 border-lime-600 hover:shadow-cartoon-lg hover:scale-105 active:scale-95 transition-all duration-200 transform"
                                             >
-                                                <FontAwesomeIcon icon={faPlay} className="w-3 h-3 mr-1" />
+                                                <FontAwesomeIcon icon={faPlay} className="w-3 h-3 mr-2" />
                                                 Trade
                                             </button>
                                         </td>
@@ -309,8 +299,9 @@ const AllTokens = memo(() => {
                             ) : (
                                 <tr>
                                     <td colSpan="6" className="px-6 py-12 text-center">
-                                        <div className="text-gray-500">
-                                            <p className="text-lg font-medium">No tokens found</p>
+                                        <div className="text-teal-600">
+                                            <div className="text-4xl mb-4">🐕</div>
+                                            <p className="text-lg font-bold">No tokens found</p>
                                             <p className="text-sm">Try adjusting your search criteria</p>
                                         </div>
                                     </td>
@@ -327,10 +318,10 @@ const AllTokens = memo(() => {
                     <button
                         onClick={() => handlePageChange(currentPage - 1)}
                         disabled={currentPage === 1}
-                        className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200 ${
+                        className={`px-4 py-2 rounded-cartoon text-sm font-bold transition-all duration-200 ${
                             currentPage === 1
-                                ? 'text-gray-400 cursor-not-allowed'
-                                : 'text-gray-700 hover:text-primary-600 hover:bg-primary-50'
+                                ? 'text-teal-400 cursor-not-allowed'
+                                : 'text-teal-700 hover:text-lime-600 hover:bg-lime-100 border-2 border-transparent hover:border-lime-300'
                         }`}
                     >
                         <FontAwesomeIcon icon={faArrowLeft} className="w-3 h-3 mr-1" />
@@ -343,10 +334,10 @@ const AllTokens = memo(() => {
                             <button
                                 key={pageIndex}
                                 onClick={() => handlePageChange(pageIndex)}
-                                className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200 ${
+                                className={`px-4 py-2 rounded-cartoon text-sm font-bold transition-all duration-200 ${
                                     currentPage === pageIndex
-                                        ? 'bg-primary-600 text-white'
-                                        : 'text-gray-700 hover:text-primary-600 hover:bg-primary-50'
+                                        ? 'bg-gradient-to-r from-lime-400 to-lime-500 text-teal-900 shadow-cartoon border-2 border-lime-600'
+                                        : 'text-teal-700 hover:text-lime-600 hover:bg-lime-100 border-2 border-transparent hover:border-lime-300'
                                 }`}
                             >
                                 {pageIndex}
@@ -357,10 +348,10 @@ const AllTokens = memo(() => {
                     <button
                         onClick={() => handlePageChange(currentPage + 1)}
                         disabled={currentPage === totalPages}
-                        className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors duration-200 ${
+                        className={`px-4 py-2 rounded-cartoon text-sm font-bold transition-all duration-200 ${
                             currentPage === totalPages
-                                ? 'text-gray-400 cursor-not-allowed'
-                                : 'text-gray-700 hover:text-primary-600 hover:bg-primary-50'
+                                ? 'text-teal-400 cursor-not-allowed'
+                                : 'text-teal-700 hover:text-lime-600 hover:bg-lime-100 border-2 border-transparent hover:border-lime-300'
                         }`}
                     >
                         Next

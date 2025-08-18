@@ -19,15 +19,15 @@ export default function WalletBalance() {
     return (
       <div className="max-w-2xl mx-auto space-y-6">
         <div className="text-center">
-          <h2 className="text-2xl font-bold text-gray-900">Wallet Balance</h2>
-          <p className="text-gray-600 mt-1">View your wallet balance and tokens</p>
+          <h2 className="text-3xl font-black text-teal-800 mb-2">💰 Wallet Balance</h2>
+          <p className="text-teal-600 font-medium">View your wallet balance and tokens</p>
         </div>
         
-        <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-12">
+        <div className="bg-white/95 backdrop-blur-md rounded-cartoon shadow-cartoon-xl border-2 border-teal-300 p-12">
           <div className="text-center">
-            <FontAwesomeIcon icon={faWallet} className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 mb-2">Wallet Not Connected</h3>
-            <p className="text-gray-500">Please connect your wallet to view balance.</p>
+            <div className="text-4xl mb-4">🔒</div>
+            <h3 className="text-xl font-black text-teal-800 mb-2">Wallet Not Connected</h3>
+            <p className="text-teal-600 font-medium">Please connect your wallet to view balance.</p>
           </div>
         </div>
       </div>
@@ -38,20 +38,20 @@ export default function WalletBalance() {
     <div className="max-w-4xl mx-auto space-y-6">
       {/* Header */}
       <div className="text-center">
-        <h2 className="text-2xl font-bold text-gray-900">Wallet Balance</h2>
-        <p className="text-gray-600 mt-1">Your wallet overview and token balances</p>
+        <h2 className="text-3xl font-black text-teal-800 mb-2">💰 Wallet Balance</h2>
+        <p className="text-teal-600 font-medium">Your wallet overview and token balances</p>
       </div>
 
       {/* Wallet Info Card */}
-      <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-6">
+      <div className="bg-white/95 backdrop-blur-md rounded-cartoon shadow-cartoon-xl border-2 border-teal-300 p-6">
         <div className="flex items-center justify-between mb-6">
-          <h3 className="text-xl font-bold text-gray-900 flex items-center">
-            <FontAwesomeIcon icon={faWallet} className="w-5 h-5 mr-2 text-primary-600" />
+          <h3 className="text-xl font-black text-teal-800 flex items-center">
+            <FontAwesomeIcon icon={faWallet} className="w-5 h-5 mr-3 text-lime-600" />
             Wallet Information
           </h3>
           <button 
             onClick={refreshWalletData}
-            className="inline-flex items-center px-4 py-2 bg-primary-600 text-white text-sm font-medium rounded-lg hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors duration-200"
+            className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-lime-400 to-lime-500 text-teal-900 text-sm font-bold rounded-cartoon shadow-cartoon hover:shadow-cartoon-lg hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-lime-500 transition-all duration-200 transform"
           >
             <FontAwesomeIcon icon={faRefresh} className="w-4 h-4 mr-2" />
             Refresh
@@ -60,12 +60,12 @@ export default function WalletBalance() {
         
         {/* Address Section */}
         <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-700 mb-2">Wallet Address</label>
-          <div className="flex items-center p-3 bg-gray-50 rounded-lg">
-            <span className="text-sm text-gray-900 font-mono flex-1 truncate">{address}</span>
+          <label className="block text-sm font-bold text-teal-700 mb-2">Wallet Address</label>
+          <div className="flex items-center p-4 bg-gradient-to-r from-lime-50 to-lime-100 rounded-cartoon border-2 border-lime-200">
+            <span className="text-sm text-teal-900 font-mono flex-1 truncate font-bold">{address}</span>
             <button 
               onClick={() => copyToClipboard(address)}
-              className="ml-2 p-2 text-gray-600 hover:text-primary-600 hover:bg-primary-50 rounded-lg transition-colors duration-200"
+              className="ml-3 p-2 text-teal-600 hover:text-lime-600 hover:bg-lime-100 rounded-cartoon transition-all duration-200 hover:scale-105 active:scale-95"
               title="Copy to clipboard"
             >
               <FontAwesomeIcon icon={faCopy} className="w-4 h-4" />
@@ -75,43 +75,48 @@ export default function WalletBalance() {
         
         {/* UTXO Count */}
         <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-700 mb-2">Available UTXOs</label>
-          <div className="p-3 bg-gray-50 rounded-lg">
-            <span className="text-lg font-semibold text-gray-900">{utxoCount}</span>
+          <label className="block text-sm font-bold text-teal-700 mb-2">Available UTXOs</label>
+          <div className="p-4 bg-gradient-to-r from-lime-50 to-lime-100 rounded-cartoon border-2 border-lime-200">
+            <span className="text-xl font-black text-teal-800">{utxoCount}</span>
           </div>
         </div>
       </div>
 
       {/* Token Balances Card */}
-      <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-6">
-        <h3 className="text-xl font-bold text-gray-900 mb-6 flex items-center">
-          <FontAwesomeIcon icon={faCoins} className="w-5 h-5 mr-2 text-primary-600" />
+      <div className="bg-white/95 backdrop-blur-md rounded-cartoon shadow-cartoon-xl border-2 border-teal-300 p-6">
+        <h3 className="text-xl font-black text-teal-800 mb-6 flex items-center">
+          <FontAwesomeIcon icon={faCoins} className="w-5 h-5 mr-3 text-lime-600" />
           Token Balances
         </h3>
         
         {balance.length === 0 ? (
           <div className="text-center py-8">
-            <FontAwesomeIcon icon={faCoins} className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-            <p className="text-gray-500 font-medium">No tokens found</p>
-            <p className="text-gray-400 text-sm">Your wallet doesn&apos;t contain any tokens</p>
+            <div className="text-4xl mb-4">💰</div>
+            <p className="text-teal-600 font-bold">No tokens found</p>
+            <p className="text-teal-500 text-sm">Your wallet doesn&apos;t contain any tokens</p>
           </div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-gray-50">
+              <thead className="bg-gradient-to-r from-lime-100 to-lime-200">
                 <tr>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Token</th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Balance</th>
+                  <th className="px-4 py-3 text-left text-xs font-black text-teal-800 uppercase tracking-wider border-b-2 border-lime-300">Token</th>
+                  <th className="px-4 py-3 text-left text-xs font-black text-teal-800 uppercase tracking-wider border-b-2 border-lime-300">Balance</th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody className="bg-white divide-y-2 divide-lime-100">
                 {balance.map((token, index) => (
-                  <tr key={index} className="hover:bg-gray-50 transition-colors duration-150">
+                  <tr key={index} className="hover:bg-lime-50 transition-all duration-200 group">
                     <td className="px-4 py-4 whitespace-nowrap">
-                      <span className="text-sm font-medium text-gray-900">{token.tick}</span>
+                      <div className="flex items-center space-x-3">
+                        <div className="w-8 h-8 bg-gradient-to-r from-gold-400 to-gold-500 rounded-full flex items-center justify-center shadow-cartoon-soft border-2 border-gold-600">
+                          <FontAwesomeIcon icon={faCoins} className="w-4 h-4 text-white" />
+                        </div>
+                        <span className="text-sm font-bold text-teal-800">{token.tick}</span>
+                      </div>
                     </td>
                     <td className="px-4 py-4 whitespace-nowrap">
-                      <span className="text-sm text-gray-900">{parseInt(token.amt).toLocaleString()}</span>
+                      <span className="text-sm font-bold text-teal-800">{parseInt(token.amt).toLocaleString()}</span>
                     </td>
                   </tr>
                 ))}

@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { getDeployments } from '@/utils/service';
 import { useLoader } from '@/contexts/LoaderContext';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCoins, faLayerGroup } from '@fortawesome/free-solid-svg-icons';
 
 export default function Dmt() {
     const [deployments, setDeployments] = useState([]);
@@ -31,41 +33,49 @@ export default function Dmt() {
         <div className="space-y-6">
             {/* Header */}
             <div className="text-center">
-                <h2 className="text-2xl font-bold text-gray-900">DMT Tokens</h2>
-                <p className="text-gray-600 mt-1">Dogecoin Mining Tokens</p>
+                <h2 className="text-3xl font-black text-teal-800 mb-2">⛏️ DMT Tokens</h2>
+                <p className="text-teal-600 font-medium">Dogecoin Mining Tokens</p>
             </div>
 
             {/* Table */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+            <div className="bg-white/95 backdrop-blur-md rounded-cartoon shadow-cartoon-xl border-2 border-teal-300 overflow-hidden">
                 <div className="overflow-x-auto">
                     <table className="w-full">
-                        <thead className="bg-gray-50">
+                        <thead className="bg-gradient-to-r from-lime-100 to-lime-200">
                             <tr>
-                                <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <th className="px-6 py-4 text-center text-sm font-black text-teal-800 uppercase tracking-wider border-b-2 border-lime-300">
+                                    <FontAwesomeIcon icon={faCoins} className="w-4 h-4 mr-2" />
                                     Token
                                 </th>
-                                <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                <th className="px-6 py-4 text-center text-sm font-black text-teal-800 uppercase tracking-wider border-b-2 border-lime-300">
+                                    <FontAwesomeIcon icon={faLayerGroup} className="w-4 h-4 mr-2" />
                                     Block
                                 </th>
                             </tr>
                         </thead>
-                        <tbody className="bg-white divide-y divide-gray-200">
+                        <tbody className="bg-white divide-y-2 divide-lime-100">
                             {dmtTokens.length > 0 ? (
                                 dmtTokens.map((data, index) => (
-                                    <tr key={index} className="hover:bg-gray-50 transition-colors duration-150">
+                                    <tr key={index} className="hover:bg-lime-50 transition-all duration-200 group">
                                         <td className="px-6 py-4 text-center">
-                                            <span className="text-sm font-medium text-gray-900">{data.tick}</span>
+                                            <div className="flex items-center justify-center space-x-3">
+                                                <div className="w-8 h-8 bg-gradient-to-r from-gold-400 to-gold-500 rounded-full flex items-center justify-center shadow-cartoon-soft border-2 border-gold-600">
+                                                    <FontAwesomeIcon icon={faCoins} className="w-4 h-4 text-white" />
+                                                </div>
+                                                <span className="text-sm font-bold text-teal-800">{data.tick}</span>
+                                            </div>
                                         </td>
                                         <td className="px-6 py-4 text-center">
-                                            <span className="text-sm text-gray-900">{data.blck}</span>
+                                            <span className="text-sm font-bold text-teal-800">{data.blck}</span>
                                         </td>
                                     </tr>
                                 ))
                             ) : (
                                 <tr>
                                     <td colSpan="2" className="px-6 py-12 text-center">
-                                        <div className="text-gray-500">
-                                            <p className="text-lg font-medium">No DMT tokens found</p>
+                                        <div className="text-teal-600">
+                                            <div className="text-4xl mb-4">⛏️</div>
+                                            <p className="text-lg font-bold">No DMT tokens found</p>
                                             <p className="text-sm">DMT tokens will appear here when available</p>
                                         </div>
                                     </td>

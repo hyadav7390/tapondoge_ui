@@ -79,37 +79,49 @@ export default function TokenStats({ tokenName }) {
       icon: faList,
       title: "Listed Items",
       value: formatNumber(stats.total),
-      color: "bg-blue-500"
+      color: "bg-gradient-to-r from-blue-400 to-blue-500",
+      bgColor: "from-blue-50 to-blue-100",
+      borderColor: "border-blue-300"
     },
     {
       icon: faTag,
       title: "Floor Price",
       value: `${parseFloat(stats.floor).toFixed(2)} DOGE`,
-      color: "bg-green-500"
+      color: "bg-gradient-to-r from-green-400 to-green-500",
+      bgColor: "from-green-50 to-green-100",
+      borderColor: "border-green-300"
     },
     {
       icon: faChartLine,
       title: "24h Volume",
       value: `${formatAmericanStyle(stats.dayVolume)} DOGE`,
-      color: "bg-purple-500"
+      color: "bg-gradient-to-r from-purple-400 to-purple-500",
+      bgColor: "from-purple-50 to-purple-100",
+      borderColor: "border-purple-300"
     },
     {
       icon: faDollarSign,
       title: "Total Volume",
       value: `${formatAmericanStyle(stats.totalVolume)} DOGE`,
-      color: "bg-orange-500"
+      color: "bg-gradient-to-r from-orange-400 to-orange-500",
+      bgColor: "from-orange-50 to-orange-100",
+      borderColor: "border-orange-300"
     },
     {
       icon: faDollarSign,
       title: "Market Cap",
       value: formatCurrency(marketCap),
-      color: "bg-indigo-500"
+      color: "bg-gradient-to-r from-indigo-400 to-indigo-500",
+      bgColor: "from-indigo-50 to-indigo-100",
+      borderColor: "border-indigo-300"
     },
     {
       icon: faUsers,
       title: "Holders",
       value: formatAmericanStyle(holders, 0),
-      color: "bg-pink-500"
+      color: "bg-gradient-to-r from-pink-400 to-pink-500",
+      bgColor: "from-pink-50 to-pink-100",
+      borderColor: "border-pink-300"
     }
   ];
 
@@ -117,24 +129,24 @@ export default function TokenStats({ tokenName }) {
     <div className="space-y-6">
       {/* Header */}
       <div className="text-center">
-        <h2 className="text-2xl font-bold text-gray-900">{tokenName} Statistics</h2>
-        <p className="text-gray-600 mt-1">Real-time token performance metrics</p>
+        <h2 className="text-3xl font-black text-teal-800 mb-2">📊 {tokenName} Statistics</h2>
+        <p className="text-teal-600 font-medium">Real-time token performance metrics</p>
       </div>
 
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {statCards.map((stat, index) => (
-          <div key={index} className="bg-white rounded-xl shadow-lg border border-gray-200 p-6 hover:shadow-xl transition-shadow duration-200">
+          <div key={index} className="bg-white/95 backdrop-blur-md rounded-cartoon shadow-cartoon-xl border-2 border-teal-300 p-6 hover:shadow-cartoon-2xl transition-all duration-200 hover:scale-105">
             <div className="flex items-center justify-between mb-4">
-              <div className={`p-3 rounded-lg ${stat.color} bg-opacity-10`}>
+              <div className={`p-3 rounded-cartoon shadow-cartoon-soft border-2 border-white ${stat.color}`}>
                 <FontAwesomeIcon 
                   icon={stat.icon} 
-                  className={`w-6 h-6 ${stat.color.replace('bg-', 'text-')}`} 
+                  className="w-6 h-6 text-white" 
                 />
               </div>
               <div className="text-right">
-                <h3 className="text-lg font-bold text-gray-900">{stat.value}</h3>
-                <p className="text-sm text-gray-600">{stat.title}</p>
+                <h3 className="text-xl font-black text-teal-800">{stat.value}</h3>
+                <p className="text-sm text-teal-600 font-medium">{stat.title}</p>
               </div>
             </div>
           </div>

@@ -41,22 +41,22 @@ export default function Transfer() {
         <div className="max-w-2xl mx-auto space-y-6">
             {/* Header */}
             <div className="text-center">
-                <h2 className="text-2xl font-bold text-gray-900">Transfer Tokens</h2>
-                <p className="text-gray-600 mt-1">Send tokens to another wallet address</p>
+                <h2 className="text-3xl font-black text-teal-800 mb-2">📤 Transfer Tokens</h2>
+                <p className="text-teal-600 font-medium">Send tokens to another wallet address</p>
             </div>
 
             {/* Form Card */}
-            <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-6">
+            <div className="bg-white/95 backdrop-blur-md rounded-cartoon shadow-cartoon-xl border-2 border-teal-300 p-6">
                 <form onSubmit={handleSubmit} className="space-y-6">
                     {/* Tick Input */}
                     <div>
-                        <label htmlFor="tick" className="block text-sm font-medium text-gray-700 mb-2">
-                            <FontAwesomeIcon icon={faCoins} className="w-4 h-4 mr-2 text-primary-600" />
+                        <label htmlFor="tick" className="block text-sm font-bold text-teal-700 mb-2">
+                            <FontAwesomeIcon icon={faCoins} className="w-4 h-4 mr-2 text-lime-600" />
                             Token Tick
                         </label>
                         <input 
                             type="text" 
-                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors duration-200"
+                            className="w-full px-4 py-3 border-2 border-teal-300 rounded-cartoon focus:outline-none focus:ring-2 focus:ring-lime-400 focus:border-lime-500 transition-all duration-200 bg-white/90 backdrop-blur-sm font-medium text-teal-800 placeholder-teal-500"
                             id="tick" 
                             placeholder="Enter token tick..."
                             value={tick} 
@@ -67,13 +67,13 @@ export default function Transfer() {
 
                     {/* Recipient Address Input */}
                     <div>
-                        <label htmlFor="recipientAddress" className="block text-sm font-medium text-gray-700 mb-2">
-                            <FontAwesomeIcon icon={faUser} className="w-4 h-4 mr-2 text-primary-600" />
+                        <label htmlFor="recipientAddress" className="block text-sm font-bold text-teal-700 mb-2">
+                            <FontAwesomeIcon icon={faUser} className="w-4 h-4 mr-2 text-lime-600" />
                             Recipient Address
                         </label>
                         <input 
                             type="text" 
-                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors duration-200"
+                            className="w-full px-4 py-3 border-2 border-teal-300 rounded-cartoon focus:outline-none focus:ring-2 focus:ring-lime-400 focus:border-lime-500 transition-all duration-200 bg-white/90 backdrop-blur-sm font-medium text-teal-800 placeholder-teal-500"
                             id="recipientAddress" 
                             placeholder="Enter recipient wallet address..."
                             value={recipientAddress} 
@@ -84,12 +84,12 @@ export default function Transfer() {
 
                     {/* Amount Input */}
                     <div>
-                        <label htmlFor="amount" className="block text-sm font-medium text-gray-700 mb-2">
+                        <label htmlFor="amount" className="block text-sm font-bold text-teal-700 mb-2">
                             Amount
                         </label>
                         <input 
                             type="number" 
-                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors duration-200"
+                            className="w-full px-4 py-3 border-2 border-teal-300 rounded-cartoon focus:outline-none focus:ring-2 focus:ring-lime-400 focus:border-lime-500 transition-all duration-200 bg-white/90 backdrop-blur-sm font-medium text-teal-800 placeholder-teal-500"
                             id="amount" 
                             placeholder="Enter amount to transfer..."
                             value={amount} 
@@ -100,8 +100,8 @@ export default function Transfer() {
 
                     {/* Error Display */}
                     {error && (
-                        <div className="p-3 bg-danger-50 border border-danger-200 rounded-lg">
-                            <p className="text-sm text-danger-600">{error}</p>
+                        <div className="p-4 bg-gradient-to-r from-red-50 to-red-100 border-2 border-red-300 rounded-cartoon">
+                            <p className="text-sm text-red-800 font-bold">{error}</p>
                         </div>
                     )}
 
@@ -109,7 +109,7 @@ export default function Transfer() {
                     <div className="text-center">
                         <button 
                             type="submit" 
-                            className="inline-flex items-center px-6 py-3 bg-primary-600 text-white font-medium rounded-lg hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors duration-200"
+                            className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-lime-400 to-lime-500 text-teal-900 font-bold rounded-cartoon shadow-cartoon hover:shadow-cartoon-lg hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-lime-500 transition-all duration-200 transform"
                         >
                             <FontAwesomeIcon icon={faPaperPlane} className="w-4 h-4 mr-2" />
                             Transfer Tokens

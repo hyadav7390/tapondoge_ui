@@ -272,10 +272,10 @@ const TokenDetails = ({ token, onBack }) => {
 
     if (isLoading) {
         return (
-            <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center">
+            <div className="min-h-screen bg-gradient-to-br from-lime-50 to-lime-100 flex items-center justify-center">
                 <div className="text-center">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto mb-4"></div>
-                    <p className="text-gray-600">Loading token details...</p>
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-lime-600 mx-auto mb-4"></div>
+                    <p className="text-teal-600 font-bold">Loading token details...</p>
                 </div>
             </div>
         );
@@ -284,15 +284,15 @@ const TokenDetails = ({ token, onBack }) => {
     // Check if wallet is connected
     if (!wallet || !wallet.address) {
         return (
-            <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center">
+            <div className="min-h-screen bg-gradient-to-br from-lime-50 to-lime-100 flex items-center justify-center">
                 <div className="text-center">
-                    <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-8 max-w-md mx-4">
-                        <div className="text-warning-500 text-6xl mb-4">🔒</div>
-                        <h2 className="text-xl font-bold text-gray-900 mb-2">Wallet Not Connected</h2>
-                        <p className="text-gray-600 mb-6">Please connect your wallet to view token details</p>
+                    <div className="bg-white/95 backdrop-blur-md rounded-cartoon shadow-cartoon-xl border-2 border-teal-300 p-8 max-w-md mx-4">
+                        <div className="text-4xl mb-4">🔒</div>
+                        <h2 className="text-xl font-black text-teal-800 mb-2">Wallet Not Connected</h2>
+                        <p className="text-teal-600 font-medium mb-6">Please connect your wallet to view token details</p>
                         <button
                             onClick={onBack}
-                            className="inline-flex items-center px-4 py-2 bg-primary-600 text-white font-medium rounded-lg hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors duration-200"
+                            className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-lime-400 to-lime-500 text-teal-900 font-bold rounded-cartoon shadow-cartoon hover:shadow-cartoon-lg hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-lime-500 transition-all duration-200 transform"
                         >
                             <FontAwesomeIcon icon={faArrowLeft} className="w-4 h-4 mr-2" />
                             Back to Home
@@ -304,26 +304,26 @@ const TokenDetails = ({ token, onBack }) => {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+        <div className="min-h-screen bg-gradient-to-br from-lime-50 to-lime-100">
             <div className="container mx-auto px-4 py-8 max-w-6xl">
                 <div className="space-y-8">
             {/* Header Section */}
-                    <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-8">
+                    <div className="bg-white/95 backdrop-blur-md rounded-cartoon shadow-cartoon-xl border-2 border-teal-300 p-8">
                         <div className="flex items-center justify-between mb-6">
                             <div className="flex items-center space-x-4">
                     <button 
                         onClick={onBack}
-                                    className="p-3 text-gray-600 hover:text-primary-600 hover:bg-primary-50 rounded-xl transition-colors duration-200"
+                                    className="p-3 text-teal-600 hover:text-lime-600 hover:bg-lime-100 rounded-cartoon transition-all duration-200 hover:scale-105 active:scale-95"
                     >
                                     <FontAwesomeIcon icon={faArrowLeft} className="w-5 h-5" />
                     </button>
                                 <div className="flex items-center space-x-3">
-                                    <div className="p-3 bg-primary-100 rounded-xl">
-                                        <FontAwesomeIcon icon={faCoins} className="w-6 h-6 text-primary-600" />
+                                    <div className="p-3 bg-gradient-to-r from-lime-400 to-lime-500 rounded-cartoon shadow-cartoon-soft border-2 border-lime-600">
+                                        <FontAwesomeIcon icon={faCoins} className="w-6 h-6 text-teal-900" />
                                     </div>
                     <div>
-                                        <h1 className="text-3xl font-bold text-gray-900">{token.ticker}</h1>
-                                        <p className="text-gray-600">Token Details</p>
+                                        <h1 className="text-3xl font-black text-teal-800">{token.ticker}</h1>
+                                        <p className="text-teal-600 font-medium">Token Details</p>
                                     </div>
                                 </div>
                             </div>
@@ -331,7 +331,7 @@ const TokenDetails = ({ token, onBack }) => {
                             {/* Refresh Button */}
                             <button
                                 onClick={() => window.location.reload()}
-                                className="p-3 text-gray-600 hover:text-primary-600 hover:bg-primary-50 rounded-xl transition-colors duration-200"
+                                className="p-3 text-teal-600 hover:text-lime-600 hover:bg-lime-100 rounded-cartoon transition-all duration-200 hover:scale-105 active:scale-95"
                                 title="Refresh wallet data"
                             >
                                 <FontAwesomeIcon icon={faSync} className="w-5 h-5" />
@@ -340,47 +340,47 @@ const TokenDetails = ({ token, onBack }) => {
                         
                         {/* Token Balance Info */}
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-                            <div className="bg-gray-50 rounded-xl p-6">
+                            <div className="bg-gradient-to-r from-lime-50 to-lime-100 rounded-cartoon p-6 border-2 border-lime-200">
                                 <div className="flex items-center space-x-3 mb-3">
-                                    <FontAwesomeIcon icon={faWallet} className="w-5 h-5 text-gray-600" />
-                                    <h3 className="text-lg font-semibold text-gray-900">Overall Balance</h3>
+                                    <FontAwesomeIcon icon={faWallet} className="w-5 h-5 text-lime-600" />
+                                    <h3 className="text-lg font-black text-teal-800">Overall Balance</h3>
                                 </div>
-                                <p className="text-3xl font-bold text-gray-900">
+                                <p className="text-3xl font-black text-teal-800">
                                     {getOverallBalance()}
                                 </p>
-                                <p className="text-sm text-gray-600 mt-1">Total tokens owned</p>
+                                <p className="text-sm text-teal-600 mt-1 font-medium">Total tokens owned</p>
                             </div>
                             
-                            <div className="bg-gray-50 rounded-xl p-6">
+                            <div className="bg-gradient-to-r from-lime-50 to-lime-100 rounded-cartoon p-6 border-2 border-lime-200">
                                 <div className="flex items-center space-x-3 mb-3">
-                                    <FontAwesomeIcon icon={faTag} className="w-5 h-5 text-gray-600" />
-                                    <h3 className="text-lg font-semibold text-gray-900">Transferable</h3>
+                                    <FontAwesomeIcon icon={faTag} className="w-5 h-5 text-lime-600" />
+                                    <h3 className="text-lg font-black text-teal-800">Transferable</h3>
                                 </div>
-                                <p className="text-3xl font-bold text-gray-900">
+                                <p className="text-3xl font-black text-teal-800">
                                     {transferableInscriptions ? transferableInscriptions.length : 0}
                                 </p>
-                                <p className="text-sm text-gray-600 mt-1">Available inscriptions</p>
+                                <p className="text-sm text-teal-600 mt-1 font-medium">Available inscriptions</p>
                             </div>
 
-                            <div className="bg-gray-50 rounded-xl p-6">
+                            <div className="bg-gradient-to-r from-lime-50 to-lime-100 rounded-cartoon p-6 border-2 border-lime-200">
                                 <div className="flex items-center space-x-3 mb-3">
-                                    <FontAwesomeIcon icon={faList} className="w-5 h-5 text-gray-600" />
-                                    <h3 className="text-lg font-semibold text-gray-900">Listed</h3>
+                                    <FontAwesomeIcon icon={faList} className="w-5 h-5 text-lime-600" />
+                                    <h3 className="text-lg font-black text-teal-800">Listed</h3>
                                 </div>
-                                <p className="text-3xl font-bold text-gray-900">
+                                <p className="text-3xl font-black text-teal-800">
                                     {listedTokens.filter(lt => lt.tick === token.ticker).length}
                                 </p>
-                                <p className="text-sm text-gray-600 mt-1">For sale</p>
+                                <p className="text-sm text-teal-600 mt-1 font-medium">For sale</p>
                     </div>
                 </div>
                         
                 {isBlocked && (
-                            <div className="p-4 bg-danger-50 border border-danger-200 rounded-xl">
+                            <div className="p-4 bg-gradient-to-r from-red-50 to-red-100 border-2 border-red-300 rounded-cartoon">
                                 <div className="flex items-center">
-                                    <FontAwesomeIcon icon={faExclamationTriangle} className="w-5 h-5 text-danger-600 mr-3" />
+                                    <FontAwesomeIcon icon={faExclamationTriangle} className="w-5 h-5 text-red-600 mr-3" />
                                     <div>
-                                        <p className="text-danger-800 font-semibold">Transfers are currently blocked</p>
-                                        <p className="text-danger-700 text-sm mt-1">This wallet cannot transfer tokens at the moment</p>
+                                        <p className="text-red-800 font-black">Transfers are currently blocked</p>
+                                        <p className="text-red-700 text-sm mt-1 font-medium">This wallet cannot transfer tokens at the moment</p>
                                     </div>
                                 </div>
                     </div>
@@ -388,14 +388,14 @@ const TokenDetails = ({ token, onBack }) => {
             </div>
 
             {/* Transferable Tokens Section */}
-                    <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-8">
+                    <div className="bg-white/95 backdrop-blur-md rounded-cartoon shadow-cartoon-xl border-2 border-teal-300 p-8">
                         <div className="flex items-center justify-between mb-8">
-                            <h2 className="text-2xl font-bold text-gray-900 flex items-center">
-                                <FontAwesomeIcon icon={faTag} className="w-6 h-6 mr-3 text-primary-600" />
+                            <h2 className="text-2xl font-black text-teal-800 flex items-center">
+                                <FontAwesomeIcon icon={faTag} className="w-6 h-6 mr-3 text-lime-600" />
                                 Transferable Tokens
                             </h2>
                             {transferableInscriptions && transferableInscriptions.length > 0 && (
-                                <span className="px-4 py-2 bg-primary-100 text-primary-800 text-sm font-medium rounded-full">
+                                <span className="px-4 py-2 bg-gradient-to-r from-lime-400 to-lime-500 text-teal-900 text-sm font-bold rounded-cartoon shadow-cartoon-soft border-2 border-lime-600">
                                     {transferableInscriptions.length} inscription{transferableInscriptions.length !== 1 ? 's' : ''}
                                 </span>
                             )}
@@ -407,21 +407,21 @@ const TokenDetails = ({ token, onBack }) => {
                                     const isListed = isInscriptionListed(insc.inscriptionId);
 
                                 return (
-                                        <div key={index} className={`bg-gray-50 rounded-xl p-6 border-2 transition-all duration-200 ${
-                                            isBlocked ? 'border-gray-200 opacity-60' : 'border-gray-200 hover:border-primary-300 hover:shadow-lg'
+                                        <div key={index} className={`bg-gradient-to-r from-lime-50 to-lime-100 rounded-cartoon p-6 border-2 transition-all duration-200 ${
+                                            isBlocked ? 'border-gray-200 opacity-60' : 'border-lime-200 hover:border-lime-300 hover:shadow-cartoon-lg'
                                         }`}>
                                             {/* Header */}
                                             <div className="flex justify-between items-start mb-4">
-                                                <span className="px-3 py-1 bg-gray-200 text-gray-700 text-sm font-medium rounded-full">
+                                                <span className="px-3 py-1 bg-gradient-to-r from-lime-400 to-lime-500 text-teal-900 text-sm font-bold rounded-cartoon shadow-cartoon-soft border-2 border-lime-600">
                                                         #{index + 1}
                                                 </span>
                                                 {isListed && (
-                                                    <span className="px-3 py-1 bg-success-100 text-success-800 text-sm font-medium rounded-full">
+                                                    <span className="px-3 py-1 bg-gradient-to-r from-green-100 to-green-200 text-green-800 text-sm font-bold rounded-cartoon border-2 border-green-300">
                                                         LISTED
                                                     </span>
                                                 )}
                                                     {isBlocked && (
-                                                    <span className="px-3 py-1 bg-danger-100 text-danger-800 text-sm font-medium rounded-full">
+                                                    <span className="px-3 py-1 bg-gradient-to-r from-red-100 to-red-200 text-red-800 text-sm font-bold rounded-cartoon border-2 border-red-300">
                                                             BLOCKED
                                                         </span>
                                                     )}
@@ -430,12 +430,14 @@ const TokenDetails = ({ token, onBack }) => {
                                             {/* Token Amount */}
                                             <div className="text-center mb-6">
                                                 <div className="flex items-center justify-center mb-3">
-                                                    <FontAwesomeIcon icon={faCoins} className="w-8 h-8 text-primary-600 mr-3" />
-                                                    <h4 className="text-2xl font-bold text-gray-900">
+                                                    <div className="w-8 h-8 bg-gradient-to-r from-gold-400 to-gold-500 rounded-full flex items-center justify-center shadow-cartoon-soft border-2 border-gold-600 mr-3">
+                                                        <FontAwesomeIcon icon={faCoins} className="w-4 h-4 text-white" />
+                                                    </div>
+                                                    <h4 className="text-2xl font-black text-teal-800">
                                                     {insc.amount}
                                                 </h4>
                                                 </div>
-                                                <p className="text-sm text-gray-600">tokens</p>
+                                                <p className="text-sm text-teal-600 font-medium">tokens</p>
                                             </div>
 
                                             {/* Action Buttons */}
@@ -445,7 +447,7 @@ const TokenDetails = ({ token, onBack }) => {
                                                         <button 
                                                             onClick={() => handleUnlistToken(insc.inscriptionId)}
                                                             disabled={isSubmitting}
-                                                            className="w-full inline-flex items-center justify-center px-4 py-3 border border-danger-300 text-danger-700 bg-white rounded-lg hover:bg-danger-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-danger-500 transition-colors duration-200 disabled:opacity-50"
+                                                            className="w-full inline-flex items-center justify-center px-4 py-3 border-2 border-red-300 text-red-700 bg-white rounded-cartoon hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-all duration-200 disabled:opacity-50 hover:scale-105 active:scale-95"
                                                         >
                                                             <FontAwesomeIcon icon={faUnlink} className="w-4 h-4 mr-2" />
                                                             {isSubmitting ? 'Unlisting...' : 'Unlist'}
@@ -454,14 +456,14 @@ const TokenDetails = ({ token, onBack }) => {
                                                         <>
                                                             <button 
                                                                 onClick={() => handleListToken(insc)}
-                                                                className="w-full inline-flex items-center justify-center px-4 py-3 border border-primary-300 text-primary-700 bg-white rounded-lg hover:bg-primary-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors duration-200"
+                                                                className="w-full inline-flex items-center justify-center px-4 py-3 border-2 border-lime-300 text-lime-700 bg-white rounded-cartoon hover:bg-lime-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-lime-500 transition-all duration-200 hover:scale-105 active:scale-95"
                                                             >
                                                                 <FontAwesomeIcon icon={faList} className="w-4 h-4 mr-2" />
                                                                 List for Sale
                                                             </button>
                                                             <button 
                                                                 onClick={() => handleTransferToken(insc)}
-                                                                className="w-full inline-flex items-center justify-center px-4 py-3 border border-secondary-300 text-secondary-700 bg-white rounded-lg hover:bg-secondary-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-secondary-500 transition-colors duration-200"
+                                                                className="w-full inline-flex items-center justify-center px-4 py-3 border-2 border-teal-300 text-teal-700 bg-white rounded-cartoon hover:bg-teal-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition-all duration-200 hover:scale-105 active:scale-95"
                                                             >
                                                                 <FontAwesomeIcon icon={faPaperPlane} className="w-4 h-4 mr-2" />
                                                                 Transfer
@@ -476,11 +478,11 @@ const TokenDetails = ({ token, onBack }) => {
                         </div>
                     ) : (
                             <div className="text-center py-16">
-                                <div className="bg-gray-100 rounded-full w-24 h-24 flex items-center justify-center mx-auto mb-6">
-                                    <FontAwesomeIcon icon={faTag} className="w-12 h-12 text-gray-400" />
+                                <div className="bg-gradient-to-r from-lime-100 to-lime-200 rounded-cartoon w-24 h-24 flex items-center justify-center mx-auto mb-6 border-2 border-lime-300">
+                                    <FontAwesomeIcon icon={faTag} className="w-12 h-12 text-lime-400" />
                                 </div>
-                                <h3 className="text-xl font-semibold text-gray-900 mb-2">No transferable tokens available</h3>
-                                <p className="text-gray-600 max-w-md mx-auto">
+                                <h3 className="text-xl font-black text-teal-800 mb-2">No transferable tokens available</h3>
+                                <p className="text-teal-600 max-w-md mx-auto font-medium">
                                     All your tokens are currently in use or locked. Check back later for available transferable inscriptions.
                                 </p>
                         </div>
@@ -491,13 +493,13 @@ const TokenDetails = ({ token, onBack }) => {
 
             {/* Listing Modal */}
             {showListingModal && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                    <div className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md mx-4">
+                <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
+                    <div className="bg-white/95 backdrop-blur-md rounded-cartoon shadow-cartoon-xl p-8 w-full max-w-md mx-4 border-2 border-teal-300">
                         <div className="flex items-center justify-between mb-6">
-                            <h3 className="text-xl font-bold text-gray-900">List Token for Sale</h3>
+                            <h3 className="text-2xl font-black text-teal-800">List Token for Sale</h3>
                             <button
                                 onClick={() => setShowListingModal(false)}
-                                className="p-2 text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-lg transition-colors duration-200"
+                                className="p-2 text-teal-600 hover:text-teal-800 hover:bg-lime-100 rounded-cartoon transition-all duration-200 hover:scale-105 active:scale-95"
                             >
                                 <FontAwesomeIcon icon={faTimes} className="w-5 h-5" />
                             </button>
@@ -505,16 +507,16 @@ const TokenDetails = ({ token, onBack }) => {
 
                         <div className="space-y-6">
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">Amount to List</label>
-                                <div className="p-3 bg-gray-50 rounded-lg border border-gray-200">
-                                    <span className="text-lg font-semibold text-gray-900">{selectedInscription?.amount} {token.ticker}</span>
+                                <label className="block text-sm font-bold text-teal-700 mb-2">Amount to List</label>
+                                <div className="p-4 bg-gradient-to-r from-lime-50 to-lime-100 rounded-cartoon border-2 border-lime-200">
+                                    <span className="text-lg font-black text-teal-800">{selectedInscription?.amount} {token.ticker}</span>
                                 </div>
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">Price per Token (DOGE)</label>
+                                <label className="block text-sm font-bold text-teal-700 mb-2">Price per Token (DOGE)</label>
                                 <div className="relative">
-                                    <FontAwesomeIcon icon={faDollarSign} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                                    <FontAwesomeIcon icon={faDollarSign} className="absolute left-4 top-1/2 transform -translate-y-1/2 text-teal-400 w-4 h-4" />
                                     <input
                                         type="number"
                                         value={listingPrice}
@@ -522,18 +524,18 @@ const TokenDetails = ({ token, onBack }) => {
                                         placeholder="0.00"
                                         min="0"
                                         step="0.01"
-                                        className="w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors duration-200"
+                                        className="w-full pl-12 pr-4 py-4 border-2 border-teal-300 rounded-cartoon focus:outline-none focus:ring-2 focus:ring-lime-400 focus:border-lime-500 transition-all duration-200 bg-white/90 backdrop-blur-sm font-medium text-teal-800 placeholder-teal-500"
                                     />
                                 </div>
                             </div>
 
                             {/* Wallet Requirements Note */}
-                            <div className="p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                            <div className="p-4 bg-gradient-to-r from-blue-50 to-blue-100 border-2 border-blue-300 rounded-cartoon">
                                 <div className="flex items-start">
-                                    <FontAwesomeIcon icon={faWallet} className="w-4 h-4 text-blue-600 mt-0.5 mr-2" />
+                                    <FontAwesomeIcon icon={faWallet} className="w-4 h-4 text-blue-600 mt-0.5 mr-3" />
                                     <div className="text-sm text-blue-800">
-                                        <p className="font-medium">Wallet Requirements</p>
-                                        <p className="mt-1">Your wallet must be connected and have fresh UTXO data. If listing fails, try refreshing your wallet first.</p>
+                                        <p className="font-bold">Wallet Requirements</p>
+                                        <p className="mt-1 font-medium">Your wallet must be connected and have fresh UTXO data. If listing fails, try refreshing your wallet first.</p>
                                     </div>
                                 </div>
                             </div>
@@ -541,14 +543,14 @@ const TokenDetails = ({ token, onBack }) => {
                             <div className="flex space-x-3 pt-4">
                                 <button
                                     onClick={() => setShowListingModal(false)}
-                                    className="flex-1 px-4 py-3 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors duration-200"
+                                    className="flex-1 px-6 py-3 border-2 border-teal-300 text-teal-700 font-bold rounded-cartoon hover:bg-lime-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition-all duration-200"
                                 >
                                     Cancel
                                 </button>
                                 <button
                                     onClick={submitListing}
                                     disabled={isSubmitting || !listingPrice}
-                                    className="flex-1 inline-flex items-center justify-center px-4 py-3 bg-primary-600 text-white font-medium rounded-lg hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                                    className="flex-1 inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-lime-400 to-lime-500 text-teal-900 font-bold rounded-cartoon shadow-cartoon hover:shadow-cartoon-lg hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-lime-500 transition-all duration-200 transform disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
                                     <FontAwesomeIcon icon={faList} className="w-4 h-4 mr-2" />
                                     {isSubmitting ? 'Listing...' : 'List Token'}
@@ -561,13 +563,13 @@ const TokenDetails = ({ token, onBack }) => {
 
             {/* Transfer Modal */}
             {showTransferModal && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                    <div className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md mx-4">
+                <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
+                    <div className="bg-white/95 backdrop-blur-md rounded-cartoon shadow-cartoon-xl p-8 w-full max-w-md mx-4 border-2 border-teal-300">
                         <div className="flex items-center justify-between mb-6">
-                            <h3 className="text-xl font-bold text-gray-900">Transfer Token</h3>
+                            <h3 className="text-2xl font-black text-teal-800">Transfer Token</h3>
                             <button
                                 onClick={() => setShowTransferModal(false)}
-                                className="p-2 text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-lg transition-colors duration-200"
+                                className="p-2 text-teal-600 hover:text-teal-800 hover:bg-lime-100 rounded-cartoon transition-all duration-200 hover:scale-105 active:scale-95"
                             >
                                 <FontAwesomeIcon icon={faTimes} className="w-5 h-5" />
                             </button>
@@ -575,34 +577,34 @@ const TokenDetails = ({ token, onBack }) => {
 
                         <div className="space-y-6">
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">Amount to Transfer</label>
-                                <div className="p-3 bg-gray-50 rounded-lg border border-gray-200">
-                                    <span className="text-lg font-semibold text-gray-900">{selectedInscription?.amount} {token.ticker}</span>
+                                <label className="block text-sm font-bold text-teal-700 mb-2">Amount to Transfer</label>
+                                <div className="p-4 bg-gradient-to-r from-lime-50 to-lime-100 rounded-cartoon border-2 border-lime-200">
+                                    <span className="text-lg font-black text-teal-800">{selectedInscription?.amount} {token.ticker}</span>
                                 </div>
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">Recipient Address</label>
+                                <label className="block text-sm font-bold text-teal-700 mb-2">Recipient Address</label>
                                 <input
                                     type="text"
                                     value={transferAddress}
                                     onChange={(e) => setTransferAddress(e.target.value)}
                                     placeholder="Enter Dogecoin address..."
-                                    className="w-full px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors duration-200"
+                                    className="w-full px-4 py-4 border-2 border-teal-300 rounded-cartoon focus:outline-none focus:ring-2 focus:ring-lime-400 focus:border-lime-500 transition-all duration-200 bg-white/90 backdrop-blur-sm font-medium text-teal-800 placeholder-teal-500"
                                 />
                             </div>
 
                             <div className="flex space-x-3 pt-4">
                                 <button
                                     onClick={() => setShowTransferModal(false)}
-                                    className="flex-1 px-4 py-3 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors duration-200"
+                                    className="flex-1 px-6 py-3 border-2 border-teal-300 text-teal-700 font-bold rounded-cartoon hover:bg-lime-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition-all duration-200"
                                 >
                                     Cancel
                                 </button>
                                 <button
                                     onClick={submitTransfer}
                                     disabled={isSubmitting || !transferAddress}
-                                    className="flex-1 inline-flex items-center justify-center px-4 py-3 bg-primary-600 text-white font-medium rounded-lg hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                                    className="flex-1 inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-lime-400 to-lime-500 text-teal-900 font-bold rounded-cartoon shadow-cartoon hover:shadow-cartoon-lg hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-lime-500 transition-all duration-200 transform disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
                                     <FontAwesomeIcon icon={faPaperPlane} className="w-4 h-4 mr-2" />
                                     {isSubmitting ? 'Transferring...' : 'Transfer Token'}

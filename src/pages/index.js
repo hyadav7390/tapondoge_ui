@@ -21,7 +21,16 @@ export default function Home() {
                 Welcome to <span className="text-gradient">TapOnDoge</span>
               </h1>
               <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-                The premier platform for Dogecoin tokens. Discover, mint, and manage your digital assets with ease.
+                Most powerful metaprotocol on top of Doginals with a clear focus on Bitcoin L1 powered by{' '}
+                <a 
+                  href="https://api.tapondoge.com" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="font-bold text-gradient-gold hover:scale-110 transition-transform duration-200"
+                >
+                  Benny Protocol
+                </a>
+                .
               </p>
             </div>
 
