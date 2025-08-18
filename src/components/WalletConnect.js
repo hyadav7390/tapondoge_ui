@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { useWallet } from '../contexts/WalletContext';
 import { getTokensBalance } from '@/utils/service';
 import { formatAddress } from '@/utils/formatters';
@@ -42,6 +43,7 @@ export default function WalletConnect({ onConnected }) {
     const [copyStatus, setCopyStatus] = useState('');
     const [walletBalance, setWalletBalance] = useState(null);
     const [tokensBalance, setTokensBalance] = useState([]);
+    const [buttonPosition, setButtonPosition] = useState({ top: 0, right: 0 });
 
     // Ref for dropdown menu
     const optionsRef = useRef(null);
@@ -365,48 +367,19 @@ export default function WalletConnect({ onConnected }) {
                             {/* More Options Dropdown */}
                             <div className="relative">
                                 <button
-                                    onClick={() => setShowOptions(!showOptions)}
+                                    onClick={(e) => {
+                                        const rect = e.currentTarget.getBoundingClientRect();
+                                        setButtonPosition({
+                                            top: rect.bottom + window.scrollY + 12,
+                                            right: window.innerWidth - rect.right
+                                        });
+                                        setShowOptions(!showOptions);
+                                    }}
                                     className="p-2 text-teal-600 hover:text-lime-600 hover:bg-lime-100 rounded-cartoon transition-all duration-200 hover:scale-105 active:scale-95"
                                     title="More options"
                                 >
                                     <FontAwesomeIcon icon={faEllipsisV} className="w-4 h-4" />
                                 </button>
-                                
-                                {showOptions && (
-                                    <div className="absolute right-0 mt-3 w-56 bg-white rounded-cartoon shadow-cartoon-xl border-2 border-teal-300 overflow-hidden z-50" ref={optionsRef}>
-                                        <div className="py-2">
-                                            <button 
-                                                onClick={() => setShowSendModal(true)}
-                                                className="w-full px-4 py-3 text-left text-sm text-teal-700 hover:bg-lime-100 flex items-center transition-all duration-150 font-bold"
-                                            >
-                                                <FontAwesomeIcon icon={faPaperPlane} className="w-4 h-4 mr-3 text-teal-500" />
-                                                Send DOGE
-                                            </button>
-                                            <button 
-                                                onClick={() => setShowRecoveryPhrase(!showRecoveryPhrase)}
-                                                className="w-full px-4 py-3 text-left text-sm text-teal-700 hover:bg-lime-100 flex items-center transition-all duration-150 font-bold"
-                                            >
-                                                <FontAwesomeIcon icon={faKey} className="w-4 h-4 mr-3 text-teal-500" />
-                                                {!showRecoveryPhrase ? "Show Recovery Phrase" : "Hide Recovery Phrase"}
-                                            </button>
-                                            <button 
-                                                onClick={() => setShowPrivateKey(!showPrivateKey)}
-                                                className="w-full px-4 py-3 text-left text-sm text-teal-700 hover:bg-lime-100 flex items-center transition-all duration-150 font-bold"
-                                            >
-                                                <FontAwesomeIcon icon={faLock} className="w-4 h-4 mr-3 text-teal-500" />
-                                                {!showPrivateKey ? "Show Private Key" : "Hide Private Key"}
-                                            </button>
-                                            <div className="border-t-2 border-lime-200 my-2"></div>
-                                            <button 
-                                                onClick={handleDisconnect}
-                                                className="w-full px-4 py-3 text-left text-sm text-red-600 hover:bg-red-50 flex items-center transition-all duration-150 font-bold"
-                                            >
-                                                <FontAwesomeIcon icon={faSignOutAlt} className="w-4 h-4 mr-3 text-red-500" />
-                                                Disconnect Wallet
-                                            </button>
-                                        </div>
-                                    </div>
-                                )}
                             </div>
                         </div>
                     </div>
@@ -626,8 +599,62 @@ export default function WalletConnect({ onConnected }) {
         );
     };
 
+    // Portal-based dropdown
+    const renderDropdownPortal = () => {
+        if (!showOptions) return null;
+        
+        return createPortal(
+            <div 
+                className="fixed w-56 bg-white rounded-cartoon shadow-cartoon-xl border-2 border-teal-300 overflow-hidden z-[9999]" 
+                style={{
+                    top: `${buttonPosition.top}px`,
+                    right: `${buttonPosition.right}px`
+                }}
+                ref={optionsRef}
+            >
+                <div className="py-2">
+                    <button 
+                        onClick={() => setShowSendModal(true)}
+                        className="w-full px-4 py-3 text-left text-sm text-teal-700 hover:bg-lime-100 flex items-center transition-all duration-150 font-bold"
+                    >
+                        <FontAwesomeIcon icon={faPaperPlane} className="w-4 h-4 mr-3 text-teal-500" />
+                        Send DOGE
+                    </button>
+                    <button 
+                        onClick={() => setShowRecoveryPhrase(!showRecoveryPhrase)}
+                        className="w-full px-4 py-3 text-left text-sm text-teal-700 hover:bg-lime-100 flex items-center transition-all duration-150 font-bold"
+                    >
+                        <FontAwesomeIcon icon={faKey} className="w-4 h-4 mr-3 text-teal-500" />
+                        {!showRecoveryPhrase ? "Show Recovery Phrase" : "Hide Recovery Phrase"}
+                    </button>
+                    <button 
+                        onClick={() => setShowPrivateKey(!showPrivateKey)}
+                        className="w-full px-4 py-3 text-left text-sm text-teal-700 hover:bg-lime-100 flex items-center transition-all duration-150 font-bold"
+                    >
+                        <FontAwesomeIcon icon={faLock} className="w-4 h-4 mr-3 text-teal-500" />
+                        {!showPrivateKey ? "Show Private Key" : "Hide Private Key"}
+                    </button>
+                    <div className="border-t-2 border-lime-200 my-2"></div>
+                    <button 
+                        onClick={handleDisconnect}
+                        className="w-full px-4 py-3 text-left text-sm text-red-600 hover:bg-red-50 flex items-center transition-all duration-150 font-bold"
+                    >
+                        <FontAwesomeIcon icon={faSignOutAlt} className="w-4 h-4 mr-3 text-red-500" />
+                        Disconnect Wallet
+                    </button>
+                </div>
+            </div>,
+            document.body
+        );
+    };
+
     if (isConnected) {
-        return renderWalletDetails();
+        return (
+            <>
+                {renderWalletDetails()}
+                {renderDropdownPortal()}
+            </>
+        );
     }
 
     return (

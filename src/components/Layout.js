@@ -112,14 +112,16 @@ export default function Layout({ children }) {
                             />
                         </button>
 
-                        {/* Mobile Close Button - Top Right */}
-                        <button
-                            onClick={() => setSidebarOpen(false)}
-                            className="lg:hidden absolute top-4 right-4 p-2 text-teal-600 hover:text-lime-600 hover:bg-lime-100 rounded-cartoon transition-all duration-200 hover:scale-105 z-10"
-                            title="Close sidebar"
-                        >
-                            <FontAwesomeIcon icon={faTimes} className="w-4 h-4" />
-                        </button>
+                        {/* Mobile Toggle - Same Design as Desktop */}
+                        {sidebarOpen && (
+                            <button
+                                onClick={() => setSidebarOpen(false)}
+                                className="lg:hidden absolute -right-3 top-6 w-6 h-6 bg-white border-2 border-lime-300 rounded-full shadow-cartoon items-center justify-center text-teal-600 hover:text-lime-600 hover:bg-lime-100 transition-all duration-200 hover:scale-110 z-10"
+                                title="Close sidebar"
+                            >
+                                <FontAwesomeIcon icon={faTimes} className="w-3 h-3" />
+                            </button>
+                        )}
 
                         {/* Navigation Items */}
                         <nav className="flex-1 p-4 space-y-3 overflow-y-auto">
@@ -177,8 +179,39 @@ export default function Layout({ children }) {
                         {/* Sidebar Footer */}
                         {!sidebarCollapsed && (
                             <div className="p-4 border-t-2 border-lime-200 bg-gradient-to-r from-lime-50 to-lime-100">
-                                <div className="text-center">
-                                    <div className="text-xs text-teal-600 font-bold mb-2">🚀 To The Moon! 🌙</div>
+                                <div className="space-y-4">
+                                    {/* Rocket Message */}
+                                    <div className="text-center">
+                                        <div className="text-xs text-teal-600 font-bold mb-2">🚀 To The Moon! 🌙</div>
+                                    </div>
+                                    
+                                    {/* Social Links */}
+                                    <div className="flex items-center justify-center space-x-4">
+                                        <a 
+                                            href="https://discord.com/invite/CHbTua4UZj" 
+                                            target="_blank" 
+                                            rel="noopener noreferrer"
+                                            className="flex items-center space-x-2 text-teal-700 hover:text-lime-600 transition-all duration-200 group hover:scale-110"
+                                        >
+                                            <div className="relative">
+                                                <img src="/discord.png" alt="Discord" className="w-4 h-4 group-hover:scale-110 transition-transform duration-200" />
+                                                <div className="cartoon-star" style={{ top: '-2px', right: '-2px', width: '4px', height: '4px', animationDelay: '0.5s' }}></div>
+                                            </div>
+                                            <span className="text-xs font-bold">Discord</span>
+                                        </a>
+                                        <a 
+                                            href="https://x.com/tapondogehq" 
+                                            target="_blank" 
+                                            rel="noopener noreferrer"
+                                            className="flex items-center space-x-2 text-teal-700 hover:text-lime-600 transition-all duration-200 group hover:scale-110"
+                                        >
+                                            <div className="relative">
+                                                <img src="/x.png" alt="Twitter" className="w-3 h-3 group-hover:scale-110 transition-transform duration-200" />
+                                                <div className="cartoon-star" style={{ top: '-2px', right: '-2px', width: '4px', height: '4px', animationDelay: '1s' }}></div>
+                                            </div>
+                                            <span className="text-xs font-bold">Twitter</span>
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         )}
